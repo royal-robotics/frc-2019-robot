@@ -13,7 +13,7 @@ Clone this repository, open command prompt, and `cd` to the folder
 To Build - Run the command `gradlew build`  
 To Deploy - Run the command `gradlew deploy`  
   
-Note:  
+### Note:  
 You must be connected to the robot for the deploy command to succeed  
 If the command line gives you an error about the JAVA_HOME variable not being set, follow the instructions below:  
 [How to set the JAVA_HOME variable](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux?fbclid=IwAR2y4fWi_p3ZGQfnldtQ7uXSmYH-8auKvJ_HJWvYzVwRGQiay9pbJLUq060)  
