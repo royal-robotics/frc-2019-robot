@@ -7,13 +7,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import com.ctre.phoenix.motorcontrol.can.*;
-import edu.wpi.first.wpilibj.Joystick;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.*;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -27,10 +24,22 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private TalonSRX leftTalonSRX;
+  private TalonSRX rightTalonSRX;
+  private Joystick m_leftStick;
+  private SensorCollection sensor;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+  @Override
+  public void robotInit() {
+    leftTalonSRX = new TalonSRX(1);
+    rightTalonSRX = new TalonSRX(4);
+    m_leftStick = new Joystick(0);
+    sensor = leftTalonSRX.getSensorCollection();
+  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -80,32 +89,32 @@ public class Robot extends TimedRobot {
   }
 
   /**
+   * This function is called once when the robot enters operator control.
+   */
+  @Override
+  public void teleopInit() {
+  }
+
+  /**
    * This function is called periodically during operator control.
    */
- 
-      private TalonSRX leftTalonSRX;
-      private TalonSRX rightTalonSRX;
-      private Joystick m_leftStick;
-      private SensorCollection sensor;
+  @Override
+  public void teleopPeriodic() {
+    //Output is how fast we want the motors to spin
+    leftTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getY());
+    rightTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getRawAxis(5));
 
-      @Override
-      public void robotInit() {
-        leftTalonSRX = new TalonSRX(1);
-        rightTalonSRX = new TalonSRX(4);
-        m_leftStick = new Joystick(0);        
-        sensor = leftTalonSRX.getSensorCollection();
-      }
+    //inputs getQuadraturePosition, which is the position of the motor thing, number onto dashboard
+    SmartDashboard.putNumber("sensor", sensor.getQuadraturePosition());
+    SmartDashboard.putNumber("Left Motor", -m_leftStick.getY());
+  }
 
-      @Override
-      public void teleopPeriodic() {
-        //Output is how fast we want the motors to spin
-        leftTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getY());
-        rightTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getRawAxis(5));
-
-        //inputs getQuadraturePosition, which is the position of the motor thing, number onto dashboard
-        SmartDashboard.putNumber("sensor", sensor.getQuadraturePosition());
-        SmartDashboard.putNumber("Left Motor", -m_leftStick.getY());
-      } 
+  /**
+   * This function is called once when the robot enters test mode
+   */
+  @Override
+  public void testInit() {
+  }
 
   /**
    * This function is called periodically during test mode.
