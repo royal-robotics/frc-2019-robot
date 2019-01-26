@@ -1,3 +1,4 @@
 # Build dirs
 build/
 .gradle/
+vendordeps/

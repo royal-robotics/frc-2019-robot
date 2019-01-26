@@ -9,8 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.first.wpilibj.Joystick;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -28,12 +31,6 @@ public class Robot extends IterativeRobot {
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
-  @Override
-  public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-  }
 
   /**
    * This function is called every robot packet, no matter the mode. Use
@@ -85,9 +82,30 @@ public class Robot extends IterativeRobot {
   /**
    * This function is called periodically during operator control.
    */
-  @Override
-  public void teleopPeriodic() {
-  }
+ 
+      private TalonSRX leftTalonSRX;
+      private TalonSRX rightTalonSRX;
+      private Joystick m_leftStick;
+      private SensorCollection sensor;
+
+      @Override
+      public void robotInit() {
+        leftTalonSRX = new TalonSRX(1);
+        rightTalonSRX = new TalonSRX(4);
+        m_leftStick = new Joystick(0);        
+        sensor = leftTalonSRX.getSensorCollection();
+      }
+
+      @Override
+      public void teleopPeriodic() {
+        //Output is how fast we want the motors to spin
+        leftTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getY());
+        rightTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getRawAxis(5));
+
+        //inputs getQuadraturePosition, which is the position of the motor thing, number onto dashboard
+        SmartDashboard.putNumber("sensor", sensor.getQuadraturePosition());
+        SmartDashboard.putNumber("Left Motor", -m_leftStick.getY());
+      } 
 
   /**
    * This function is called periodically during test mode.
