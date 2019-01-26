@@ -2,3 +2,6 @@
 build/
 .gradle/
 vendordeps/
+
+# Output dir
+bin/
