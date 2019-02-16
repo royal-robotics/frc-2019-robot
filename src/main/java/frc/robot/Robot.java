@@ -7,8 +7,10 @@
 
 package frc.robot;
 
+import java.util.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc.robot.subsystems.IRobotController;
 import frc.robot.subsystems.Drivebase.DriveController;
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,13 +20,14 @@ import frc.robot.subsystems.Drivebase.DriveController;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
   private final DriveController _driveController = new DriveController();
+  private final List<IRobotController> _robotControllers = new LinkedList<>();
 
+  public Robot() {
+    _robotControllers.add(_driveController);
+  }
 
   /**
    * This function is run when the robot is first started up and should be
@@ -32,6 +35,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    for (IRobotController robotController : _robotControllers)
+      robotController.componentInit();
   }
 
   /**
@@ -44,6 +49,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    for (IRobotController robotController : _robotControllers)
+      robotController.componentPeriodic();
   }
 
   /**
@@ -59,10 +66,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // autoSelected = SmartDashboard.getString("Auto Selector",
-    // defaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    
   }
 
   /**
@@ -70,15 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    
   }
 
   /**
@@ -86,6 +82,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    for (IRobotController robotController : _robotControllers)
+      robotController.teleopInit();
   }
 
   /**
@@ -93,19 +91,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-  }
-
-  /**
-   * This function is called once when the robot enters test mode
-   */
-  @Override
-  public void testInit() {
-  }
-
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
+    for (IRobotController robotController : _robotControllers)
+      robotController.teleopPeriodic();
   }
 }

@@ -1,6 +1,21 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.libs.Axis;
+
 public class Controls {
+    private static Joystick driver = new Joystick(0);
+
+    public static class DriveSystem {
+        public static class TankDrive {
+            private static Axis leftThrottle = new Axis(driver, Logitech310Axis.LeftStickY, 0.1);
+            private static Axis rightThrottle = new Axis(driver, Logitech310Axis.RightStickY, 0.1);
+
+            public static double getLeftThrottleValue() { return -leftThrottle.getValue(); }
+            public static double getRightThrottleValue() { return -rightThrottle.getValue(); }
+        }
+    }
+
     public enum Logitech310Button {
         A (1),
         B (2),

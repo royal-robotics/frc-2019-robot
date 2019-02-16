@@ -1,25 +1,34 @@
 package frc.robot.subsystems.Drivebase;
 
-import com.ctre.phoenix.motorcontrol.*;
-import com.ctre.phoenix.motorcontrol.IMotorController;
-
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Controls;
-import frc.robot.libs.*;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.modifiers.TankModifier;
+import frc.robot.subsystems.IRobotController;
 
-import java.io.File;
-import java.util.TimerTask;
-
-/**
- *
- */
-public class DriveController {
+public class DriveController implements IRobotController {
     private DriveBase _driveBase = new DriveBase();
 
-    // TODO: Control the drivebase
+    @Override
+    public void componentInit() {
+
+    }
+
+    @Override
+    public void componentPeriodic() {
+
+    }
+
+    @Override
+    public void teleopInit() {
+
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        double leftThrottle = Controls.DriveSystem.TankDrive.getLeftThrottleValue();
+        double rightThrottle = Controls.DriveSystem.TankDrive.getRightThrottleValue();
+        _driveBase.driveTank(leftThrottle, rightThrottle);
+    }
+
+    public void followMotionProfile(String profileParameter) {
+
+    }
 }
