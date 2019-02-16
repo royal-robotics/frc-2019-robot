@@ -1,7 +1,6 @@
 # Build dirs
 build/
 .gradle/
-vendordeps/
 
 # Output dir
 bin/
