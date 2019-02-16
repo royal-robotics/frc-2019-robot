@@ -22,6 +22,9 @@ public class TankDrive
                 _right.enableVoltageCompensation(false);
                 _left.set(ControlMode.PercentOutput, left);
                 _right.set(ControlMode.PercentOutput, right);
+                break;
+            default:
+                throw new RuntimeException("What is ControlMode?");
         }
     }
 }

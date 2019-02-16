@@ -24,10 +24,6 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private TalonSRX leftTalonSRX;
-  private TalonSRX rightTalonSRX;
-  private Joystick m_leftStick;
-  private SensorCollection sensor;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -35,10 +31,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    leftTalonSRX = new TalonSRX(1);
-    rightTalonSRX = new TalonSRX(4);
-    m_leftStick = new Joystick(0);
-    sensor = leftTalonSRX.getSensorCollection();
   }
 
   /**
@@ -100,13 +92,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //Output is how fast we want the motors to spin
-    leftTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getY());
-    rightTalonSRX.set(ControlMode.PercentOutput, -m_leftStick.getRawAxis(5));
-
-    //inputs getQuadraturePosition, which is the position of the motor thing, number onto dashboard
-    SmartDashboard.putNumber("sensor", sensor.getQuadraturePosition());
-    SmartDashboard.putNumber("Left Motor", -m_leftStick.getY());
   }
 
   /**
