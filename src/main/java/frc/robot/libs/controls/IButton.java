@@ -1,4 +1,4 @@
-package frc.robot.libs;
+package frc.robot.libs.controls;
 
 public interface IButton {
     enum ButtonType {

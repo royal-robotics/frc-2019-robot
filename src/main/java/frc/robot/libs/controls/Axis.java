@@ -1,14 +1,13 @@
-package frc.robot.libs;
+package frc.robot.libs.controls;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Controls;
 
-public class Axis implements IButton{
+public class Axis implements IButton {
     private Joystick joystick;
     private Controls.Logitech310Axis axisIndex;
     private double deadband;
 
-    private double defaultEdge = 0.25;
     private double lastReading = 0.0;
 
     public Axis(Joystick joystick, Controls.Logitech310Axis axisIndex, double deadband) {

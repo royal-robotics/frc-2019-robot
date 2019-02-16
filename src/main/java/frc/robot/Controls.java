@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.libs.Axis;
+import frc.robot.libs.controls.*;
 
 public class Controls {
     private static Joystick driver = new Joystick(0);

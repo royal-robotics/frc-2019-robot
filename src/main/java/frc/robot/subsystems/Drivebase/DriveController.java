@@ -31,4 +31,8 @@ public class DriveController implements IRobotController {
     public void followMotionProfile(String profileParameter) {
 
     }
+
+    public void drive(double left, double right) {
+        _driveBase.driveTank(left, right);
+    }
 }

@@ -10,6 +10,8 @@ package frc.robot;
 import java.util.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc.robot.autonomous.AutoRoutine;
+import frc.robot.autonomous.routines.TestAuto;
 import frc.robot.subsystems.IRobotController;
 import frc.robot.subsystems.Drivebase.DriveController;
 /**
@@ -21,6 +23,7 @@ import frc.robot.subsystems.Drivebase.DriveController;
  */
 public class Robot extends TimedRobot {
   private final SendableChooser<String> autoChooser = new SendableChooser<>();
+  private AutoRoutine autoRoutine = null;
 
   private final DriveController _driveController = new DriveController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
@@ -66,7 +69,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    
+    // Stop any running auto
+    if (autoRoutine != null) {
+      autoRoutine.stopRoutine();
+      autoRoutine = null;
+    }
+
+    autoRoutine = new TestAuto(_driveController);
   }
 
   /**
@@ -82,6 +91,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    // Stop any running auto
+    if (autoRoutine != null) {
+      autoRoutine.stopRoutine();
+      autoRoutine = null;
+    }
+
     for (IRobotController robotController : _robotControllers)
       robotController.teleopInit();
   }
