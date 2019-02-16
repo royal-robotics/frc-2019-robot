@@ -19,5 +19,7 @@ import java.util.TimerTask;
  *
  */
 public class DriveController {
+    private DriveBase _driveBase = new DriveBase();
 
+    // TODO: Control the drivebase
 }
