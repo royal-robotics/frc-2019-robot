@@ -39,7 +39,5 @@ public abstract class AutoStep
 
     protected abstract void initialize();
 
-    protected abstract boolean isCompleted();
-
     protected abstract void stop();
 }

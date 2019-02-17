@@ -2,14 +2,15 @@ package frc.robot.autonomous.steps;
 
 import frc.robot.autonomous.*;
 import frc.robot.subsystems.Drivebase.DriveController;
-import java.util.*;
+
+import edu.wpi.first.wpilibj.Notifier;
 
 public class DriveStep extends AutoStep {
-    private DriveController driveController;
-    private double speed;
-    private long msDriveTime;
+    private final DriveController driveController;
+    private final double speed;
+    private final long msDriveTime;
 
-    private Timer driveTimer = null;
+    private Notifier finishDrivingNotifier = null;
 
     public DriveStep(DriveController driveController, double speed, long msDriveTime) {
         this.driveController = driveController;
@@ -19,34 +20,20 @@ public class DriveStep extends AutoStep {
 
     @Override
     protected void initialize() {
-        if (driveTimer == null) {
-            driveTimer = new Timer();
-        }
-
+        // When the step is invoked start the drive motors.
         driveController.drive(speed, speed);
 
-        // Stop driving after specified time
-        driveTimer.schedule(new TimerTask() {
-            public void run() {
-                stopDriving();
-            }
-        }, msDriveTime);
-    }
-
-    @Override
-    public boolean isCompleted() {
-        return driveTimer == null;
+        // Stop driving after the `msDriveTime` interval has passed.
+        finishDrivingNotifier = new Notifier(() -> {
+            driveController.drive(0.0, 0.0);
+            Complete();
+        });
+        finishDrivingNotifier.startSingle(msDriveTime);
     }
 
     @Override
     public void stop() {
-        stopDriving();
-    }
-
-    private void stopDriving() {
+        finishDrivingNotifier.stop();
         driveController.drive(0.0, 0.0);
-        driveTimer.cancel();
-        driveTimer.purge();
-        driveTimer = null;
     }
 }
