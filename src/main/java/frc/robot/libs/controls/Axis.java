@@ -1,16 +1,16 @@
 package frc.robot.libs.controls;
 
-import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Controls;
+import edu.wpi.first.wpilibj.*;
+import static frc.robot.libs.controls.Controllers.*;
 
 public class Axis implements IButton {
     private Joystick joystick;
-    private Controls.Logitech310Axis axisIndex;
+    private Logitech310Axis axisIndex;
     private double deadband;
 
     private double lastReading = 0.0;
 
-    public Axis(Joystick joystick, Controls.Logitech310Axis axisIndex, double deadband) {
+    public Axis(Joystick joystick, Logitech310Axis axisIndex, double deadband) {
         this.joystick = joystick;
         this.axisIndex = axisIndex;
         this.deadband = deadband;
