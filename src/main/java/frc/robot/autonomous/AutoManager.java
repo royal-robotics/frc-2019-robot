@@ -1,6 +1,5 @@
 package frc.robot.autonomous;
 
-import java.util.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.autonomous.routines.TestAuto;
 import frc.robot.subsystems.Drivebase.DriveController;
@@ -22,14 +21,15 @@ public class AutoManager {
 
         // TODO: Implement dashboard choose routine logic
         currentRoutine = new TestAuto(_driveController);
-        currentRoutine.startRoutine();
+        currentRoutine.start();
     }
 
     public void stopAutonomous()
     {
         if (currentRoutine != null)
         {
-            currentRoutine.stopRoutine();
+            currentRoutine.stop();
+            currentRoutine = null;
         }
     }
 }

@@ -2,42 +2,20 @@ package frc.robot.autonomous;
 
 import java.util.*;
 
-import javax.crypto.SealedObject;
-
-import edu.wpi.first.wpilibj.*;
-
 /**
  * Top level "step"
- * 
- * TODO: AutoRoutine is really a special case of AutoStepGroup where each steps trigger is the
- *       previous step completing.
  */
-public abstract class AutoRoutine extends AutoStepGroup
+public abstract class AutoRoutine extends AutoStepGroup<AutoRoutine>
 {
     public AutoRoutine(List<AutoStep> autoSteps)
     {
-        super(null);
-        //super(setupProceduralAutoSteps(autoSteps));
+        super(autoSteps);
     }
 
-    // public AutoRoutine(List<TriggerableAutoStep<AutoRoutine>> childSteps)
-    // {
-    //     super(childSteps);
-    // }
+    @Override
+    protected final TriggerableAutoStep<AutoRoutine> createTrigger(AutoStep autoStep) {
 
-    private static List<TriggerableAutoStep<AutoRoutine>> setupProceduralAutoSteps(List<AutoStep> autoSteps) {
-        List<TriggerableAutoStep<AutoRoutine>> proceduralAutoSteps = new ArrayList<>(autoSteps.size());
-
-        for (AutoStep autoStep : autoSteps) {
-            // TODO: Figure out how to pass a reference to `this` as part of a constructor.
-            ProceduralAutoStep proceduralAutoStep = new ProceduralAutoStep(autoRoutine, autoStep);
-            // ProceduralAutoStep proceduralAutoStep = null;
-            TriggerableAutoStep<AutoRoutine> asdf = proceduralAutoStep;
-
-            proceduralAutoSteps.add(asdf);
-        }
-
-        return null;
+        return new ProceduralAutoStep(this, autoStep);
     }
 
     private class ProceduralAutoStep extends TriggerableAutoStep<AutoRoutine>
@@ -48,10 +26,17 @@ public abstract class AutoRoutine extends AutoStepGroup
 
         @Override
         public boolean shouldTrigger() {
-            //TODO: The step should be triggered if its previous sibling completed.
-            // Traverse this._autoStepParent._childSteps and look for the autoStep sibling
-            // if this step has been completed, then this step should be triggered.
-            return false;
+            int autoStepIndex = getAutoStepIndex();
+            if (autoStepIndex == 0) {
+                // If this is the first step it should be triggered immediately.
+                return true;
+            }
+            else {
+                // Trigger the autoStep if its previous sibling has completed.
+                List<TriggerableAutoStep<AutoRoutine>> autoStepChildern = _autoStepParent.getChildAutoSteps();
+                TriggerableAutoStep<AutoRoutine> previous = autoStepChildern.get(autoStepIndex - 1);
+                return previous._autoStep.hasCompleted();
+            }
         }
     }
 }

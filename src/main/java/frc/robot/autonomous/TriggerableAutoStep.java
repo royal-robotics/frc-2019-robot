@@ -1,8 +1,11 @@
 package frc.robot.autonomous;
 
-public abstract class TriggerableAutoStep<TParentStep extends AutoStepGroup> {
+import java.util.*;
+
+// TODO: This should be an inner class off `AutoStepGroup`
+public abstract class TriggerableAutoStep<TParentStep extends AutoStepGroup<TParentStep>> {
     protected final TParentStep _autoStepParent;
-    private final AutoStep _autoStep;
+    protected final AutoStep _autoStep;
 
     public TriggerableAutoStep(TParentStep parentStep, AutoStep autoStep) {
         _autoStepParent = parentStep;
@@ -14,6 +17,20 @@ public abstract class TriggerableAutoStep<TParentStep extends AutoStepGroup> {
     public final boolean isCompleted() { return _autoStep.isCompleted(); }
 
     public final void trigger() { _autoStep.start(); }
+
+    public final List<TriggerableAutoStep<TParentStep>> getSiblingSteps() {
+        return _autoStepParent.getChildAutoSteps();
+    }
+
+    public final int getAutoStepIndex() {
+        for(int i = 0; i < getSiblingSteps().size(); i++)
+        {
+            if (getSiblingSteps().get(i) == this)
+                return i;
+        }
+
+        throw new IllegalStateException("The autoStep isn't in its AutoStepGroup parents list");
+    }
 
     public abstract boolean shouldTrigger();
 }
