@@ -3,8 +3,8 @@ package frc.robot.subsystems.Drivebase;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import frc.robot.Components;
+import frc.robot.libs.utils.RobotModels.*;
 
 public class DriveBase {
     private TalonSRX _leftDrive1 = Components.DriveBase.leftDrive1;
@@ -15,7 +15,6 @@ public class DriveBase {
     private VictorSPX _rightDrive3 = Components.DriveBase.rightDrive3;
 
     public DriveBase() {
-        // TODO: setup motors as followers
         _leftDrive2.follow(_leftDrive1);
         _leftDrive3.follow(_leftDrive1);
 
@@ -23,9 +22,9 @@ public class DriveBase {
         _rightDrive3.follow(_rightDrive1);
     }
 
-    public void driveTank(double left, double right) {
-        _leftDrive1.set(ControlMode.PercentOutput, left);
-        _rightDrive1.set(ControlMode.PercentOutput, right);
+    public void driveTank(TankThrottleValues throttleValues) {
+        _leftDrive1.set(ControlMode.PercentOutput, throttleValues.left);
+        _rightDrive1.set(ControlMode.PercentOutput, throttleValues.right);
     }
 
     public void setLiftMode() {

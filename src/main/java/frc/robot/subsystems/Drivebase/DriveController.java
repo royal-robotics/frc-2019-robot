@@ -1,7 +1,8 @@
 package frc.robot.subsystems.Drivebase;
 
 import frc.robot.Controls;
-import frc.robot.subsystems.IRobotController;
+import frc.robot.libs.utils.RobotModels.*;
+import frc.robot.subsystems.*;
 
 public class DriveController implements IRobotController {
     private DriveBase _driveBase = new DriveBase();
@@ -23,9 +24,23 @@ public class DriveController implements IRobotController {
 
     @Override
     public void teleopPeriodic() {
-        double leftThrottle = Controls.DriveSystem.TankDrive.getLeftThrottleValue();
-        double rightThrottle = Controls.DriveSystem.TankDrive.getRightThrottleValue();
-        _driveBase.driveTank(leftThrottle, rightThrottle);
+        TankThrottleValues throttleValues;
+        switch(Controls.DriveSystem.ControlMode.getSimpleName())
+        {
+            case "TankDrive":
+                throttleValues = Controls.DriveSystem.TankDrive.getThrottleValues();
+                break;
+            case "DifferentialDrive":
+                throttleValues = Controls.DriveSystem.DifferentialDrive.getThrottleValues();
+                break;
+            case "CheesyDrive":
+                throttleValues = Controls.DriveSystem.CheesyDrive.getThrottleValues();
+                break;
+            default:
+                throw new UnsupportedOperationException();
+        }
+        
+        _driveBase.driveTank(throttleValues);
     }
 
     public void followMotionProfile(String profileParameter) {
@@ -33,6 +48,6 @@ public class DriveController implements IRobotController {
     }
 
     public void drive(double left, double right) {
-        _driveBase.driveTank(left, right);
+        _driveBase.driveTank(new TankThrottleValues(left, right));
     }
 }
