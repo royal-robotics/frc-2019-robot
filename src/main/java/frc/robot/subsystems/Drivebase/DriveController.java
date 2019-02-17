@@ -8,18 +8,8 @@ public class DriveController implements IRobotController {
     private DriveBase _driveBase = new DriveBase();
 
     @Override
-    public void componentInit() {
+    public void init() {
 
-    }
-
-    @Override
-    public void componentPeriodic() {
-
-    }
-
-    @Override
-    public void teleopInit() {
-        
     }
 
     @Override
@@ -41,6 +31,11 @@ public class DriveController implements IRobotController {
         }
         
         _driveBase.driveTank(throttleValues);
+    }
+
+    @Override
+    public void diagnosticPeriodic() {
+
     }
 
     public void followMotionProfile(String profileParameter) {
