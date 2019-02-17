@@ -2,11 +2,20 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 
+/**
+ * Common place for static declarations of all robot
+ * components (motors, actuators, sensors, etc.).
+ * 
+ * Remarks: 
+ * Ideally robot components are declared and owned by their
+ * subsystem related classes. However, having the declarations
+ * in a single place allows their port mappings to be accounted
+ * for more easily. A scoped components file is the compromise.
+ */
 public final class Components {
     public static class DriveBase {
 

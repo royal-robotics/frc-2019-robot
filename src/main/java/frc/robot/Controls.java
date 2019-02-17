@@ -3,19 +3,35 @@ package frc.robot;
 import edu.wpi.first.wpilibj.*;
 import frc.robot.libs.controls.*;
 import static frc.robot.libs.utils.RobotModels.*;
+
 import static frc.robot.libs.controls.Controllers.*;
 
+/**
+ * The purpose of Controls is to have a static easy to understand mapping
+ * of controller interaction -> robot function.
+ * 
+ * Remarks:
+ * - For the most part these should be functional mappings.
+ *   Component state should go in subsystem objects.
+ * - Any controller mappings that correspond to control state should
+ *   live here. Example: State for which drive control mode we're in.
+ * - Use inner classes to try to scope controls to the subsystems and
+ *   feature they relate to.
+ */
 public final class Controls {
     private static Joystick driver = new Joystick(0);
 
     public static class DriveSystem {
+
+        public static Class<TankDrive> ControlMode = TankDrive.class;
+
         public static class TankDrive {
             private static Axis leftThrottle = new Axis(driver, Logitech310Axis.LeftStickY, 0.1);
             private static Axis rightThrottle = new Axis(driver, Logitech310Axis.RightStickY, 0.1);
 
-            public static double getLeftThrottleValue() { return -leftThrottle.getValue(); }
-            public static double getRightThrottleValue() { return -rightThrottle.getValue(); }
-            public static TankThrottleValues getThrottleValues() { return new TankThrottleValues(0.0, 0.0); }
+            private static double getLeftThrottleValue() { return -leftThrottle.getValue(); }
+            private static double getRightThrottleValue() { return -rightThrottle.getValue(); }
+            public static TankThrottleValues getThrottleValues() { return new TankThrottleValues(getLeftThrottleValue(), getRightThrottleValue()); }
         }
 
         public static class DifferentialDrive {
@@ -24,8 +40,8 @@ public final class Controls {
 
             private static double getThrottleValue() { return -throttle.getValue(); }
             private static double turnPower() { return turn.getValue() * (3.0 / 4.0); }
-            public static double getLeftThrottleValue() { return getThrottleValue() + turnPower(); }
-            public static double getRightThrottleValue() { return getThrottleValue() - turnPower(); }
+            private static double getLeftThrottleValue() { return getThrottleValue() + turnPower(); }
+            private static double getRightThrottleValue() { return getThrottleValue() - turnPower(); }
             public static TankThrottleValues getThrottleValues() { return new TankThrottleValues(getLeftThrottleValue(), getRightThrottleValue()); }
         }
 

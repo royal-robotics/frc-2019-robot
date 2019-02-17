@@ -1,9 +1,7 @@
 package frc.robot.libs.controls;
 
-import edu.wpi.first.wpilibj.*;
 import frc.robot.libs.utils.*;
 import static frc.robot.libs.utils.RobotModels.*;
-import static frc.robot.libs.controls.Controllers.*;
 
 public class CheesyDriveHelper {
     private double _quickStopAccumulator;
