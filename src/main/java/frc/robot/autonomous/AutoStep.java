@@ -1,50 +1,45 @@
 package frc.robot.autonomous;
 
-import java.util.*;
-import frc.robot.libs.triggers.*;
+public abstract class AutoStep
+{
+    private boolean _hasStarted;
+    private boolean _hasCompleted;
 
-public abstract class AutoStep {
-    private List<AbstractMap.SimpleEntry<Trigger, AutoStep>> childSteps = new ArrayList<>();
-    private boolean started = false;
+    public AutoStep()
+    {
+        _hasStarted = false;
+        _hasCompleted = false;
+    }
 
-    public void start() {
-        started = true;
+    public final void start()
+    {
+        // Don't do anything if the step has already been started
+        if (_hasStarted)
+            return;
+
+        _hasStarted = true;
         initialize();
+    }
+
+    public final boolean hasStarted()
+    {
+        return _hasStarted;
+    }
+
+    public final boolean hasCompleted()
+    {
+        return _hasCompleted;
+    }
+
+    public final void Complete()
+    {
+        _hasCompleted = true;
+        stop();
     }
 
     protected abstract void initialize();
 
-    public boolean isStarted() { return started; }
+    protected abstract boolean isCompleted();
 
-    public void addChildStep(Trigger stepTrigger, AutoStep step) {
-        childSteps.add(new AbstractMap.SimpleEntry<Trigger,AutoStep>(stepTrigger, step));
-    }
-
-    public void periodic() {
-        for (AbstractMap.SimpleEntry<Trigger, AutoStep> step : childSteps) {
-            if (step.getKey().isTriggered()) {
-                if (!step.getValue().isStarted()) {
-                    step.getValue().start();
-                }
-
-                step.getValue().periodic();
-            }
-        }
-    }
-
-    public boolean isCompleted() {
-        for (AbstractMap.SimpleEntry<Trigger, AutoStep> step : childSteps) {
-            if (!step.getValue().isCompleted()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public void stop() {
-        for (AbstractMap.SimpleEntry<Trigger, AutoStep> step : childSteps) {
-            step.getValue().stop();
-        }
-    }
+    protected abstract void stop();
 }

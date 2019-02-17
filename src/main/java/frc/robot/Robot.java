@@ -10,6 +10,7 @@ package frc.robot;
 import java.util.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc.robot.autonomous.AutoManager;
 import frc.robot.autonomous.AutoRoutine;
 import frc.robot.autonomous.routines.TestAuto;
 import frc.robot.subsystems.IRobotController;
@@ -22,14 +23,13 @@ import frc.robot.subsystems.Drivebase.DriveController;
  * project.
  */
 public class Robot extends TimedRobot {
-  private final SendableChooser<String> autoChooser = new SendableChooser<>();
-  private AutoRoutine autoRoutine = null;
-
+  private final AutoManager _autoManager;
   private final DriveController _driveController = new DriveController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
 
   public Robot() {
     _robotControllers.add(_driveController);
+    _autoManager = new AutoManager(_driveController);
   }
 
   /**
@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     for (IRobotController robotController : _robotControllers)
-      robotController.componentInit();
+      robotController.init();
   }
 
   /**
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     for (IRobotController robotController : _robotControllers)
-      robotController.componentPeriodic();
+      robotController.diagnosticPeriodic();
   }
 
   /**
@@ -69,13 +69,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    // Stop any running auto
-    if (autoRoutine != null) {
-      autoRoutine.stopRoutine();
-      autoRoutine = null;
-    }
-
-    autoRoutine = new TestAuto(_driveController);
+    _autoManager.startAutonomous();
   }
 
   /**
@@ -86,19 +80,20 @@ public class Robot extends TimedRobot {
     
   }
 
+  @Override
+  public void disabledInit() {
+    _autoManager.stopAutonomous();
+  }
+
   /**
    * This function is called once when the robot enters operator control.
    */
   @Override
   public void teleopInit() {
-    // Stop any running auto
-    if (autoRoutine != null) {
-      autoRoutine.stopRoutine();
-      autoRoutine = null;
-    }
+    _autoManager.stopAutonomous();
 
     for (IRobotController robotController : _robotControllers)
-      robotController.teleopInit();
+      robotController.init();
   }
 
   /**
