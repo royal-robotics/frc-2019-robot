@@ -1,6 +1,6 @@
 package frc.robot.autonomous.steps;
 
-import frc.robot.autonomous.*;
+import frc.robot.libs.autonomous.*;
 import frc.robot.subsystems.Drivebase.DriveController;
 
 import edu.wpi.first.wpilibj.Notifier;
@@ -26,7 +26,7 @@ public class DriveStep extends AutoStep {
         // Stop driving after the `msDriveTime` interval has passed.
         finishDrivingNotifier = new Notifier(() -> {
             driveController.drive(0.0, 0.0);
-            Complete();
+            this.complete();
         });
         finishDrivingNotifier.startSingle(msDriveTime);
     }

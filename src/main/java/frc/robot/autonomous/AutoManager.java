@@ -1,7 +1,8 @@
 package frc.robot.autonomous;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.autonomous.routines.TestAuto;
+import frc.robot.autonomous.routines.*;
+import frc.robot.libs.autonomous.buildingblocks.*;
 import frc.robot.subsystems.Drivebase.DriveController;
 
 public class AutoManager {

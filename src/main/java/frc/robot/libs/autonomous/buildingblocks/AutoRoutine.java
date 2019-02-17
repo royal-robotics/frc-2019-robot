@@ -1,6 +1,7 @@
-package frc.robot.autonomous;
+package frc.robot.libs.autonomous.buildingblocks;
 
 import java.util.*;
+import frc.robot.libs.autonomous.*;
 
 /**
  * Top level "step"
@@ -33,9 +34,9 @@ public abstract class AutoRoutine extends AutoStepGroup<AutoRoutine>
             }
             else {
                 // Trigger the autoStep if its previous sibling has completed.
-                List<TriggerableAutoStep<AutoRoutine>> autoStepChildern = _autoStepParent.getChildAutoSteps();
+                List<TriggerableAutoStep<AutoRoutine>> autoStepChildern = autoStepParent.getChildAutoSteps();
                 TriggerableAutoStep<AutoRoutine> previous = autoStepChildern.get(autoStepIndex - 1);
-                return previous._autoStep.hasCompleted();
+                return previous.autoStep.hasCompleted();
             }
         }
     }

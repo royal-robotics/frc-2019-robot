@@ -9,12 +9,9 @@ package frc.robot;
 
 import java.util.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.*;
-import frc.robot.autonomous.AutoManager;
-import frc.robot.autonomous.AutoRoutine;
-import frc.robot.autonomous.routines.TestAuto;
-import frc.robot.subsystems.IRobotController;
-import frc.robot.subsystems.Drivebase.DriveController;
+import frc.robot.autonomous.*;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.Drivebase.*;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot

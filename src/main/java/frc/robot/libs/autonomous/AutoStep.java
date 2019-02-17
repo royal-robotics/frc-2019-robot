@@ -1,4 +1,4 @@
-package frc.robot.autonomous;
+package frc.robot.libs.autonomous;
 
 public abstract class AutoStep
 {
@@ -31,7 +31,7 @@ public abstract class AutoStep
         return _hasCompleted;
     }
 
-    public final void Complete()
+    public final void complete()
     {
         _hasCompleted = true;
         stop();
@@ -39,5 +39,5 @@ public abstract class AutoStep
 
     protected abstract void initialize();
 
-    protected abstract void stop();
+    public abstract void stop();
 }

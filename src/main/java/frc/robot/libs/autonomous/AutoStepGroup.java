@@ -1,4 +1,4 @@
-package frc.robot.autonomous;
+package frc.robot.libs.autonomous;
 
 import java.util.*;
 import java.util.function.*;
@@ -6,7 +6,7 @@ import frc.robot.libs.utils.*;
 import edu.wpi.first.wpilibj.*;
 
 public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> extends AutoStep {
-    private static final double TriggerInterval = 0.050;
+    private static final double TriggerCheckInterval = 0.050;
 
     private Supplier<List<TriggerableAutoStep<TParent>>> _childStepTriggers;
     private final Notifier _periodicNotifier;
@@ -26,14 +26,14 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
 
     @Override
     protected final void initialize() {
-        _periodicNotifier.startPeriodic(TriggerInterval);
+        _periodicNotifier.startPeriodic(TriggerCheckInterval);
 
         // Check triggers immediately instead of waiting for the first interval.
         periodicRun();
     }
 
     @Override
-    protected final void stop() {
+    public final void stop() {
         _periodicNotifier.stop();
         
         for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers.get()) {
@@ -41,7 +41,7 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
             if (!triggerableAutoStep.isTriggered())
                 continue;
 
-            triggerableAutoStep._autoStep.stop();
+            triggerableAutoStep.autoStep.stop();
         }
     }
 
@@ -60,14 +60,14 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
         boolean allCompleted = true;
         for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers.get()) {
             // check if the step has already been triggered.
-            if (!triggerableAutoStep._autoStep.hasCompleted()) {
+            if (!triggerableAutoStep.autoStep.hasCompleted()) {
                 allCompleted = false;
                 break;
             }
         }
 
         if (allCompleted) {
-            Complete();
+            complete();
 
             // We don't need to check on the progress of child steps once they're all completed.
             _periodicNotifier.stop();

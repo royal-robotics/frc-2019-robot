@@ -1,25 +1,24 @@
-package frc.robot.autonomous;
+package frc.robot.libs.autonomous;
 
 import java.util.*;
 
-// TODO: This should be an inner class off `AutoStepGroup`
 public abstract class TriggerableAutoStep<TParentStep extends AutoStepGroup<TParentStep>> {
-    protected final TParentStep _autoStepParent;
-    protected final AutoStep _autoStep;
+    protected final TParentStep autoStepParent;
+    public final AutoStep autoStep;
 
     public TriggerableAutoStep(TParentStep parentStep, AutoStep autoStep) {
-        _autoStepParent = parentStep;
-        _autoStep = autoStep;
+        this.autoStepParent = parentStep;
+        this.autoStep = autoStep;
     }
 
-    public final boolean isTriggered() { return _autoStep.hasStarted(); }
+    public final boolean isTriggered() { return autoStep.hasStarted(); }
 
-    public final boolean isCompleted() { return _autoStep.hasCompleted(); }
+    public final boolean isCompleted() { return autoStep.hasCompleted(); }
 
-    public final void trigger() { _autoStep.start(); }
+    public final void trigger() { autoStep.start(); }
 
     public final List<TriggerableAutoStep<TParentStep>> getSiblingSteps() {
-        return _autoStepParent.getChildAutoSteps();
+        return autoStepParent.getChildAutoSteps();
     }
 
     public final int getAutoStepIndex() {
