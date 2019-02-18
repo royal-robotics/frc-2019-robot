@@ -3,10 +3,10 @@ package frc.libs.autonomous;
 import java.util.*;
 
 public abstract class TriggerableAutoStep<TParentStep extends AutoStepGroup<TParentStep>> {
-    protected final TParentStep autoStepParent;
+    protected final AutoStepGroup<TParentStep> autoStepParent;
     public final AutoStep autoStep;
 
-    public TriggerableAutoStep(TParentStep parentStep, AutoStep autoStep) {
+    public TriggerableAutoStep(AutoStepGroup<TParentStep> parentStep, AutoStep autoStep) {
         this.autoStepParent = parentStep;
         this.autoStep = autoStep;
     }

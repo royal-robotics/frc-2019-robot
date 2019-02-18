@@ -12,16 +12,14 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
     private List<TriggerableAutoStep<TParent>> _childStepTriggers;
     private final Notifier _periodicNotifier;
 
-    public AutoStepGroup(AutoLogger logger, List<AutoStep> childSteps) {
+    public AutoStepGroup(AutoLogger logger, List<Function<AutoStepGroup<TParent>, TriggerableAutoStep<TParent>>> childStepTriggerThunks) {
         super(logger);
 
         _periodicNotifier = new Notifier(() -> periodicRun());
 
-        // TODO: Seems like we can use `this` in constructors in java.
-        //       We should pass in the already created TriggerableAutoSteps
-        List<TriggerableAutoStep<TParent>> childStepTriggers = new ArrayList<>();
-        for (AutoStep autoStep : childSteps) {
-            childStepTriggers.add(createTrigger(autoStep));
+        List<TriggerableAutoStep<TParent>> childStepTriggers = new ArrayList<>(childStepTriggerThunks.size());
+        for (Function<AutoStepGroup<TParent>, TriggerableAutoStep<TParent>> childStepTriggerThunk : childStepTriggerThunks) {
+            childStepTriggers.add(childStepTriggerThunk.apply(this));
         }
         _childStepTriggers = childStepTriggers;
     }
@@ -77,8 +75,6 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
             _periodicNotifier.stop();
         }
     }
-
-    protected abstract TriggerableAutoStep<TParent> createTrigger(AutoStep autoStep);
 
     protected final List<TriggerableAutoStep<TParent>> getChildAutoSteps()
     {
