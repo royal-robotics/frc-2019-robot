@@ -1,7 +1,7 @@
-package frc.robot.libs.autonomous.buildingblocks;
+package frc.libs.autonomous.buildingblocks;
 
 import java.util.*;
-import frc.robot.libs.autonomous.*;
+import frc.libs.autonomous.*;
 
 /**
  * Top level "step"

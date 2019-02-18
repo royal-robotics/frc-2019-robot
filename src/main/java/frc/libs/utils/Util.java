@@ -1,4 +1,4 @@
-package frc.robot.libs.utils;
+package frc.libs.utils;
 
 public final class Util {
     /**

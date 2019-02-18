@@ -1,7 +1,7 @@
-package frc.robot.libs.controls;
+package frc.libs.controls;
 
 import edu.wpi.first.wpilibj.*;
-import static frc.robot.libs.controls.Controllers.*;
+import static frc.libs.controls.Controllers.*;
 
 public class Button implements IButton {
     protected final ButtonType type;

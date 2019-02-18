@@ -1,4 +1,4 @@
-package frc.robot.libs.autonomous;
+package frc.libs.autonomous;
 
 public abstract class AutoStep
 {

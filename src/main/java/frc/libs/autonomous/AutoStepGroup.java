@@ -1,8 +1,8 @@
-package frc.robot.libs.autonomous;
+package frc.libs.autonomous;
 
 import java.util.*;
 import java.util.function.*;
-import frc.robot.libs.utils.*;
+import frc.libs.utils.*;
 import edu.wpi.first.wpilibj.*;
 
 public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> extends AutoStep {

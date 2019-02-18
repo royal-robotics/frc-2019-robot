@@ -1,8 +1,8 @@
 package frc.robot.autonomous.routines;
 
 import frc.robot.autonomous.steps.*;
-import frc.robot.libs.autonomous.*;
-import frc.robot.libs.autonomous.buildingblocks.*;
+import frc.libs.autonomous.*;
+import frc.libs.autonomous.buildingblocks.*;
 import frc.robot.subsystems.Drivebase.DriveController;
 import java.util.*;
 

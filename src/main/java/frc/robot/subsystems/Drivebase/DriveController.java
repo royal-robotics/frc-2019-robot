@@ -1,7 +1,7 @@
 package frc.robot.subsystems.Drivebase;
 
 import frc.robot.Controls;
-import frc.robot.libs.utils.RobotModels.*;
+import frc.libs.utils.RobotModels.*;
 import frc.robot.subsystems.*;
 
 public class DriveController implements IRobotController {

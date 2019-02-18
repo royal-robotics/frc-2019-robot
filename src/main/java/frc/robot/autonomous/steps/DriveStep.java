@@ -1,6 +1,6 @@
 package frc.robot.autonomous.steps;
 
-import frc.robot.libs.autonomous.*;
+import frc.libs.autonomous.*;
 import frc.robot.subsystems.Drivebase.DriveController;
 
 import edu.wpi.first.wpilibj.Notifier;

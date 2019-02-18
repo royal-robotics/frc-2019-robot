@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Components;
-import frc.robot.libs.utils.RobotModels.*;
+import frc.libs.utils.RobotModels.*;
 
 public class DriveBase {
     private TalonSRX _leftDrive1 = Components.DriveBase.leftDrive1;

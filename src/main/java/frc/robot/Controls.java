@@ -1,9 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
-import frc.robot.libs.controls.*;
-import static frc.robot.libs.utils.RobotModels.*;
-import static frc.robot.libs.controls.Controllers.*;
+import frc.libs.controls.*;
+import static frc.libs.utils.RobotModels.*;
+import static frc.libs.controls.Controllers.*;
 
 /**
  * The purpose of Controls is to have a static easy to understand mapping
