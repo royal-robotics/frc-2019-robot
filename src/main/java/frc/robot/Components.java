@@ -27,8 +27,8 @@ public final class Components {
         public static VictorSPX rightDrive3 = new VictorSPX(4);
 
         public static DoubleSolenoid climb = new DoubleSolenoid(0, 0, 7);
-        public static Encoder driveLeft = new Encoder(10, 11, true);
-        public static Encoder driveRight = new Encoder(12, 13, false);
+        public static Encoder leftEncoder = new Encoder(10, 11, true);
+        public static Encoder rightEncoder = new Encoder(12, 13, false);
     }
 
     public static class Elevator
