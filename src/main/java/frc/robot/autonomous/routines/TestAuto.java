@@ -7,15 +7,23 @@ import frc.robot.subsystems.Drivebase.DriveController;
 import java.util.*;
 
 public class TestAuto extends AutoRoutine {
-    public TestAuto(DriveController driveController) {
-        super(createRoutine(driveController));
+    public TestAuto(AutoLogger logger, DriveController driveController) {
+        super(logger, createRoutine(logger, driveController));
     }
 
     @SuppressWarnings("serial")
-    private static List<AutoStep> createRoutine(DriveController driveController) {
-        return new ArrayList<AutoStep>() {{
-            new DriveStep(driveController, 0.5, 1000);
-            new DriveStep(driveController, 0.0, 0);
-        }};
+    private static List<AutoStep> createRoutine(AutoLogger logger, DriveController driveController) {
+        // ArrayList<AutoStep> list_of_steps = new ArrayList<AutoStep>() {{
+        //     add(new DriveStep(logger, driveController, 0.5, 5000));
+        //     add(new DriveStep(logger, driveController, -0.5, 5000));
+        // }};
+
+        ArrayList<AutoStep> list_of_steps = new ArrayList<AutoStep>();
+        list_of_steps.add(new DriveStep(logger, driveController, 0.5, 5000));
+        list_of_steps.add(new DriveStep(logger, driveController, -0.5, 5000));
+
+        logger.LogInformation("List of steps" + list_of_steps.size());
+
+        return list_of_steps;
     }
 }

@@ -12,7 +12,8 @@ public class DriveStep extends AutoStep {
 
     private Notifier finishDrivingNotifier = null;
 
-    public DriveStep(DriveController driveController, double speed, long msDriveTime) {
+    public DriveStep(AutoLogger logger, DriveController driveController, double speed, long msDriveTime) {
+        super(logger);
         this.driveController = driveController;
         this.speed = speed;
         this.msDriveTime = msDriveTime;
@@ -28,7 +29,7 @@ public class DriveStep extends AutoStep {
             driveController.drive(0.0, 0.0);
             this.complete();
         });
-        finishDrivingNotifier.startSingle(msDriveTime);
+        finishDrivingNotifier.startSingle(msDriveTime / 1000.0);
     }
 
     @Override

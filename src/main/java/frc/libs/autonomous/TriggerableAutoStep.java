@@ -15,7 +15,9 @@ public abstract class TriggerableAutoStep<TParentStep extends AutoStepGroup<TPar
 
     public final boolean isCompleted() { return autoStep.hasCompleted(); }
 
-    public final void trigger() { autoStep.start(); }
+    public final void trigger() {
+        autoStep.start();
+    }
 
     public final List<TriggerableAutoStep<TParentStep>> getSiblingSteps() {
         return autoStepParent.getChildAutoSteps();

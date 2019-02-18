@@ -8,9 +8,10 @@ import frc.libs.autonomous.*;
  */
 public abstract class AutoRoutine extends AutoStepGroup<AutoRoutine>
 {
-    public AutoRoutine(List<AutoStep> autoSteps)
+    public AutoRoutine(AutoLogger logger, List<AutoStep> autoSteps)
     {
-        super(autoSteps);
+        super(logger, autoSteps);
+        logger.LogInformation("Auto Steps in autoroutine " + autoSteps.size());
     }
 
     @Override

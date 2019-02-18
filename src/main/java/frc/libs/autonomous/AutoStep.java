@@ -2,11 +2,13 @@ package frc.libs.autonomous;
 
 public abstract class AutoStep
 {
+    protected final AutoLogger logger;
     private boolean _hasStarted;
     private boolean _hasCompleted;
 
-    public AutoStep()
+    public AutoStep(AutoLogger logger)
     {
+        this.logger = logger;
         _hasStarted = false;
         _hasCompleted = false;
     }
@@ -17,6 +19,7 @@ public abstract class AutoStep
         if (_hasStarted)
             return;
 
+        logger.LogStartStep(this);
         _hasStarted = true;
         initialize();
     }
@@ -33,6 +36,7 @@ public abstract class AutoStep
 
     public final void complete()
     {
+        logger.LogCompleteStep(this);
         _hasCompleted = true;
         stop();
     }
