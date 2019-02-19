@@ -1,10 +1,11 @@
-package frc.robot.subsystems.Drivebase;
+package frc.robot.subsystems.drivebase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Components;
 import frc.libs.utils.RobotModels.*;
 public class DriveBase {
@@ -24,6 +25,7 @@ public class DriveBase {
     private final TalonSRX _rightDrive1 = Components.DriveBase.rightDrive1;
     private final VictorSPX _rightDrive2 = Components.DriveBase.rightDrive2;
     private final VictorSPX _rightDrive3 = Components.DriveBase.rightDrive3;
+    private final Solenoid _lift = Components.DriveBase.lift;
 
     private final Encoder _leftEncoder = Components.DriveBase.leftEncoder;
     private final Encoder _rightEncoder = Components.DriveBase.rightEncoder;
@@ -46,11 +48,13 @@ public class DriveBase {
         _rightDrive1.set(ControlMode.PercentOutput, throttleValues.right);
     }
 
-    public void setLiftMode() {
-        throw new UnsupportedOperationException("TODO: Implement this");
+    public void EnableLift()
+    {
+        _lift.set(true);
     }
 
-    public void getLiftMode() {
-        throw new UnsupportedOperationException("TODO: Implement this");
+    public void DisableLift()
+    {
+        _lift.set(false);
     }
 }

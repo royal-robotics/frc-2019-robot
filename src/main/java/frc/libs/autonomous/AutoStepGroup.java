@@ -23,10 +23,10 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
 
     @Override
     protected final void initialize() {
-        _periodicNotifier.startPeriodic(TriggerCheckInterval);
-
         // Check triggers immediately instead of waiting for the first interval.
         periodicRun();
+
+        _periodicNotifier.startPeriodic(TriggerCheckInterval);
     }
 
     @Override

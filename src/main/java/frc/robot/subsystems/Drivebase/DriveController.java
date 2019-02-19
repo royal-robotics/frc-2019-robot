@@ -1,11 +1,11 @@
-package frc.robot.subsystems.Drivebase;
+package frc.robot.subsystems.drivebase;
 
 import frc.robot.Controls;
 import frc.libs.utils.RobotModels.*;
 import frc.robot.subsystems.*;
 
 public class DriveController implements IRobotController {
-    private DriveBase _driveBase = new DriveBase();
+    private final DriveBase _driveBase = new DriveBase();
 
     @Override
     public void init() {
@@ -29,8 +29,16 @@ public class DriveController implements IRobotController {
             default:
                 throw new UnsupportedOperationException();
         }
-        
         _driveBase.driveTank(throttleValues);
+
+        if (Controls.DriveSystem.LiftRobot())
+        {
+            _driveBase.EnableLift();
+        }
+        else
+        {
+            _driveBase.DisableLift();
+        }
     }
 
     @Override

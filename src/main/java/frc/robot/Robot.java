@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.*;
 import frc.libs.autonomous.LoggingContext;
 import frc.robot.autonomous.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Drivebase.*;
+import frc.robot.subsystems.drivebase.*;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot

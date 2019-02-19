@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.*;
 import frc.libs.controls.*;
+import frc.libs.controls.IButton.ButtonType;
+
 import static frc.libs.utils.RobotModels.*;
 import static frc.libs.controls.Controllers.*;
 
@@ -19,6 +21,7 @@ import static frc.libs.controls.Controllers.*;
  */
 public final class Controls {
     private static Joystick driver = new Joystick(0);
+    private static Joystick operator = new Joystick(1);
 
     public static class DriveSystem {
 
@@ -52,5 +55,51 @@ public final class Controls {
             private static CheesyDriveHelper cheesyDriveHelper = new CheesyDriveHelper();
             public static TankThrottleValues getThrottleValues() { return cheesyDriveHelper.cheesyDrive(throttle, wheel, quickTurn); }
         }
+
+        private static Axis liftRobot1 = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
+        private static Axis liftRobot2 = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
+
+        // Requires at least one trigger to lift robot and both triggers released to drop
+        public static boolean LiftRobot() { return (liftRobot1.isPressed() || liftRobot2.isPressed()); }
+    }
+
+    public static class ElevatorSystem
+    {
+        private static Axis raise = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
+        private static Axis lower = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
+        private static Button carriageRear = new Button(operator, Logitech310Button.A, ButtonType.Hold);
+        private static Button carriageSpit = new Button(operator, Logitech310Button.B, ButtonType.Hold);
+        private static Button carriageShoot = new Button(operator, Logitech310Button.X, ButtonType.Hold);
+
+        public static boolean Raise() { return raise.isPressed(); }
+        public static boolean Lower() { return lower.isPressed(); }
+        public static boolean ReceiveBall() { return carriageRear.isPressed(); }
+        public static boolean ReverseBall() { return carriageSpit.isPressed(); }
+        public static boolean ShootBall() { return carriageShoot.isPressed(); }
+    }
+
+    public static class BallIntakeSystem
+    {
+        private static Button intake = new Button(operator, Logitech310Button.A, ButtonType.Hold);
+        private static Button outtake = new Button(operator, Logitech310Button.B, ButtonType.Hold);
+        private static Button arm = new Button(operator, Logitech310Button.Start, ButtonType.Toggle);
+        
+        public static boolean Intake() { return intake.isPressed(); }
+        public static boolean Outtake() { return outtake.isPressed(); }
+        public static boolean ArmToggle() { return arm.isPressed(); }
+    }
+
+    public static class HatchSystem
+    {
+        private static Button hatchForward = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
+        private static Button hatchRelease = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
+        private static Button hatchPull = new Button(operator, Logitech310Button.RightStickPress, ButtonType.Hold);
+        private static Button hatchPush = new Button(operator, Logitech310Button.LeftStickPress, ButtonType.Hold);
+
+        public static boolean HatchForward() { return hatchForward.isPressed(); }
+        public static boolean HatchRelease() { return hatchRelease.isPressed(); }
+        public static boolean HatchPull() { return hatchPull.isPressed(); }
+        public static boolean HatchPush() { return hatchPush.isPressed(); }
+
     }
 }
