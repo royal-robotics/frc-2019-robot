@@ -35,6 +35,6 @@ public class AutoManager {
 
     private AutoRoutine createAutoRoutine() {
         // TODO: Implment the logic that chooses the routine basd on a the switch value.
-        return new TestAuto(driveController);
+        return new TestAutoRoutine(driveController);
     }
 }

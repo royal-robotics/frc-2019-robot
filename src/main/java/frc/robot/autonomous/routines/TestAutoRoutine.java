@@ -6,12 +6,10 @@ import frc.libs.autonomous.buildingblocks.*;
 import frc.robot.subsystems.drivebase.DriveController;
 import java.util.*;
 
-import org.apache.logging.log4j.Marker;
-
-public class TestAuto extends AutoRoutine {
+public class TestAutoRoutine extends AutoRoutine {
     private final DriveController driveController;
 
-    public TestAuto(DriveController driveController) {
+    public TestAutoRoutine(DriveController driveController) {
         super();
 
         this.driveController = driveController;
