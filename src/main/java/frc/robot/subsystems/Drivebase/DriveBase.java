@@ -45,7 +45,7 @@ public class DriveBase {
 
     public void driveTank(TankThrottleValues throttleValues) {
         _leftDrive1.set(ControlMode.PercentOutput, throttleValues.left);
-        _rightDrive1.set(ControlMode.PercentOutput, throttleValues.right);
+        _rightDrive1.set(ControlMode.PercentOutput, -throttleValues.right);
     }
 
     public void EnableLift()

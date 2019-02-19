@@ -29,7 +29,7 @@ public final class Components {
         public static VictorSPX rightDrive2 = new VictorSPX(6);
         public static VictorSPX rightDrive3 = new VictorSPX(4);
 
-        public static Solenoid lift = new Solenoid(0, 10); // Lift robot onto platform
+        public static Solenoid lift = new Solenoid(0, 7); // Lift robot onto platform
         public static Encoder leftEncoder = new Encoder(10, 11, true);
         public static Encoder rightEncoder = new Encoder(12, 13, false);
     }

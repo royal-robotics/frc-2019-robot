@@ -9,8 +9,6 @@ package frc.robot;
 
 import java.util.*;
 
-import org.apache.logging.log4j.*;
-
 import edu.wpi.first.wpilibj.*;
 import frc.libs.autonomous.LoggingContext;
 import frc.robot.autonomous.*;
@@ -24,8 +22,6 @@ import frc.robot.subsystems.drivebase.*;
  * project.
  */
 public class Robot extends TimedRobot {
-  // private static Logger logger =  LogManager.getLogger(Robot.class);
-  // private static Logger loggerAuto =  LogManager.getLogger("AutoTest");
 
   private final AutoManager _autoManager;
   private final DriveController _driveController = new DriveController();
@@ -61,8 +57,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // for (IRobotController robotController : _robotControllers)
-    //   robotController.diagnosticPeriodic();
+    for (IRobotController robotController : _robotControllers)
+      robotController.diagnosticPeriodic();
   }
 
   /**
@@ -86,7 +82,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    // loggerAuto.log(Level.WARN, "Autonomous Periodic");
+    
   }
 
   @Override
@@ -110,8 +106,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // logger.log(Level.WARN, "Teleop Periodic");
-    // for (IRobotController robotController : _robotControllers)
-    //   robotController.teleopPeriodic();
+    for (IRobotController robotController : _robotControllers)
+      robotController.teleopPeriodic();
   }
 }
