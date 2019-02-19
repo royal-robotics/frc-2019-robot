@@ -1,19 +1,17 @@
 package frc.robot.autonomous;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.autonomous.routines.*;
-import frc.libs.autonomous.AutoLogger;
+import frc.libs.autonomous.LoggingContext;
 import frc.libs.autonomous.buildingblocks.*;
 import frc.robot.subsystems.Drivebase.DriveController;
 
 public class AutoManager {
-    private final SendableChooser<String> _autoChooser = new SendableChooser<>();
-    private final DriveController _driveController;
+    private final DriveController driveController;
     private AutoRoutine currentRoutine;
 
     public AutoManager(DriveController driveController)
     {
-        _driveController = driveController;
+        this.driveController = driveController;
     }
 
     public void startAutonomous()
@@ -21,10 +19,7 @@ public class AutoManager {
         // If there is already a routine running we stop it.
         stopAutonomous();
 
-        AutoLogger logger = new AutoLogger();
-
-        // TODO: Implement dashboard choose routine logic
-        currentRoutine = new TestAuto(logger, _driveController);
+        currentRoutine = createAutoRoutine();
         currentRoutine.start();
     }
 
@@ -34,6 +29,12 @@ public class AutoManager {
         {
             currentRoutine.stop();
             currentRoutine = null;
+            LoggingContext.init();
         }
+    }
+
+    private AutoRoutine createAutoRoutine() {
+        // TODO: Implment the logic that chooses the routine basd on a the switch value.
+        return new TestAuto(driveController);
     }
 }

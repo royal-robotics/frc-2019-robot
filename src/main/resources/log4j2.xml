@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="INFO">
+<Configuration status="INFO" packages="frc.libs.utils">
     <Properties>
         <Property name="logfolder">${sys:user.home}/logs</Property>
     </Properties>
     <Appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        <Console name="Console">
+            <AutoTabbedLayout/>
         </Console>
-        <File name="MyFile" fileName="${logfolder}/RioSession.${date:yyyy-MM-dd-HH-mm-ss}.log" immediateFlush="true" append="true">
-            <!-- <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/> -->
-            <JSONLayout complete="true" compact="false"/>
-        </File>
+        <RollingFile name="AutoRoutineTrace" fileName="${logfolder}/AutoTrace.${date:yyyy-MM-dd-HH-mm-ss}.log" filePattern="${logfolder}/AutoTrace.${date:yyyy-MM-dd-HH-mm-ss}.%i.log" ignoreExceptions="true" append="true" createOnDemand="true">
+            <AutoTabbedLayout/>
+            <Policies>
+                <ForceTriggerPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+
     </Appenders>
     <Loggers>
-        <Root level="all">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="MyFile"/>
-        </Root>
+        <Root level="info"/>
+    
+        <Logger name="AutoRoutine" level="info" additivity="false">
+            <AppenderRef ref="AutoRoutineTrace"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
     </Loggers>
 </Configuration>

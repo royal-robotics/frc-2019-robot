@@ -2,6 +2,7 @@ package frc.libs.autonomous.buildingblocks;
 
 import java.util.*;
 import java.util.function.*;
+import org.apache.logging.log4j.*;
 import frc.libs.autonomous.*;
 
 /**
@@ -9,23 +10,25 @@ import frc.libs.autonomous.*;
  */
 public abstract class AutoRoutine extends AutoStepGroup<AutoRoutine>
 {
-    public AutoRoutine(AutoLogger logger, List<AutoStep> autoSteps)
+    public AutoRoutine()
     {
-        super(logger, createTriggers(logger, autoSteps));
-
-        logger.LogInformation("Auto Steps in autoroutine " + autoSteps.size());
+        // Routines are top level groups, they shouldn't have a parent marker.
+        super(null);
     }
 
-    public static List<Function<AutoStepGroup<AutoRoutine>, TriggerableAutoStep<AutoRoutine>>> createTriggers(AutoLogger logger, List<AutoStep> autoSteps) {
-        List<Function<AutoStepGroup<AutoRoutine>, TriggerableAutoStep<AutoRoutine>>> triggerableAutoStepThunks = new ArrayList<>(autoSteps.size());
+    protected abstract List<AutoStep> createRoutine();
+
+    @Override
+    protected final List<TriggerableAutoStep<AutoRoutine>> createGroup()
+    {
+        List<AutoStep> autoSteps = createRoutine();
+        List<TriggerableAutoStep<AutoRoutine>> triggerableAutoSteps = new ArrayList<>(autoSteps.size());
         for (AutoStep autoStep : autoSteps)
         {
-            triggerableAutoStepThunks.add((parentStep) -> {
-                return new ProceduralAutoStep(parentStep, autoStep);
-            });
+            triggerableAutoSteps.add(new ProceduralAutoStep(this, autoStep));
         }
 
-        return triggerableAutoStepThunks;
+        return triggerableAutoSteps;
     }
 
     private static class ProceduralAutoStep extends TriggerableAutoStep<AutoRoutine>

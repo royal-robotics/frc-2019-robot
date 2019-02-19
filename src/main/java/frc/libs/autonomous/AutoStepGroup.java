@@ -2,27 +2,24 @@ package frc.libs.autonomous;
 
 import java.util.*;
 import java.util.function.*;
-import frc.libs.utils.*;
+import com.google.common.base.Suppliers;
+import org.apache.logging.log4j.Marker;
 import edu.wpi.first.wpilibj.*;
 
 public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> extends AutoStep {
     private static final double TriggerCheckInterval = 0.050;
 
-    //private Supplier<List<TriggerableAutoStep<TParent>>> _childStepTriggers;
-    private List<TriggerableAutoStep<TParent>> _childStepTriggers;
+    private Supplier<List<TriggerableAutoStep<TParent>>> _childStepTriggers;
     private final Notifier _periodicNotifier;
 
-    public AutoStepGroup(AutoLogger logger, List<Function<AutoStepGroup<TParent>, TriggerableAutoStep<TParent>>> childStepTriggerThunks) {
-        super(logger);
+    public AutoStepGroup(Marker markerParent) {
+        super(markerParent);
 
         _periodicNotifier = new Notifier(() -> periodicRun());
-
-        List<TriggerableAutoStep<TParent>> childStepTriggers = new ArrayList<>(childStepTriggerThunks.size());
-        for (Function<AutoStepGroup<TParent>, TriggerableAutoStep<TParent>> childStepTriggerThunk : childStepTriggerThunks) {
-            childStepTriggers.add(childStepTriggerThunk.apply(this));
-        }
-        _childStepTriggers = childStepTriggers;
+        _childStepTriggers = Suppliers.memoize(() -> createGroup());
     }
+
+    protected abstract List<TriggerableAutoStep<TParent>> createGroup();
 
     @Override
     protected final void initialize() {
@@ -36,7 +33,7 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
     public final void stop() {
         _periodicNotifier.stop();
         
-        for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers) {
+        for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers.get()) {
             // if the step hasn't been triggered it doesn't need to stop.
             if (!triggerableAutoStep.isTriggered())
                 continue;
@@ -47,7 +44,7 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
 
     private final void periodicRun() {
         // Check for child steps that should be triggered
-        for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers) {
+        for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers.get()) {
             // check if the step has already been triggered.
             if (triggerableAutoStep.isTriggered())
                 continue;
@@ -60,7 +57,7 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
 
         // Check if all steps have been completed.
         boolean allCompleted = true;
-        for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers) {
+        for (TriggerableAutoStep<TParent> triggerableAutoStep : _childStepTriggers.get()) {
             // check if the step has already been triggered.
             if (!triggerableAutoStep.autoStep.hasCompleted()) {
                 allCompleted = false;
@@ -78,6 +75,6 @@ public abstract class AutoStepGroup<TParent extends AutoStepGroup<TParent>> exte
 
     protected final List<TriggerableAutoStep<TParent>> getChildAutoSteps()
     {
-        return _childStepTriggers;
+        return _childStepTriggers.get();
     }
 }

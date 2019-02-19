@@ -2,7 +2,7 @@ package frc.robot.autonomous.steps;
 
 import frc.libs.autonomous.*;
 import frc.robot.subsystems.Drivebase.DriveController;
-
+import org.apache.logging.log4j.*;
 import edu.wpi.first.wpilibj.Notifier;
 
 public class DriveStep extends AutoStep {
@@ -12,8 +12,8 @@ public class DriveStep extends AutoStep {
 
     private Notifier finishDrivingNotifier = null;
 
-    public DriveStep(AutoLogger logger, DriveController driveController, double speed, long msDriveTime) {
-        super(logger);
+    public DriveStep(Marker markerParent, DriveController driveController, double speed, long msDriveTime) {
+        super(markerParent);
         this.driveController = driveController;
         this.speed = speed;
         this.msDriveTime = msDriveTime;
@@ -29,6 +29,7 @@ public class DriveStep extends AutoStep {
             driveController.drive(0.0, 0.0);
             this.complete();
         });
+        
         finishDrivingNotifier.startSingle(msDriveTime / 1000.0);
     }
 

@@ -1,14 +1,16 @@
 package frc.libs.autonomous;
 
+import org.apache.logging.log4j.*;
+
 public abstract class AutoStep
 {
-    protected final AutoLogger logger;
+    protected final LoggingContext logger;
     private boolean _hasStarted;
     private boolean _hasCompleted;
 
-    public AutoStep(AutoLogger logger)
+    public AutoStep(Marker markerParent)
     {
-        this.logger = logger;
+        this.logger = new LoggingContext(markerParent, this);
         _hasStarted = false;
         _hasCompleted = false;
     }
@@ -19,7 +21,7 @@ public abstract class AutoStep
         if (_hasStarted)
             return;
 
-        logger.LogStartStep(this);
+        logger.log("Beginning");
         _hasStarted = true;
         initialize();
     }
@@ -36,7 +38,7 @@ public abstract class AutoStep
 
     public final void complete()
     {
-        logger.LogCompleteStep(this);
+        logger.log("Completing");
         _hasCompleted = true;
         stop();
     }
