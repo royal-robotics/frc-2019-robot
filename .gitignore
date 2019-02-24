@@ -1,6 +1,13 @@
-# Build dirs
+src/main/deploy/*
+!src/main/deploy/example.txt
+!src/main/deploy/example.motionprofile.json
+
+# npm restored packages
+node_modules/
+
+# Gradle build dirs
 build/
 .gradle/
 
-# Output dir
+# Gradle output dir
 bin/

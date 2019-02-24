@@ -1,0 +1,7 @@
+{
+  "name": "frc-2019-robot",
+  "version": "1.0.0",
+  "dependencies": {
+    "pathfinder-template": "file:../pathfinder-template"
+  }
+}
