@@ -14,6 +14,7 @@ import frc.libs.autonomous.LoggingContext;
 import frc.robot.autonomous.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivebase.*;
+import frc.robot.subsystems.elevator.ElevatorController;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -22,9 +23,9 @@ import frc.robot.subsystems.drivebase.*;
  * project.
  */
 public class Robot extends TimedRobot {
-
   private final AutoManager _autoManager;
   private final DriveController _driveController = new DriveController();
+  private final ElevatorController _elevatorController = new ElevatorController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
 
   static {
@@ -34,6 +35,7 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     _robotControllers.add(_driveController);
+    _robotControllers.add(_elevatorController);
     _autoManager = new AutoManager(_driveController);
   }
 

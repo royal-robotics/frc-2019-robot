@@ -26,31 +26,9 @@ public class ElevatorController implements IRobotController
         {
             _elevator.Stop();
         }
-
-        // Front rollers turn off when recieving ball and turn on when shooting ball
-        if (Controls.ElevatorSystem.ReceiveBall())
-        {
-            _elevator.ShootModeOff();
-            _elevator.StartCarriageRollers();
-        }
-        else if (Controls.ElevatorSystem.ShootBall())
-        {
-            _elevator.ShootModeOn();
-            _elevator.StartCarriageRollers();
-        }
-        else if (Controls.ElevatorSystem.ReverseBall())
-        {
-            _elevator.ShootModeOn();
-            _elevator.ReverseCarriageRollers();
-        }
-        else
-        {
-            _elevator.StopCarriageRollers();
-        }
     }
 
     @Override
     public void diagnosticPeriodic() {
-
     }
 }

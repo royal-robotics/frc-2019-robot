@@ -1,7 +1,6 @@
 package frc.libs.autonomous;
 
 import org.apache.logging.log4j.*;
-
 import frc.libs.utils.ForceTriggerPolicy;
 
 public class LoggingContext {
