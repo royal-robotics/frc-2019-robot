@@ -21,7 +21,7 @@ dir.eachFileRecurse (FileType.FILES) { file ->
 
             // TODO: Make this work for OSX + Linux (current windows only)
             workingDir './node_modules/.bin/'
-            commandLine 'cmd', '/c', "pathfinder-template-cli.cmd --mp ${file.absolutePath} -o ${deployDir}"
+            commandLine 'cmd', '/c', "pathfinder-template-cli.cmd --mp ${projectDir}/${file} -o ${deployDir}"
             standardOutput = new ByteArrayOutputStream()
 
             inputs.file file
@@ -34,7 +34,6 @@ dir.eachFileRecurse (FileType.FILES) { file ->
                 println "To target trajectory:    ${target}"
             }
         }
-
         build.finalizedBy(compileTemplateTask)
     }
 }
