@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 public final class Components {
 
     // TODO This may or may not be used?
-    public static DoubleSolenoid climb = new DoubleSolenoid(0, 0, 7);
+    public static DoubleSolenoid climb = new DoubleSolenoid(0, 1, 6);
 
     public static class DriveBase {
         public static TalonSRX leftDrive1 = new TalonSRX(7);
@@ -29,7 +29,7 @@ public final class Components {
         public static VictorSPX rightDrive2 = new VictorSPX(6);
         public static VictorSPX rightDrive3 = new VictorSPX(4);
 
-        public static Solenoid lift = new Solenoid(0, 7); // Lift robot onto platform
+        public static Solenoid lift = new Solenoid(0, 5); // Lift robot onto platform
         public static Encoder leftEncoder = new Encoder(10, 11, true);
         public static Encoder rightEncoder = new Encoder(12, 13, false);
     }
@@ -38,16 +38,16 @@ public final class Components {
     {
         public static TalonSRX elevator1 = new TalonSRX(9); // Lift everything
         public static TalonSRX elevator2 = new TalonSRX(10); // Lifts everything
-        // public static TalonSRX carriage = new TalonSRX(11); // Carriage ball rollers
-        // public static DoubleSolenoid carriageShift = new DoubleSolenoid(1, 0, 7); // Enables/disables front carriage rollers
-        // public static Encoder elevatorEncoder = new Encoder(12, 13, true); // Keeps elevator1 and elevator2 
+        public static TalonSRX carriage = new TalonSRX(11); // Carriage ball rollers
+        public static DoubleSolenoid carriageShift = new DoubleSolenoid(1, 0, 7); // Enables/disables front carriage rollers
+        public static Encoder elevatorEncoder = new Encoder(12, 13, true); // Keeps elevator1 and elevator2
     }
 
     public static class Hatch {
         public static TalonSRX hatchArm = new TalonSRX(1); // picks up hatches from ground
         public static VictorSPX hatchRoller = new VictorSPX(2); // Rolls and pulls a hatch
-        public static DoubleSolenoid carriageRock = new DoubleSolenoid(1, 0, 7); // Pushes forward the hatch
-        public static DoubleSolenoid carriageShoot = new DoubleSolenoid(1, 0, 7); // Releases the hatch
+        public static DoubleSolenoid carriageRock = new DoubleSolenoid(1, 1, 6); // Pushes forward the hatch
+        public static DoubleSolenoid carriageShoot = new DoubleSolenoid(1, 2, 5); // Releases the hatch
     }
 
     public static class BallIntake {
