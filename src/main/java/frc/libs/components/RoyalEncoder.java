@@ -1,4 +1,4 @@
-package frc.libs.sensors;
+package frc.libs.components;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
