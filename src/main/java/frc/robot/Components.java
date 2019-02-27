@@ -1,10 +1,7 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
+import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * Common place for static declarations of all robot
@@ -36,7 +33,7 @@ public final class Components {
 
     public static class Elevator
     {
-        public static TalonSRX elevator1 = new TalonSRX(9); // Lift everything
+        public static WPI_TalonSRX elevator1 = new WPI_TalonSRX(9); // Lift everything
         public static TalonSRX elevator2 = new TalonSRX(10); // Lifts everything
         public static TalonSRX carriage = new TalonSRX(11); // Carriage ball rollers
         public static DoubleSolenoid carriageShift = new DoubleSolenoid(1, 0, 7); // Enables/disables front carriage rollers
