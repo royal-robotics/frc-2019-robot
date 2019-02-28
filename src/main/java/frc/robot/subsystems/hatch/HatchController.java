@@ -16,12 +16,6 @@ public class HatchController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
-        /*
-        public static boolean HatchForward() { return hatchForward.isPressed(); }
-        public static boolean HatchRelease() { return hatchRelease.isPressed(); }
-        public static boolean HatchPull() { return hatchPull.isPressed(); }
-        public static boolean HatchPush() { return hatchPush.isPressed(); }
-        */
         if (Controls.HatchSystem.HatchForward())
         {
             _hatch.HatchForward();
@@ -51,6 +45,15 @@ public class HatchController implements IRobotController
         else
         {
             _hatch.StopHatchRoller();
+        }
+
+        if (Controls.HatchSystem.ManualHatchArm())
+        {
+            _hatch.SetHatchArmSpeed(Controls.HatchSystem.GetHatchArmSpeed());
+        }
+        else
+        {
+            _hatch.StopHatchArm();
         }
     }
 

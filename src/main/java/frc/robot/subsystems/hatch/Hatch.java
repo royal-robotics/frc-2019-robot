@@ -1,8 +1,8 @@
 package frc.robot.subsystems.hatch;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -18,7 +18,13 @@ public class Hatch
 
     public Hatch()
     {
+        // Set up hatch arm PID
+        Components.Hatch.hatchArm.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
+        TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
+        pidConfig.selectedFeedbackCoefficient = 1.0;
+        pidConfig.selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
+        Components.Hatch.hatchArm.configurePID(pidConfig);
     }
 
     public void EnableHatchRoller()
@@ -36,20 +42,16 @@ public class Hatch
         _hatchRoller.set(ControlMode.PercentOutput, 0);
     }
 
-    // TODO Reverse maybe?
-    public void HatchArmDown()
+    public void SetHatchArmSpeed(double value)
     {
-        _hatchArm.set(ControlMode.PercentOutput, -0.5);
+        // Set the motor speed to 50% the given value
+        double output = value * 0.5;
+        _hatchArm.set(ControlMode.PercentOutput, output);
     }
 
-    public void HatchArmUp()
+    public void StopHatchArm()
     {
-        _hatchArm.set(ControlMode.PercentOutput, 0.5);
-    }
-
-    public void HatchArmStop()
-    {
-        _hatchArm.set(ControlMode.PercentOutput, 0);
+        _hatchArm.set(ControlMode.Position, _hatchArm.getSelectedSensorPosition());
     }
 
     public void HatchForward()
