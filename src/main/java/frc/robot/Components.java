@@ -37,7 +37,7 @@ public final class Components {
         public static TalonSRX elevator2 = new TalonSRX(10); // Lifts everything
         public static TalonSRX carriage = new TalonSRX(11); // Carriage ball rollers
         public static DoubleSolenoid carriageShift = new DoubleSolenoid(1, 0, 7); // Enables/disables front carriage rollers
-        public static Encoder elevatorEncoder = new Encoder(12, 13, true); // Keeps elevator1 and elevator2
+        public static Encoder elevatorEncoder = new Encoder(14, 15, true); // Keeps elevator1 and elevator2
     }
 
     public static class Hatch {
