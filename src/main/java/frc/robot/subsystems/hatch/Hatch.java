@@ -15,10 +15,10 @@ public class Hatch
     private static DoubleSolenoid _carriageRock = Components.Hatch.carriageRock;
     private static DoubleSolenoid _carriageShoot = Components.Hatch.carriageShoot;
 
-
     public Hatch()
     {
-
+        _carriageRock.set(Value.kForward);
+        _carriageShoot.set(Value.kForward);
     }
 
     public void EnableHatchRoller()

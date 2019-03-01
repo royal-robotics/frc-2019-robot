@@ -31,8 +31,8 @@ public final class Controls {
             private static Axis leftThrottle = new Axis(driver, Logitech310Axis.LeftStickY, 0.1);
             private static Axis rightThrottle = new Axis(driver, Logitech310Axis.RightStickY, 0.1);
 
-            private static double getLeftThrottleValue() { return -leftThrottle.getValue(); }
-            private static double getRightThrottleValue() { return -rightThrottle.getValue(); }
+            private static double getLeftThrottleValue() { return leftThrottle.getValue(); }
+            private static double getRightThrottleValue() { return rightThrottle.getValue(); }
             public static TankThrottleValues getThrottleValues() { return new TankThrottleValues(getLeftThrottleValue(), getRightThrottleValue()); }
         }
 
@@ -65,17 +65,19 @@ public final class Controls {
 
     public static class ElevatorSystem
     {
-        private static Axis raise = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
-        private static Axis lower = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
-        private static Button carriageRear = new Button(operator, Logitech310Button.A, ButtonType.Hold);
-        private static Button carriageSpit = new Button(operator, Logitech310Button.B, ButtonType.Hold);
-        private static Button carriageShoot = new Button(operator, Logitech310Button.X, ButtonType.Hold);
+        private static Axis raise = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
+        private static Axis lower = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
+        private static Button carriageShift = new Button(driver, Logitech310Button.A, ButtonType.Hold);
+        // private static Button carriageRear = new Button(operator, Logitech310Button.A, ButtonType.Hold);
+        // private static Button carriageSpit = new Button(operator, Logitech310Button.B, ButtonType.Hold);
+        // private static Button carriageShoot = new Button(operator, Logitech310Button.X, ButtonType.Hold);
 
+        public static boolean Shift() { return carriageShift.isPressed(); }
         public static boolean Raise() { return raise.isPressed(); }
         public static boolean Lower() { return lower.isPressed(); }
-        public static boolean ReceiveBall() { return carriageRear.isPressed(); }
-        public static boolean ReverseBall() { return carriageSpit.isPressed(); }
-        public static boolean ShootBall() { return carriageShoot.isPressed(); }
+        // public static boolean ReceiveBall() { return carriageRear.isPressed(); }
+        // public static boolean ReverseBall() { return carriageSpit.isPressed(); }
+        // public static boolean ShootBall() { return carriageShoot.isPressed(); }
     }
 
     public static class BallIntakeSystem
@@ -91,15 +93,19 @@ public final class Controls {
 
     public static class HatchSystem
     {
-        private static Button hatchForward = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
-        private static Button hatchRelease = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
-        private static Button hatchPull = new Button(operator, Logitech310Button.RightStickPress, ButtonType.Hold);
-        private static Button hatchPush = new Button(operator, Logitech310Button.LeftStickPress, ButtonType.Hold);
+        // private static Button hatchForward = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
+        // private static Button hatchRelease = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
+        // private static Button hatchPull = new Button(operator, Logitech310Button.RightStickPress, ButtonType.Hold);
+        // private static Button hatchPush = new Button(operator, Logitech310Button.LeftStickPress, ButtonType.Hold);
+
+        private static Button hatchForward = new Button(driver, Logitech310Button.LeftBumper, ButtonType.Hold);
+        private static Button hatchRelease = new Button(driver, Logitech310Button.RightBumper, ButtonType.Hold);
+        private static Button hatchPull = new Button(driver, Logitech310Button.A, ButtonType.Hold);
+        private static Button hatchPush = new Button(driver, Logitech310Button.Y, ButtonType.Hold);
 
         public static boolean HatchForward() { return hatchForward.isPressed(); }
         public static boolean HatchRelease() { return hatchRelease.isPressed(); }
         public static boolean HatchPull() { return hatchPull.isPressed(); }
         public static boolean HatchPush() { return hatchPush.isPressed(); }
-
     }
 }
