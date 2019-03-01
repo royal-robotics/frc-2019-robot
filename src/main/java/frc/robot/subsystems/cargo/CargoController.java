@@ -1,11 +1,11 @@
-package frc.robot.subsystems.hatch;
+package frc.robot.subsystems.cargo;
 
 import frc.robot.Controls;
 import frc.robot.subsystems.*;
 
-public class HatchController implements IRobotController
+public class CargoController implements IRobotController
 {
-    private final HatchManipulator _hatchManipulator = new HatchManipulator();
+    private final CargoManipulator _cargoManipulator = new CargoManipulator();
 
     @Override
     public void init()

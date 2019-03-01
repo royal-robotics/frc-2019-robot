@@ -7,17 +7,17 @@ import frc.robot.Components;
 
 public class Elevator
 {
-    private final WPI_TalonSRX _elevatorMaster = Components.Elevator.elevator1;
-    private final TalonSRX _elevatorSlave = Components.Elevator.elevator2;
-    private final Encoder _encoder = Components.Elevator.elevatorEncoder;
-
     private final GravityAdjustedPercentOutput _elevator;
+    private final Encoder _encoder;
+    
     private final ElevatorPositionHolder _elevatorPositionHolder;
     private final ElevatorFollower _elevatorFollower;
 
     public Elevator()
     {
         // Setup the elevator motors
+        final WPI_TalonSRX _elevatorMaster = Components.Elevator.elevator1;
+        final TalonSRX _elevatorSlave = Components.Elevator.elevator2;
         _elevatorMaster.setInverted(true);
         _elevatorSlave.setInverted(true);
         _elevatorSlave.follow(_elevatorMaster);
@@ -27,6 +27,7 @@ public class Elevator
         // Total travel: 60.75 inches
         final double PulsesPerRotation = 256.0;
         final double MeasuredTravelPerRotation = 5.875;
+        _encoder = Components.Elevator.elevatorEncoder;
         _encoder.setDistancePerPulse(MeasuredTravelPerRotation / PulsesPerRotation);
         _encoder.setReverseDirection(true);
         _encoder.reset();
@@ -53,9 +54,7 @@ public class Elevator
 
     public void stop() {
         if (!_elevatorPositionHolder.isEnabled()) {
-
             final double currentHeight = _encoder.getDistance();
-            System.out.println("Enabling Holder: " + currentHeight);
             _elevatorPositionHolder.setSetpoint(currentHeight);
         }
 

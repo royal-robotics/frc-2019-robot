@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.*;
 import frc.libs.autonomous.LoggingContext;
 import frc.robot.autonomous.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.cargo.CargoController;
 import frc.robot.subsystems.drivebase.*;
 import frc.robot.subsystems.elevator.ElevatorController;
 import frc.robot.subsystems.hatch.HatchController;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
   private final DriveController _driveController = new DriveController();
   private final ElevatorController _elevatorController = new ElevatorController();
   private final HatchController _hatchController = new HatchController();
+  private final CargoController _cargoController = new CargoController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
 
   static {
@@ -39,6 +41,7 @@ public class Robot extends TimedRobot {
     _robotControllers.add(_driveController);
     _robotControllers.add(_elevatorController);
     _robotControllers.add(_hatchController);
+    _robotControllers.add(_cargoController);
     _autoManager = new AutoManager(_driveController);
   }
 

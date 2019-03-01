@@ -1,13 +1,11 @@
 package frc.robot.subsystems.drivebase;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.*;
+import edu.wpi.first.wpilibj.*;
 import frc.robot.Components;
 import frc.libs.utils.RobotModels.*;
+
 public class DriveBase {
 
     // TODO: Figure out actual encoder gear ratio
@@ -19,41 +17,50 @@ public class DriveBase {
     public static final double PulsesPerRotation = 256.0;
     public static final double InchesPerPulse = EncoderGearRatio * WheelDiameterInches * Math.PI / PulsesPerRotation;
 
-    private final TalonSRX _leftDrive1 = Components.DriveBase.leftDrive1;
-    private final VictorSPX _leftDrive2 = Components.DriveBase.leftDrive2;
-    private final VictorSPX _leftDrive3 = Components.DriveBase.leftDrive3;
-    private final TalonSRX _rightDrive1 = Components.DriveBase.rightDrive1;
-    private final VictorSPX _rightDrive2 = Components.DriveBase.rightDrive2;
-    private final VictorSPX _rightDrive3 = Components.DriveBase.rightDrive3;
-    private final Solenoid _lift = Components.DriveBase.lift;
 
-    private final Encoder _leftEncoder = Components.DriveBase.leftEncoder;
-    private final Encoder _rightEncoder = Components.DriveBase.rightEncoder;
+    private final SpeedController _leftDrive;
+    private final SpeedController _rightDrive;
+    private final Encoder _leftEncoder;
+    private final Encoder _rightEncoder;
+
+    private final Solenoid _lift;
+    private final DoubleSolenoid _climb;
 
     public DriveBase() {
-        _leftDrive2.follow(_leftDrive1);
-        _leftDrive3.follow(_leftDrive1);
+        final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
+        Components.DriveBase.leftDrive2.follow(leftDrive1);
+        Components.DriveBase.leftDrive3.follow(leftDrive1);
+        _leftDrive = leftDrive1;
 
-        _rightDrive2.follow(_rightDrive1);
-        _rightDrive3.follow(_rightDrive1);
+        final WPI_TalonSRX rightDrive1 = Components.DriveBase.rightDrive1;
+        Components.DriveBase.rightDrive2.follow(rightDrive1);
+        Components.DriveBase.rightDrive3.follow(rightDrive1);
+        _rightDrive = rightDrive1;
 
+        _leftEncoder = Components.DriveBase.leftEncoder;
         _leftEncoder.setDistancePerPulse(InchesPerPulse);
         _leftEncoder.reset();
+
+        _rightEncoder = Components.DriveBase.rightEncoder;
         _rightEncoder.setDistancePerPulse(InchesPerPulse);
         _rightEncoder.reset();
+
+        _lift = Components.DriveBase.lift;
+        _climb = Components.DriveBase.climb;
     }
 
     public void driveTank(TankThrottleValues throttleValues) {
-        _leftDrive1.set(ControlMode.PercentOutput, throttleValues.left);
-        _rightDrive1.set(ControlMode.PercentOutput, -throttleValues.right);
+        // TODO: Use `leftDrive1.setInverted(true)` instead of negative value
+        _leftDrive.set(throttleValues.left);
+        _rightDrive.set(-throttleValues.right);
     }
 
-    public void EnableLift()
+    public void enableLift()
     {
         _lift.set(true);
     }
 
-    public void DisableLift()
+    public void disableLift()
     {
         _lift.set(false);
     }

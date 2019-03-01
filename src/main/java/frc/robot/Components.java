@@ -14,44 +14,47 @@ import edu.wpi.first.wpilibj.*;
  * for more easily. A scoped components file is the compromise.
  */
 public final class Components {
-
-    // TODO This may or may not be used?
-    public static DoubleSolenoid climb = new DoubleSolenoid(0, 1, 6);
-
     public static class DriveBase {
-        public static TalonSRX leftDrive1 = new TalonSRX(7);
-        public static VictorSPX leftDrive2 = new VictorSPX(5);
-        public static VictorSPX leftDrive3 = new VictorSPX(3);
-        public static TalonSRX rightDrive1 = new TalonSRX(8);
-        public static VictorSPX rightDrive2 = new VictorSPX(6);
-        public static VictorSPX rightDrive3 = new VictorSPX(4);
-
-        public static Solenoid lift = new Solenoid(0, 5); // Lift robot onto platform
+        public static WPI_TalonSRX leftDrive1 = new WPI_TalonSRX(7);
+        public static WPI_VictorSPX leftDrive2 = new WPI_VictorSPX(5);
+        public static WPI_VictorSPX leftDrive3 = new WPI_VictorSPX(3);
         public static Encoder leftEncoder = new Encoder(10, 11, true);
+
+        public static WPI_TalonSRX rightDrive1 = new WPI_TalonSRX(8);
+        public static WPI_VictorSPX rightDrive2 = new WPI_VictorSPX(6);
+        public static WPI_VictorSPX rightDrive3 = new WPI_VictorSPX(4);
         public static Encoder rightEncoder = new Encoder(12, 13, false);
+
+        // TODO: Are these used?
+        public static Solenoid lift = new Solenoid(0, 5);
+        public static DoubleSolenoid climb = new DoubleSolenoid(0, 1, 6);
     }
 
     public static class Elevator
     {
-        public static WPI_TalonSRX elevator1 = new WPI_TalonSRX(9); // Lift everything
-        public static TalonSRX elevator2 = new TalonSRX(10); // Lifts everything
-        public static TalonSRX carriage = new TalonSRX(11); // Carriage ball rollers
-        public static DoubleSolenoid carriageShift = new DoubleSolenoid(1, 0, 7); // Enables/disables front carriage rollers
-        public static Encoder elevatorEncoder = new Encoder(14, 15, true); // Keeps elevator1 and elevator2
+        public static WPI_TalonSRX elevator1 = new WPI_TalonSRX(9);
+        public static WPI_TalonSRX elevator2 = new WPI_TalonSRX(10);
+        public static Encoder elevatorEncoder = new Encoder(14, 15, true);
     }
 
-    public static class Hatch {
-        public static TalonSRX hatchArm = new TalonSRX(1); // picks up hatches from ground
-        public static VictorSPX hatchRoller = new VictorSPX(2); // Rolls and pulls a hatch
-        public static DoubleSolenoid carriageRock = new DoubleSolenoid(1, 1, 6); // Pushes forward the hatch
-        public static DoubleSolenoid carriageShoot = new DoubleSolenoid(1, 2, 5); // Releases the hatch
+    public static class HatchManipulator {
+        // Hatch Intake
+        public static WPI_TalonSRX hatchArm = new WPI_TalonSRX(1);
+        public static WPI_VictorSPX hatchRoller = new WPI_VictorSPX(2);
+
+        // Hatch Shooter
+        public static DoubleSolenoid carriageRock = new DoubleSolenoid(1, 1, 6);
+        public static DoubleSolenoid carriageShoot = new DoubleSolenoid(1, 2, 5);
     }
 
-    public static class BallIntake {
-        // One of the two ballIntake is not needed(?)
-        public static TalonSRX ballIntake1 = new TalonSRX(12); // Roller
-        public static TalonSRX ballIntake2 = new TalonSRX(13); // Roller
+    public static class CargoManipulator {
+        // Cargo Intake
+        public static WPI_TalonSRX cargoIntake1 = new WPI_TalonSRX(12);
+        public static WPI_TalonSRX cargoIntake2 = new WPI_TalonSRX(13);
+        public static DoubleSolenoid cargoArm = new DoubleSolenoid(0, 0, 7);
 
-        public static DoubleSolenoid ballArm = new DoubleSolenoid(0, 0, 7); // Arm
+        // Cargo Shooter
+        public static WPI_TalonSRX cargoCarriageShooter = new WPI_TalonSRX(11);
+        public static DoubleSolenoid carriageShooterShifter = new DoubleSolenoid(1, 0, 7);
     }
 }

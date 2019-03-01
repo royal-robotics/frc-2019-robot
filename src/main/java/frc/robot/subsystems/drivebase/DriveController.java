@@ -33,11 +33,11 @@ public class DriveController implements IRobotController {
 
         if (Controls.DriveSystem.LiftRobot())
         {
-            _driveBase.EnableLift();
+            _driveBase.enableLift();
         }
         else
         {
-            _driveBase.DisableLift();
+            _driveBase.disableLift();
         }
     }
 
