@@ -28,11 +28,17 @@ public class DriveBase {
 
     public DriveBase() {
         final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
+        leftDrive1.setInverted(true);
+        Components.DriveBase.leftDrive2.setInverted(true);
+        Components.DriveBase.leftDrive3.setInverted(true);
         Components.DriveBase.leftDrive2.follow(leftDrive1);
         Components.DriveBase.leftDrive3.follow(leftDrive1);
         _leftDrive = leftDrive1;
 
         final WPI_TalonSRX rightDrive1 = Components.DriveBase.rightDrive1;
+        rightDrive1.setInverted(true);
+        Components.DriveBase.rightDrive2.setInverted(true);
+        Components.DriveBase.rightDrive3.setInverted(true);
         Components.DriveBase.rightDrive2.follow(rightDrive1);
         Components.DriveBase.rightDrive3.follow(rightDrive1);
         _rightDrive = rightDrive1;

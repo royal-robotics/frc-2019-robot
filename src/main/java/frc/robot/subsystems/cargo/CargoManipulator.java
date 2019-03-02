@@ -49,8 +49,6 @@ public class CargoManipulator
     public void shoot() {
         _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
-
-        // Enable the entire shooter
         _cargoShifter.set(Value.kReverse);
         _cargoShooter.set(0.5);
     }
