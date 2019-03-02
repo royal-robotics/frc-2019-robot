@@ -16,8 +16,10 @@ public class GravityAdjustedPercentOutput implements PIDOutput {
         _holdPower = Doubles.constrainToRange(holdPower, _absoluteRange.lowerEndpoint(), _absoluteRange.upperEndpoint());
     }
 
-    public void set(double normalizedPercentOutput) {
-        double percentOutput = gravityAdjusted(normalizedPercentOutput);
+    public void set(double percentOutputInput) {
+        double percentOutput = gravityAdjusted(percentOutputInput);
+        //double percentOutput = percentOutputInput + _holdPower;
+
         _motor.set(percentOutput);
     }
 

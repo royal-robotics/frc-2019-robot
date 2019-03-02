@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.*;
 public class RoyalEncoder {
     private final int PositionBufferSize = 5;
     private final LinkedList<TimestampedValue<Double>> _positionBuffer = new LinkedList<>();
-    
+
     public final Encoder encoder;
 
     // When writing a motion profile follower its necessary to figure out
@@ -33,6 +33,10 @@ public class RoyalEncoder {
 
     public void reset() {
         encoder.reset();
+        _positionBuffer.clear();
+
+        velocityMax = Double.MIN_VALUE;
+        velocityMin = Double.MAX_VALUE;
     }
 
     private final void updateCache() {
