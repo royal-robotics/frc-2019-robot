@@ -2,8 +2,7 @@ package frc.libs.components;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * An Encoder wrapper which manages a sample of the most recent encoder readings.
@@ -13,34 +12,51 @@ import edu.wpi.first.wpilibj.Notifier;
 public class RoyalEncoder {
     private final int PositionBufferSize = 5;
     private final LinkedList<TimestampedValue<Double>> _positionBuffer = new LinkedList<>();
+    
+    public final Encoder encoder;
 
-    private final Encoder _encoder;
+    // When writing a motion profile follower its necessary to figure out
+    // how motor percent output relates to velocity, we keep track of max/min
+    // velocities to help with this.
+    public double velocityMax = Double.MIN_VALUE;
+    public double velocityMin = Double.MAX_VALUE;
     
     public RoyalEncoder(Encoder encoder, double distancePerPulse, boolean reverse)
     {
-        _encoder = encoder;
-        _encoder.setDistancePerPulse(distancePerPulse);
-        _encoder.setReverseDirection(reverse);
-        _encoder.reset();
+        this.encoder = encoder;
+        encoder.setDistancePerPulse(distancePerPulse);
+        encoder.setReverseDirection(reverse);
+        encoder.reset();
 
         EncoderUpdater.registerEncoder(this);
     }
 
+    public void reset() {
+        encoder.reset();
+    }
+
     private final void updateCache() {
-        TimestampedValue<Double> position = new TimestampedValue<Double>(_encoder.getDistance());
+        TimestampedValue<Double> position = new TimestampedValue<Double>(encoder.getDistance());
         _positionBuffer.add(position);
 
         if (_positionBuffer.size() > PositionBufferSize) {
             _positionBuffer.remove();
         }
+
+        double velocity = this.getVelocity();
+        if (velocity > velocityMax)
+            velocityMax = velocity;
+
+        if (velocity < velocityMin)
+            velocityMin = velocity;
     }
 
     public boolean getDirection() {
-        return _encoder.getDirection();
+        return encoder.getDirection();
     }
 
     public double getDistance() {
-        return _encoder.getDistance();
+        return encoder.getDistance();
     }
 
     public double getVelocity() {

@@ -3,13 +3,14 @@ package frc.robot.subsystems.elevator;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import frc.libs.components.RoyalEncoder;
 import frc.robot.Components;
 
 public class Elevator
 {
     private final GravityAdjustedPercentOutput _elevator;
-    private final Encoder _encoder;
-    
+    private final RoyalEncoder _royalEncoder;
+
     private final ElevatorPositionHolder _elevatorPositionHolder;
     private final ElevatorFollower _elevatorFollower;
 
@@ -27,18 +28,17 @@ public class Elevator
         // Total travel: 60.75 inches
         final double PulsesPerRotation = 256.0;
         final double MeasuredTravelPerRotation = 5.875;
-        _encoder = Components.Elevator.elevatorEncoder;
-        _encoder.setDistancePerPulse(MeasuredTravelPerRotation / PulsesPerRotation);
-        _encoder.setReverseDirection(true);
-        _encoder.reset();
+        final double DistancePerPulse = MeasuredTravelPerRotation / PulsesPerRotation;
+        final Encoder encoder = Components.Elevator.elevatorEncoder;
+        _royalEncoder = new RoyalEncoder(encoder, DistancePerPulse, true);
 
         // Setup control followers
-        _elevatorPositionHolder = new ElevatorPositionHolder(_encoder, _elevator);
+        _elevatorPositionHolder = new ElevatorPositionHolder(encoder, _elevator);
         _elevatorFollower = new ElevatorFollower();
     }
 
     public void reset() {
-        _encoder.reset();
+        _royalEncoder.reset();
         _elevatorPositionHolder.reset();
     }
 
@@ -54,7 +54,7 @@ public class Elevator
 
     public void stop() {
         if (!_elevatorPositionHolder.isEnabled()) {
-            final double currentHeight = _encoder.getDistance();
+            final double currentHeight = _royalEncoder.getDistance();
             _elevatorPositionHolder.setSetpoint(currentHeight);
         }
 
@@ -67,7 +67,11 @@ public class Elevator
 
     public void diagnosticPeriodic() {
         SmartDashboard.putNumber("Elevator-Component-Power", _elevator.get());
-        SmartDashboard.putNumber("Elevator-Component-Encoder", _encoder.getDistance());
+        SmartDashboard.putNumber("Elevator-Component-Encoder", _royalEncoder.getDistance());
+        SmartDashboard.putNumber("Elevator-Component-Velocity", _royalEncoder.getVelocity());
+        SmartDashboard.putNumber("Elevator-Component-VelocityMax", _royalEncoder.velocityMax);
+        SmartDashboard.putNumber("Elevator-Component-VelocityMin", _royalEncoder.velocityMin);
+        
         _elevatorPositionHolder.diagnosticPeriodic();
     }
 }
