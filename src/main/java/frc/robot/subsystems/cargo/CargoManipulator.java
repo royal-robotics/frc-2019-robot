@@ -1,3 +1,4 @@
+
 package frc.robot.subsystems.cargo;
 
 import com.ctre.phoenix.motorcontrol.can.*;
@@ -35,7 +36,7 @@ public class CargoManipulator
     public void intake() {
         _cargoIntakeArm.set(Value.kForward);
         _cargoIntake.set(0.5);
-        _cargoShifter.set(Value.kForward);
+        _cargoShifter.set(Value.kReverse);
         _cargoShooter.set(0.5);
     }
 
@@ -49,7 +50,7 @@ public class CargoManipulator
     public void shoot() {
         _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
-        _cargoShifter.set(Value.kReverse);
+        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(0.5);
     }
 

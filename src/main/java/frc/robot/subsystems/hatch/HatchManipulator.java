@@ -24,7 +24,7 @@ public class HatchManipulator
         _carriageRock = Components.HatchManipulator.carriageRock;
         _carriageRock.set(Value.kReverse);
         _carriageShoot = Components.HatchManipulator.carriageShoot;
-        _carriageShoot.set(Value.kForward);
+        _carriageShoot.set(Value.kReverse);
 
         _hatchRoller.setInverted(true);
 
