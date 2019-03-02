@@ -16,7 +16,15 @@ public class HatchController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
-        
+        if (Controls.HatchManipulator.hatchRock())
+            _hatchManipulator.rockForward();
+        else
+            _hatchManipulator.rockBackwards();
+
+        if (Controls.HatchManipulator.hatchShoot())
+            _hatchManipulator.shootHatchOut();
+        else
+            _hatchManipulator.shootHatchIn();
     }
 
     @Override

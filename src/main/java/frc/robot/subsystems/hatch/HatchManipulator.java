@@ -54,22 +54,22 @@ public class HatchManipulator
         _hatchArm.set(0.0);
     }
 
-    public void hatchForward()
+    public void rockForward()
     {
         _carriageRock.set(Value.kForward);
     }
 
-    public void hatchReverse()
+    public void rockBackwards()
     {
         _carriageRock.set(Value.kReverse);
     }
 
-    public void hatchRelease()
+    public void shootHatchOut()
     {
         _carriageShoot.set(Value.kForward);
     }
 
-    public void hatchGrab()
+    public void shootHatchIn()
     {
         _carriageShoot.set(Value.kReverse);
     }
