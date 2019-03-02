@@ -65,24 +65,22 @@ public final class Controls {
 
     public static class ElevatorSystem
     {
-        private static Axis raise = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
-        private static Axis lower = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
-        private static Button carriageShift = new Button(driver, Logitech310Button.A, ButtonType.Hold);
+        private static Axis raise = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
+        private static Axis lower = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
 
-        public static boolean Shift() { return carriageShift.isPressed(); }
         public static boolean Raise() { return raise.isPressed(); }
         public static boolean Lower() { return lower.isPressed(); }
     }
 
-    public static class BallIntakeSystem
+    public static class CargoManipulator
     {
-        private static Button intake = new Button(operator, Logitech310Button.A, ButtonType.Hold);
-        private static Button outtake = new Button(operator, Logitech310Button.B, ButtonType.Hold);
-        private static Button arm = new Button(operator, Logitech310Button.Start, ButtonType.Toggle);
+        private static Button intake = new Button(operator, Logitech310Button.Left, ButtonType.Hold);
+        private static Button shoot = new Button(operator, Logitech310Button.Right, ButtonType.Hold);
+        private static Button eject = new Button(operator, Logitech310Button.Down, ButtonType.Hold);
         
-        public static boolean Intake() { return intake.isPressed(); }
-        public static boolean Outtake() { return outtake.isPressed(); }
-        public static boolean ArmToggle() { return arm.isPressed(); }
+        public static boolean intake() { return intake.isPressed(); }
+        public static boolean shoot() { return shoot.isPressed(); }
+        public static boolean eject() { return eject.isPressed(); }
     }
 
     public static class HatchManipulator

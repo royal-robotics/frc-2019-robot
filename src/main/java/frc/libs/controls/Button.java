@@ -31,7 +31,10 @@ public class Button implements IButton {
      */
     protected synchronized boolean getPosition()
     {
-        return this.stick.getRawButton(this.buttonId.id);
+        if (this.buttonId.isPOV)
+            return this.stick.getPOV() == this.buttonId.id;
+        else
+            return this.stick.getRawButton(this.buttonId.id);
     }
 
     /***

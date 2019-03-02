@@ -11,10 +11,23 @@ public class Controllers {
         Back (7),
         Start (8),
         LeftStickPress (9),
-        RightStickPress (10);
+        RightStickPress (10),
+
+        Up(0, true),
+        Right(90, true),
+        Down(180, true),
+        Left(270, true);
+
         public int id;
+        public boolean isPOV;
+
         Logitech310Button(int id) {
+            this(id, false);
+        }
+
+        Logitech310Button(int id, boolean isPOV) {
             this.id = id;
+            this.isPOV = isPOV;
         }
     }
 

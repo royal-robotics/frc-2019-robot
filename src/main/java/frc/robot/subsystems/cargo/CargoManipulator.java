@@ -22,7 +22,7 @@ public class CargoManipulator
         
         // Setup cargo intake arm
         _cargoIntakeArm = Components.CargoManipulator.cargoArm;
-        _cargoIntakeArm.set(Value.kForward);
+        _cargoIntakeArm.set(Value.kReverse);
 
         // Setup cargo shooter motor
         _cargoShooter = Components.CargoManipulator.cargoCarriageShooter;
@@ -32,43 +32,34 @@ public class CargoManipulator
         _cargoShifter.set(Value.kForward);
     }
 
-    public void intakeCargo()
-    {
-        _cargoIntake.set(0.5);
-    }
-
-    public void ejectCargo()
-    {
-        _cargoIntake.set(-0.5);
-    }
-
-    public void stopCargoIntake()
-    {
-        _cargoIntake.set(0.0);
-    }
-
-    public void extendIntake()
-    {
-        _cargoIntakeArm.set(Value.kReverse);
-    }
-
-    public void retractIntake()
-    {
+    public void intake() {
         _cargoIntakeArm.set(Value.kForward);
-    }
-    
-    public void runCargoShooter()
-    {
+        _cargoIntake.set(0.5);
+        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(0.5);
     }
 
-    public void reverseCargoShooter()
-    {
+    public void eject() {
+        _cargoIntakeArm.set(Value.kForward);
+        _cargoIntake.set(-0.5);
+        _cargoShifter.set(Value.kReverse);
         _cargoShooter.set(-0.5);
     }
 
-    public void stopCargoShooter()
-    {
+    public void shoot() {
+        _cargoIntakeArm.set(Value.kReverse);
+        _cargoIntake.set(0.0);
+
+        // Enable the entire shooter
+        _cargoShifter.set(Value.kReverse);
+        _cargoShooter.set(0.5);
+    }
+
+    public void stop() {
+
+        _cargoIntakeArm.set(Value.kReverse);
+        _cargoIntake.set(0.0);
+        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(0.0);
     }
 }
