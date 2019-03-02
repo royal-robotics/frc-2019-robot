@@ -25,6 +25,9 @@ public class HatchController implements IRobotController
             _hatchManipulator.shootHatchOut();
         else
             _hatchManipulator.shootHatchIn();
+
+
+            
     }
 
     @Override

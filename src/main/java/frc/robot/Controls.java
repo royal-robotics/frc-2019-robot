@@ -87,21 +87,25 @@ public final class Controls {
 
     public static class HatchManipulator
     {
-        // TODO: These should be operator controls
-        private static Button hatchRock = new Button(driver, Logitech310Button.A, ButtonType.Hold);
-        private static Button hatchShoot = new Button(driver, Logitech310Button.B, ButtonType.Hold);
-
-        // private static Button hatchForward = new Button(driver, Logitech310Button.LeftBumper, ButtonType.Hold);
-        // private static Button hatchRelease = new Button(driver, Logitech310Button.RightBumper, ButtonType.Hold);
-        // private static Button hatchPull = new Button(driver, Logitech310Button.A, ButtonType.Hold);
-        // private static Button hatchPush = new Button(driver, Logitech310Button.Y, ButtonType.Hold);
-
-        // public static boolean HatchForward() { return hatchForward.isPressed(); }
-        // public static boolean HatchRelease() { return hatchRelease.isPressed(); }
-        // public static boolean HatchPull() { return hatchPull.isPressed(); }
-        // public static boolean HatchPush() { return hatchPush.isPressed(); }
+        // Holder
+        private static Button hatchRock = new Button(operator, Logitech310Button.A, ButtonType.Hold);
+        private static Button hatchShoot = new Button(operator, Logitech310Button.B, ButtonType.Hold);
 
         public static boolean hatchRock() { return hatchRock.isPressed(); }
         public static boolean hatchShoot() { return hatchShoot.isPressed(); }
+
+        // Arm
+        private static Button hatchForward = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
+        private static Button hatchRelease = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
+        private static Button hatchPull = new Button(operator, Logitech310Button.RightStickPress, ButtonType.Hold);
+        private static Button hatchPush = new Button(operator, Logitech310Button.LeftStickPress, ButtonType.Hold);
+        private static Axis hatchArm = new Axis(operator, Logitech310Axis.LeftStickX, 0.1);
+
+        public static boolean HatchForward() { return hatchForward.isPressed(); }
+        public static boolean HatchRelease() { return hatchRelease.isPressed(); }
+        public static boolean HatchPull() { return hatchPull.isPressed(); }
+        public static boolean HatchPush() { return hatchPush.isPressed(); }
+        public static boolean ManualHatchArm() { return hatchArm.isPressed(); }
+        public static double GetHatchArmSpeed() { return hatchArm.getValue(); }
     }
 }
