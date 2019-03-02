@@ -95,9 +95,9 @@ public final class Controls {
         // Arm
         private static Button hatchForward = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
         private static Button hatchRelease = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
-        private static Button hatchPull = new Button(operator, Logitech310Button.RightStickPress, ButtonType.Hold);
-        private static Button hatchPush = new Button(operator, Logitech310Button.LeftStickPress, ButtonType.Hold);
-        private static Axis hatchArm = new Axis(operator, Logitech310Axis.LeftStickX, 0.1);
+        private static Button hatchPull = new Button(operator, Logitech310Button.Start, ButtonType.Hold);
+        private static Button hatchPush = new Button(operator, Logitech310Button.Back, ButtonType.Hold);
+        private static Axis hatchArm = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
 
         public static boolean HatchForward() { return hatchForward.isPressed(); }
         public static boolean HatchRelease() { return hatchRelease.isPressed(); }

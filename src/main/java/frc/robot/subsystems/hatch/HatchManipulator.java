@@ -1,12 +1,15 @@
 package frc.robot.subsystems.hatch;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid.*;
+import com.ctre.phoenix.motorcontrol.*;
+import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.Components;
 
 public class HatchManipulator
 {
-    private final SpeedController _hatchArm;
+    private final TalonSRX _hatchArm;
     private final SpeedController _hatchRoller;
     private final DoubleSolenoid _carriageRock;
     private final DoubleSolenoid _carriageShoot;
@@ -19,17 +22,35 @@ public class HatchManipulator
 
         // Setup hatch shooter
         _carriageRock = Components.HatchManipulator.carriageRock;
-        _carriageRock.set(Value.kForward);
+        _carriageRock.set(Value.kReverse);
         _carriageShoot = Components.HatchManipulator.carriageShoot;
         _carriageShoot.set(Value.kForward);
+
+        _hatchRoller.setInverted(true);
+
+        // Set up hatch arm PID
+        _hatchArm.setInverted(true);
+        _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        _hatchArm.setSelectedSensorPosition(0);
+        _hatchArm.config_kP(0, 1.0);
+        _hatchArm.config_kI(0, 0);
+        _hatchArm.config_kD(0, 0);
+        _hatchArm.configClosedLoopPeakOutput(0, 0.3);
+        _hatchArm.setSensorPhase(true);
+        _hatchArm.set(ControlMode.Position, 0);
+
+        TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
+        pidConfig.selectedFeedbackCoefficient = 1.0;
+        pidConfig.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Absolute;
+        Components.HatchManipulator.hatchArm.configurePID(pidConfig);
     }
 
-    public void enableHatchRoller()
+    public void pullHatchIn()
     {
         _hatchRoller.set(0.5);
     }
 
-    public void reverseHatchRoller()
+    public void pushHatchOut()
     {
         _hatchRoller.set(-0.5);
     }
@@ -39,19 +60,19 @@ public class HatchManipulator
         _hatchRoller.set(0.0);
     }
 
-    public void hatchArmDown()
+    public void moveHatchArm(double speed)
     {
-        _hatchArm.set(-0.5);
+        // Move hatch arm at 50% speed
+        double output = speed * 0.5;
+        if (output < 0)
+            _hatchArm.set(ControlMode.Position, 1100);
+        else
+            _hatchArm.set(ControlMode.Position, 0);
     }
 
-    public void hatchArmUp()
+    public void stopHatchArm()
     {
-        _hatchArm.set(0.5);
-    }
-
-    public void hatchArmStop()
-    {
-        _hatchArm.set(0.0);
+        _hatchArm.set(ControlMode.Position, 0);
     }
 
     public void rockForward()
@@ -72,5 +93,15 @@ public class HatchManipulator
     public void shootHatchIn()
     {
         _carriageShoot.set(Value.kReverse);
+    }
+
+    public void diagnostics()
+    {
+        SmartDashboard.putNumber("HatchArmPosition", _hatchArm.getSelectedSensorPosition());
+        SmartDashboard.putNumber("HatchArmTarget", _hatchArm.getClosedLoopTarget());
+        SmartDashboard.putNumber("HatchArmError", _hatchArm.getClosedLoopError());
+
+        SmartDashboard.putNumber("HatchArmPower", _hatchArm.getMotorOutputPercent());
+        SmartDashboard.putString("HatchArmControlMode", _hatchArm.getControlMode().toString());
     }
 }
