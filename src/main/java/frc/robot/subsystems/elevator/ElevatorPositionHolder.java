@@ -12,11 +12,34 @@ public class ElevatorPositionHolder extends PIDController {
     private static final double Ki = 0.04 / (1000.0 / LoopIntervalMs);
     private static final double Kd = 0.005;
 
-    public ElevatorPositionHolder(PIDSource source, PIDOutput output) {
+    private final PIDSource _source;
+    private final GravityAdjustedPercentOutput _output;
+
+    public ElevatorPositionHolder(PIDSource source, GravityAdjustedPercentOutput output) {
         super(Kp, Ki, Kd, source, output, LoopInterval);
+        _source = source;
+        _output = output;
 
         this.setOutputRange(-0.4, 0.5);
-        //this.setPercentTolerance(0.05);
+    }
+
+    @Override
+    protected void calculate() {
+        // If we're at the floor we don't need to power up the motors.
+        if (isBottomSetpoint() && isAtBottom()) {
+            _output.disable();
+            return;
+        }
+
+        super.calculate();
+    }
+
+    private boolean isBottomSetpoint() {
+        return getSetpoint() < 1.0;
+    }
+
+    private boolean isAtBottom() {
+        return _source.pidGet() < 1.0;
     }
 
     public void diagnosticPeriodic() {
