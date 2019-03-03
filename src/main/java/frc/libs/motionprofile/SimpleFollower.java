@@ -6,7 +6,7 @@ import com.google.common.base.*;
 import edu.wpi.first.wpilibj.*;
 import frc.libs.motionprofile.IMotionProfile.*;
 
-public abstract class LinearFollower {
+public abstract class SimpleFollower {
 
     private final IMotionProfile _motionProfile;
     private final TalonSRX _motor;
@@ -36,7 +36,7 @@ public abstract class LinearFollower {
     // kI = kIntegralFactor
     // kD = kDifferentialFactor
 
-    public LinearFollower(IMotionProfile motionProfile, TalonSRX motor, Encoder encoder) {
+    public SimpleFollower(IMotionProfile motionProfile, TalonSRX motor, Encoder encoder) {
         _motionProfile = motionProfile;
         _motor = motor;
         _encoder = encoder;

@@ -34,7 +34,7 @@ public class Elevator
 
         // Setup control followers
         _elevatorPositionHolder = new ElevatorPositionHolder(encoder, _elevator);
-        _elevatorFollower = new ElevatorFollower();
+        _elevatorFollower = null;//new ElevatorFollower();
     }
 
     public void reset() {

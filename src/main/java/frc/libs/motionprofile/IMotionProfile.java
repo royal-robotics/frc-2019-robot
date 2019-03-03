@@ -3,14 +3,10 @@ package frc.libs.motionprofile;
 import java.time.*;
 
 public interface IMotionProfile {
-    int size();
 
     Duration duration();
-
-    Segment getSegment(int index);
-
+    
     Segment getSegment(Duration index);
-
 
     public class Segment {
         public final Duration time;
