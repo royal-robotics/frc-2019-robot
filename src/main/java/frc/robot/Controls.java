@@ -5,6 +5,7 @@ import frc.libs.controls.*;
 import frc.libs.controls.IButton.ButtonType;
 
 import static frc.libs.utils.RobotModels.*;
+
 import static frc.libs.controls.Controllers.*;
 
 /**
@@ -67,10 +68,24 @@ public final class Controls {
     {
         private static Axis power = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
         private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
+        private static Button moveBottom = new Button(operator, Logitech310Button.Down, IButton.ButtonType.Hold);
         private static Button moveHatchLow = new Button(operator, Logitech310Button.BottomLeft, IButton.ButtonType.Hold);
+        private static Button moveHatchMid = new Button(operator, Logitech310Button.Left, IButton.ButtonType.Hold);
+        private static Button moveHatchHigh = new Button(operator, Logitech310Button.TopLeft, IButton.ButtonType.Hold);
+        private static Button moveCargoLow = new Button(operator, Logitech310Button.BottomRight, IButton.ButtonType.Hold);
+        private static Button moveCargoMid = new Button(operator, Logitech310Button.Right, IButton.ButtonType.Hold);
+        private static Button moveCargoHigh = new Button(operator, Logitech310Button.TopRight, IButton.ButtonType.Hold);
+        private static Button moveTop = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
 
         public static boolean quickMoveTest() { return quickMoveTest.isPressed(); }
+        public static boolean moveBottom() { return moveBottom.isPressed(); }
         public static boolean moveHatchLow() { return moveHatchLow.isPressed(); }
+        public static boolean moveHatchMid() { return moveHatchMid.isPressed(); }
+        public static boolean moveHatchHigh() { return moveHatchHigh.isPressed(); }
+        public static boolean moveCargoLow() { return moveCargoLow.isPressed(); }
+        public static boolean moveCargoMid() { return moveCargoMid.isPressed(); }
+        public static boolean moveCargoHigh() { return moveCargoHigh.isPressed(); }
+        public static boolean moveTop() { return moveTop.isPressed(); }
 
         public static boolean ManualControl() { return power.isPressed(); }
         public static double GetPower() { return -power.getValue() * 0.5; }
