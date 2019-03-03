@@ -1,5 +1,6 @@
 package frc.libs.motionprofile;
 
+import java.time.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.google.common.base.*;
@@ -8,22 +9,22 @@ import frc.libs.motionprofile.IMotionProfile.*;
 
 public abstract class SimpleFollower {
     private final Encoder _encoder;
-    private final SpeedController _motor;
+    private final PIDOutput _motor;
 
     private final Stopwatch _stopwatch;
     private final Notifier _controlLoop;
-    private IMotionProfile _motionProfile;
+    protected IMotionProfile motionProfile;
 
     private double _lastPositionError;
 
     // TODO: Pass these in or make these abstract properties.
-    private static final double _kP = 0.0; // distance proportional
+    private static final double _kP = 0.2; // distance proportional
     private static final double _kI = 0.0; // distance integral
     private static final double _kD = 0.0; // distance derivative
-    private static final double _kVf = 0.0; // velocity feed
+    private static final double _kVf = 0.0125; // velocity feed
     private static final double _kAf = 0.0; // acceleration feed
 
-    public SimpleFollower(Encoder encoder, SpeedController motor) {
+    public SimpleFollower(Encoder encoder, PIDOutput motor) {
         _encoder = encoder;
         _motor = motor;
         
@@ -35,18 +36,18 @@ public abstract class SimpleFollower {
         _stopwatch.reset();
         _stopwatch.start();
 
-        _motionProfile = motionProfile;
-        final double ControlLoopIntervalMs = 50.0;
+        this.motionProfile = motionProfile;
+        final double ControlLoopIntervalMs = 10.0;
         _controlLoop.startPeriodic(ControlLoopIntervalMs / 1000.0);
     }
 
     public boolean isRunning() {
-        return _motionProfile != null;
+        return motionProfile != null;
     }
 
     public void stop() {
         _controlLoop.stop();
-        _motionProfile = null;;
+        motionProfile = null;
     }
 
     protected void complete() {
@@ -54,17 +55,20 @@ public abstract class SimpleFollower {
     }
 
     private void controlLoop() {
-        if (_stopwatch.elapsed().toNanos() > _motionProfile.duration().toNanos())
+        if (motionProfile == null)
+            return;
+
+        if (_stopwatch.elapsed().toNanos() > motionProfile.duration().toNanos())
         {
             complete();
             return;
         }
 
-        Segment segment = _motionProfile.getSegment(_stopwatch.elapsed());
+        Segment segment = motionProfile.getSegment(_stopwatch.elapsed());
         double position = 0.0;
 
         double positionError = segment.position - position;
-        double derivativeError = (positionError - _lastPositionError) / (_stopwatch.elapsed().getSeconds());
+        double derivativeError = (positionError - _lastPositionError) / secondsFromDuration(_stopwatch.elapsed());
         _lastPositionError = positionError;
 
         double proportionalAdjustment = _kP * positionError;
@@ -72,6 +76,12 @@ public abstract class SimpleFollower {
         double distanceAdjustment = proportionalAdjustment + derivativeAdjustment;
 
         double power = _kVf * segment.velocity + _kAf * segment.acceleration + distanceAdjustment;
-        _motor.set(power);
+        _motor.pidWrite(power);
+    }
+
+    private static double secondsFromDuration(Duration duration) {
+        double seconds = duration.getSeconds();
+        seconds += duration.getNano() / 1_000_000_000.0;
+        return seconds;
     }
 }

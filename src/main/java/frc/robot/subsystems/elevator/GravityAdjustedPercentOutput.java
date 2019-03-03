@@ -4,6 +4,7 @@ import com.google.common.collect.*;
 import com.google.common.primitives.Doubles;
 import edu.wpi.first.wpilibj.*;
 
+// TODO: this should implement SpeedController
 public class GravityAdjustedPercentOutput implements PIDOutput {
     private final SpeedController _motor;
     private final double _holdPower;

@@ -38,7 +38,7 @@ public class Elevator
 
         // Setup control followers
         _elevatorPositionHolder = new ElevatorPositionHolder(encoder, _elevator);
-        _elevatorFollower = new ElevatorFollower(encoder, _elevatorMaster);
+        _elevatorFollower = new ElevatorFollower(_elevatorPositionHolder, encoder, _elevator);
     }
 
     public void reset() {
@@ -61,13 +61,23 @@ public class Elevator
             _elevatorPositionHolder.setSetpoint(currentHeight);
         }
 
-        _elevatorPositionHolder.enable();
         _elevatorFollower.stop();
+        _elevatorPositionHolder.enable();
     }
 
     public void quickMove(double height) {
+        _elevatorFollower.stop();
+        _elevatorPositionHolder.setSetpoint(height);
+    }
+
+    public void quickMoveFollower(double height) {
+        _elevatorPositionHolder.disable();
+
         if (!_elevatorFollower.isRunning()) {
-            IMotionProfile motionProfile = new LinearMotionProfile(height, 30.0, 30.0);
+            IMotionProfile motionProfile = new LinearMotionProfile(height, 50.0, 300.0);
+
+            System.out.println("Elevator follower start: " + motionProfile.duration().toMillis());
+
             _elevatorFollower.setMotionProfile(motionProfile);
         }
     }

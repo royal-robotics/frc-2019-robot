@@ -66,7 +66,7 @@ public final class Controls {
     public static class ElevatorSystem
     {
         private static Axis power = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
-        private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Toggle);
+        private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
 
         public static boolean quickMoveTest() { return quickMoveTest.isPressed(); }
         public static boolean ManualControl() { return power.isPressed(); }
