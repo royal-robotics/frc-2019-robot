@@ -67,8 +67,11 @@ public final class Controls {
     {
         private static Axis power = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
         private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
+        private static Button moveHatchLow = new Button(operator, Logitech310Button.BottomLeft, IButton.ButtonType.Hold);
 
         public static boolean quickMoveTest() { return quickMoveTest.isPressed(); }
+        public static boolean moveHatchLow() { return moveHatchLow.isPressed(); }
+
         public static boolean ManualControl() { return power.isPressed(); }
         public static double GetPower() { return -power.getValue() * 0.4; }
     }
