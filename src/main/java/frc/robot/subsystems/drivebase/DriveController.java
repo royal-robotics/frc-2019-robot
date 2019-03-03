@@ -6,6 +6,7 @@ import frc.robot.subsystems.*;
 
 public class DriveController implements IRobotController {
     private final DriveBase _driveBase = new DriveBase();
+    private final TankFollower _driveFollower = new TankFollower();
 
     @Override
     public void init() {
