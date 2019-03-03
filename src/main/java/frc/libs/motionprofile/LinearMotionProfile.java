@@ -7,98 +7,137 @@ import com.google.common.primitives.*;
  * Assumes we start at 
  */
 public class LinearMotionProfile implements IMotionProfile {
-    private final double _targetDistance;
-    private final double _maxVelocity;
-    private final double _accelaretion;
+    public final double targetDistance;
+    public final double maxVelocity;
+    public final double accelaretion;
 
     // The inital velcoity, we assume this is zero.
-    private final double _vInitial = 0.0;
+    private final double _initialVelocity = 0.0;
 
-    // The time to reach the max velocity (or slow down from max velocity)
-    private final double _rampTimeSeconds;
+    // The time spent accelerating/braking to/from max velocity.
+    // If we never reach max velocity velocity then this is the midpoint of the profile.
+    private final double _rampSeconds;
 
-    // The distance to reach max velocity (or slow down from max velocity)
+    // The distance traveled to reach (or slow down from) max velocity.
+    // If we never reach reach max velocity then this is (targetDistance / 2).
     private final double _rampDistance;
 
-    // The distance traveled at max velocity
+    // The distance traveled at max velocity.
     private final double _maxVelocityDistance;
 
-    // The time in seconds we're at max velocity
+    // The time in seconds we're at max velocity.
     private final double _maxVelocitySeconds;
 
     public LinearMotionProfile(double targetDistance, double maxVelocity, double accelaretion) {
-        _targetDistance = targetDistance;
-        _maxVelocity = maxVelocity;
-        _accelaretion = accelaretion;
+        this.targetDistance = targetDistance;
+        this.maxVelocity = maxVelocity;
+        this.accelaretion = accelaretion;
 
-        _rampTimeSeconds = accelerationTime(_vInitial, maxVelocity, accelaretion);
-        _rampDistance = distanceTraveled(_rampTimeSeconds, _vInitial, accelaretion);
+        // The seconds and distance required to reach max velocity.
+        final double rampSeconds = calculateTime(_initialVelocity, maxVelocity, accelaretion);
+        final double rampDistance = calculateDistance(rampSeconds, _initialVelocity, accelaretion);
 
-        final double maxVelocityDistance = _targetDistance - (_rampDistance  * 2);
-        _maxVelocityDistance = Doubles.constrainToRange(maxVelocityDistance, 0, Double.MAX_VALUE);
-        _maxVelocitySeconds = _maxVelocityDistance / _maxVelocity;
+        // Check if we ever reach max velocity or not.
+        if (targetDistance > rampDistance * 2)
+        {
+            _rampSeconds = rampSeconds;
+            _rampDistance = rampDistance;
+            _maxVelocityDistance = targetDistance - (rampDistance  * 2);
+            _maxVelocitySeconds = _maxVelocityDistance / maxVelocity;
+        }
+        else
+        {   // s = (Vi * t) + ((1 / 2) * A * t^2)
+            // t = sqrt(s * 2 * A)
+            _rampDistance = targetDistance / 2;
+            _rampSeconds = Math.sqrt(_rampDistance * 2.0 * accelaretion);
+
+            // We never reach max velocity
+            _maxVelocityDistance = 0.0;
+            _maxVelocitySeconds = 0.0;
+        }
     }
-
 
     @Override
     public Duration duration() {
-        if (_targetDistance > _rampDistance * 2)
-        {
-            final double durationSeconds = _maxVelocitySeconds + (_rampTimeSeconds * 2);
-            return durationFromSeconds(durationSeconds);
-        }
-        else
-        {
-            double halfRampTimeSeconds = Math.sqrt(_rampDistance / _accelaretion);
-            double durationSeconds = halfRampTimeSeconds * 2;
-            return durationFromSeconds(durationSeconds);
-        }
+        double seconds = _maxVelocitySeconds + _rampSeconds * 2;
+        return durationFromSeconds(seconds);
     }
 
     @Override
     public Segment getSegment(Duration index) {
         double seconds = secondsFromDuration(index);
-        Duration duration = duration();
+        double duration = secondsFromDuration(duration());
 
         // Check if the index exceeds the duration of the profile.
-        if (index.isNegative() || index.toNanos() > duration.toNanos())
+        if (index.isNegative() || seconds > duration)
             return null;
         
-        // This logic assumes _targetDistance > _rampDistance * 2
+        // Check if we reach max velocity or not
+        if (_maxVelocitySeconds == 0)
+        {
+            // Check if we're accelerating, or braking
+            if (seconds < duration / 2.0)
+            {
+                // We're accelerating / speeding up
+                double acceleratingDistance = calculateDistance(seconds, _initialVelocity, accelaretion);
+                double acceleratingVelocity = calculateVelocity(_initialVelocity, seconds, accelaretion);
+                return linearSegment(seconds, acceleratingDistance, acceleratingVelocity, accelaretion);
+            }
+            else
+            {   
+                // We're breaking / slowing down
+                // The peak velocity that is reached before we start breaking.
+                double peakVelocity = calculateVelocity(_initialVelocity, _rampSeconds, accelaretion);
+                
+                double timeBraking = seconds - _rampSeconds;
+                double brakingDistance = calculateDistance(timeBraking, peakVelocity, -accelaretion);
+                double brakingVelocity = calculateVelocity(peakVelocity, timeBraking, -accelaretion);
 
-        if (seconds <= _rampTimeSeconds)
-        {
-            double distance = distanceTraveled(seconds, _vInitial, _accelaretion);
-            double velcoity = velocityTime(_vInitial, seconds, _accelaretion);
-            return linearSegment(seconds, distance, velcoity, _accelaretion);
-        }
-        else if (seconds <= _rampTimeSeconds + _maxVelocityDistance)
-        {
-            double maxVelocitySeconds = seconds - _rampTimeSeconds;
-            double maxVelocityDistance = _maxVelocity * maxVelocitySeconds;
-            return linearSegment(seconds, _rampDistance + maxVelocityDistance, _maxVelocity, 0.0);
+                double distance = _rampDistance + brakingDistance;
+                return linearSegment(seconds, distance, brakingVelocity, -accelaretion);
+            }
         }
         else
         {
-            double decelerateSeconds = seconds - (_rampTimeSeconds + _maxVelocitySeconds);
-            double deceleratedDistance = distanceTraveled(decelerateSeconds, _maxVelocity, -_accelaretion);
-            double velocity = velocityTime(_maxVelocity, decelerateSeconds, -_accelaretion);
-            double distance = _rampDistance + _maxVelocityDistance + deceleratedDistance;
-            return linearSegment(seconds, distance, velocity, -_accelaretion);
+            // Check if we're accelerating, cruising, or breaking
+            if (seconds <= _rampSeconds)
+            {
+                // We're accelerating / speeding up
+                double acceleratingDistance = calculateDistance(seconds, _initialVelocity, accelaretion);
+                double acceleratingVelocity = calculateVelocity(_initialVelocity, seconds, accelaretion);
+                return linearSegment(seconds, acceleratingDistance, acceleratingVelocity, accelaretion);
+            }
+            else if (seconds <= _rampSeconds + _maxVelocitySeconds)
+            {
+                // We're cruising / are at max velocity
+                double cruisingSeconds = seconds - _rampSeconds;
+                double cruisingDistance = maxVelocity * cruisingSeconds;
+                double distance = _rampDistance + cruisingDistance;
+                return linearSegment(seconds, distance, maxVelocity, 0.0);
+            }
+            else
+            {
+                // We're breaking / slowing down
+                double brakingSeconds = seconds - (_rampSeconds + _maxVelocitySeconds);
+                double brakingDistance = calculateDistance(seconds, maxVelocity, -accelaretion);
+                double brakingVelocity = calculateVelocity(maxVelocity, brakingSeconds, -accelaretion);
+                double distance = _rampDistance + _maxVelocityDistance + brakingDistance;
+                return linearSegment(seconds, distance, brakingVelocity, -accelaretion);
+            }
         }
     }
 
-    private static final double velocityTime(double vI, double t, double a) {
+    private static final double calculateVelocity(double vI, double t, double a) {
         // Vf = Vi + (t * A)
         return vI + (t * a);
     }
 
-    private static final double accelerationTime(double vI, double vF, double a) {
+    private static final double calculateTime(double vI, double vF, double a) {
         // t = (Vf - Vi) / A
         return Math.round((vF - vI) / a);
     }
 
-    private static final double distanceTraveled(double t, double vI, double a) {
+    private static final double calculateDistance(double t, double vI, double a) {
         //s = (Vi * t) + ((1 / 2) * A * t^2)
         final double vInitialDistance = vI * t;
         final double aDistance = 0.5 * a * t * t;
