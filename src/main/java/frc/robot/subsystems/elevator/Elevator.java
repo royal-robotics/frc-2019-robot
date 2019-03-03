@@ -42,14 +42,14 @@ public class Elevator
         _elevatorPositionHolder.reset();
     }
 
-    public void raise() {
+    public void move(double power) {
         _elevatorPositionHolder.disable();
-        _elevator.set(0.4);
-    }
-
-    public void lower() {
-        _elevatorPositionHolder.disable();
-        _elevator.set(-0.4);
+        if (power > 0.4) {
+            power = 0.4;
+        } else if (power < -0.4) {
+            power = -0.4;
+        }
+        _elevator.set(power);
     }
 
     public void stop() {

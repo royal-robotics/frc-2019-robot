@@ -14,13 +14,9 @@ public class ElevatorController implements IRobotController
 
     @Override
     public void teleopPeriodic() {
-        if (Controls.ElevatorSystem.Raise())
+        if (Controls.ElevatorSystem.ManualControl())
         {
-            _elevator.raise();
-        }
-        else if (Controls.ElevatorSystem.Lower())
-        {
-            _elevator.lower();
+            _elevator.move(Controls.ElevatorSystem.GetPower());
         }
         else
         {
