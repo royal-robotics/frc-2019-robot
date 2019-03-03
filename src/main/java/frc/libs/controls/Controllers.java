@@ -14,9 +14,13 @@ public class Controllers {
         RightStickPress (10),
 
         Up(0, true),
+        TopRight(45, true),
         Right(90, true),
+        BottomRight(135, true),
         Down(180, true),
-        Left(270, true);
+        BottomLeft(225, true),
+        Left(270, true),
+        TopLeft(315, true);
 
         public int id;
         public boolean isPOV;
