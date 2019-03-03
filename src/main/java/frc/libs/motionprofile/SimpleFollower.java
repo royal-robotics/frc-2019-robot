@@ -7,13 +7,12 @@ import edu.wpi.first.wpilibj.*;
 import frc.libs.motionprofile.IMotionProfile.*;
 
 public abstract class SimpleFollower {
-
-    private final IMotionProfile _motionProfile;
-    private final TalonSRX _motor;
     private final Encoder _encoder;
+    private final SpeedController _motor;
 
     private final Stopwatch _stopwatch;
     private final Notifier _controlLoop;
+    private IMotionProfile _motionProfile;
 
     private double _lastPositionError;
 
@@ -24,27 +23,34 @@ public abstract class SimpleFollower {
     private static final double _kVf = 0.0; // velocity feed
     private static final double _kAf = 0.0; // acceleration feed
 
-    // kVf = 0.4 (or 0.1)
-    // kAf = 0.0
-    // kP = 0.8
-    // kI = 0.0
-    // kD = 0.0
-
-    // kVf = 2.5 / this.maxVelocity
-    // kAf = 0.0
-    // kP = 0.2
-    // kI = kIntegralFactor
-    // kD = kDifferentialFactor
-
-    public SimpleFollower(IMotionProfile motionProfile, TalonSRX motor, Encoder encoder) {
-        _motionProfile = motionProfile;
-        _motor = motor;
+    public SimpleFollower(Encoder encoder, SpeedController motor) {
         _encoder = encoder;
-
-        final double ControlLoopIntervalMs = 50.0;
+        _motor = motor;
+        
         _controlLoop = new Notifier(() -> controlLoop());
+        _stopwatch = Stopwatch.createUnstarted();
+    }
+
+    public final void setMotionProfile(IMotionProfile motionProfile) {
+        _stopwatch.reset();
+        _stopwatch.start();
+
+        _motionProfile = motionProfile;
+        final double ControlLoopIntervalMs = 50.0;
         _controlLoop.startPeriodic(ControlLoopIntervalMs / 1000.0);
-        _stopwatch = Stopwatch.createStarted();
+    }
+
+    public boolean isRunning() {
+        return _motionProfile != null;
+    }
+
+    public void stop() {
+        _controlLoop.stop();
+        _motionProfile = null;;
+    }
+
+    protected void complete() {
+        stop();
     }
 
     private void controlLoop() {
@@ -66,14 +72,6 @@ public abstract class SimpleFollower {
         double distanceAdjustment = proportionalAdjustment + derivativeAdjustment;
 
         double power = _kVf * segment.velocity + _kAf * segment.acceleration + distanceAdjustment;
-        _motor.set(ControlMode.PercentOutput, power);
-    }
-
-    public void stop() {
-        _controlLoop.stop();
-    }
-
-    protected void complete() {
-        stop();
+        _motor.set(power);
     }
 }

@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.libs.components.RoyalEncoder;
+import frc.libs.motionprofile.IMotionProfile;
+import frc.libs.motionprofile.LinearMotionProfile;
 import frc.robot.Components;
 
 public class Elevator
@@ -34,20 +36,23 @@ public class Elevator
 
         // Setup control followers
         _elevatorPositionHolder = new ElevatorPositionHolder(encoder, _elevator);
-        _elevatorFollower = null;//new ElevatorFollower();
+        _elevatorFollower = new ElevatorFollower(encoder, _elevatorMaster);
     }
 
     public void reset() {
         _royalEncoder.reset();
         _elevatorPositionHolder.reset();
+        _elevatorFollower.stop();
     }
 
     public void raise() {
         _elevatorPositionHolder.disable();
+        _elevatorFollower.stop();
         _elevator.set(0.4);
     }
 
     public void lower() {
+        _elevatorFollower.stop();
         _elevatorPositionHolder.disable();
         _elevator.set(-0.4);
     }
@@ -59,10 +64,14 @@ public class Elevator
         }
 
         _elevatorPositionHolder.enable();
+        _elevatorFollower.stop();
     }
 
     public void quickMove(double height) {
-        // TODO: Implement dynamic motion profile follower
+        if (!_elevatorFollower.isRunning()) {
+            IMotionProfile motionProfile = new LinearMotionProfile(height, 30.0, 30.0);
+            _elevatorFollower.setMotionProfile(motionProfile);
+        }
     }
 
     public void diagnosticPeriodic() {

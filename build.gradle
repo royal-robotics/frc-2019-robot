@@ -59,11 +59,11 @@ dependencies {
     compile 'junit:junit:4.12'
 }
 
-sourceSets {
-    test {
-        java.srcDirs = ['src/main/java/test']
-    }
-}
+// sourceSets {
+//     test {
+//         java.srcDirs = ['src/main/java/test']
+//     }
+// }
 
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

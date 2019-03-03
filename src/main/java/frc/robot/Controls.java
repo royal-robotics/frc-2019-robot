@@ -68,8 +68,11 @@ public final class Controls {
         private static Axis raise = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
         private static Axis lower = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
 
+        private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Toggle);
+
         public static boolean Raise() { return raise.isPressed(); }
         public static boolean Lower() { return lower.isPressed(); }
+        public static boolean quickMoveTest() { return quickMoveTest.isPressed(); }
     }
 
     public static class CargoManipulator
