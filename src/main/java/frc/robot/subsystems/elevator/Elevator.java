@@ -2,21 +2,18 @@ package frc.robot.subsystems.elevator;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import com.google.common.primitives.*;
-
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.libs.components.RoyalEncoder;
-import frc.libs.motionprofile.IMotionProfile;
-import frc.libs.motionprofile.LinearMotionProfile;
 import frc.robot.Components;
 
 public class Elevator
 {
     private final GravityAdjustedPercentOutput _elevator;
     private final RoyalEncoder _royalEncoder;
-
     private final ElevatorPositionHolder _elevatorPositionHolder;
-    private final ElevatorFollower _elevatorFollower;
+
+    private boolean _isStopped = true;
 
     public Elevator()
     {
@@ -38,48 +35,35 @@ public class Elevator
 
         // Setup control followers
         _elevatorPositionHolder = new ElevatorPositionHolder(encoder, _elevator);
-        _elevatorFollower = new ElevatorFollower(_elevatorPositionHolder, encoder, _elevator);
     }
 
     public void reset() {
         _royalEncoder.reset();
         _elevatorPositionHolder.reset();
-        _elevatorFollower.stop();
     }
 
     public void move(double power) {
+        _isStopped = false;
         _elevatorPositionHolder.disable();
-        _elevatorFollower.stop();
 
         power = Doubles.constrainToRange(power, -0.4, 0.4);
         _elevator.set(power);
     }
 
     public void stop() {
-        if (!_elevatorPositionHolder.isEnabled()) {
+        if (!_isStopped) {
             final double currentHeight = _royalEncoder.getDistance();
             _elevatorPositionHolder.setSetpoint(currentHeight);
         }
 
-        _elevatorFollower.stop();
+        _isStopped = true;
         _elevatorPositionHolder.enable();
     }
 
     public void quickMove(double height) {
-        _elevatorFollower.stop();
+        _isStopped = false;
         _elevatorPositionHolder.setSetpoint(height);
-    }
-
-    public void quickMoveFollower(double height) {
-        _elevatorPositionHolder.disable();
-
-        if (!_elevatorFollower.isRunning()) {
-            IMotionProfile motionProfile = new LinearMotionProfile(height, 50.0, 300.0);
-
-            System.out.println("Elevator follower start: " + motionProfile.duration().toMillis());
-
-            _elevatorFollower.setMotionProfile(motionProfile);
-        }
+        _elevatorPositionHolder.enable();
     }
 
     public void diagnosticPeriodic() {
