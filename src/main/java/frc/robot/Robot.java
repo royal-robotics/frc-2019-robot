@@ -26,10 +26,10 @@ import frc.robot.subsystems.hatch.HatchController;
  */
 public class Robot extends TimedRobot {
   private final AutoManager _autoManager;
-  private final DriveController _driveController = new DriveController();
-  private final ElevatorController _elevatorController = new ElevatorController();
-  private final HatchController _hatchController = new HatchController();
-  private final CargoController _cargoController = new CargoController();
+  public final DriveController _driveController = new DriveController();
+  public final ElevatorController _elevatorController = new ElevatorController();
+  public final HatchController _hatchController = new HatchController();
+  public final CargoController _cargoController = new CargoController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
 
   static {
@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
     _robotControllers.add(_elevatorController);
     _robotControllers.add(_hatchController);
     _robotControllers.add(_cargoController);
-    _autoManager = new AutoManager(_driveController);
+    _autoManager = new AutoManager(this);
   }
 
   /**

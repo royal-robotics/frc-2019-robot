@@ -2,6 +2,8 @@ package frc.libs.components;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
+
 import edu.wpi.first.wpilibj.*;
 
 /**
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj.*;
 public class RoyalEncoder {
     private final int PositionBufferSize = 5;
     private final LinkedList<TimestampedValue<Double>> _positionBuffer = new LinkedList<>();
+    private final ReentrantLock _positionBufferLock = new ReentrantLock();
 
     public final Encoder encoder;
 
@@ -33,7 +36,12 @@ public class RoyalEncoder {
 
     public void reset() {
         encoder.reset();
-        _positionBuffer.clear();
+        _positionBufferLock.lock();
+        try {
+            _positionBuffer.clear();
+        } finally {
+            _positionBufferLock.unlock();
+        }
 
         velocityMax = Double.MIN_VALUE;
         velocityMin = Double.MAX_VALUE;
@@ -41,13 +49,22 @@ public class RoyalEncoder {
 
     private final void updateCache() {
         TimestampedValue<Double> position = new TimestampedValue<Double>(encoder.getDistance());
-        _positionBuffer.add(position);
+        double velocity = 0.0;
+        _positionBufferLock.lock();
+        try {
+            _positionBuffer.add(position);
 
-        if (_positionBuffer.size() > PositionBufferSize) {
-            _positionBuffer.remove();
+            if (_positionBuffer.size() > PositionBufferSize) {
+                _positionBuffer.remove();
+            }
+
+            velocity = this.getVelocity();
+        } catch (Exception e) {
+            return;
+        } finally {
+            _positionBufferLock.unlock();
         }
 
-        double velocity = this.getVelocity();
         if (velocity > velocityMax)
             velocityMax = velocity;
 
@@ -64,27 +81,47 @@ public class RoyalEncoder {
     }
 
     public double getVelocity() {
-        if (_positionBuffer.size() < 2)
-            return 0.0;
+        LinkedList<TimestampedValue<Double>> velocities = new LinkedList<>();
+        _positionBufferLock.lock();
+        try {
+            if (_positionBuffer.size() < 2)
+                return 0.0;
 
-        LinkedList<TimestampedValue<Double>> velocities = getDerivativeValues(_positionBuffer);
+            velocities = getDerivativeValues(_positionBuffer);
+        } finally {
+            _positionBufferLock.unlock();
+        }
+
         return getWeightedAverage(velocities, 0.75);
     }
 
     public double getAcceleration() {
-        if (_positionBuffer.size() < 3)
-            return 0.0;
+        LinkedList<TimestampedValue<Double>> velocities = new LinkedList<>();
+        _positionBufferLock.lock();
+        try {
+            if (_positionBuffer.size() < 3)
+                return 0.0;
 
-        LinkedList<TimestampedValue<Double>> velocities = getDerivativeValues(_positionBuffer);
+            velocities = getDerivativeValues(_positionBuffer);
+        } finally {
+            _positionBufferLock.unlock();
+        }
+
         LinkedList<TimestampedValue<Double>> accelerations = getDerivativeValues(velocities);
         return getWeightedAverage(accelerations, 0.75);
     }
 
     public double getJerk() {
-        if (_positionBuffer.size() < 4)
-            return 0.0;
+        LinkedList<TimestampedValue<Double>> velocities = new LinkedList<>();
+        _positionBufferLock.lock();
+        try {
+            if (_positionBuffer.size() < 4)
+                return 0.0;
 
-        LinkedList<TimestampedValue<Double>> velocities = getDerivativeValues(_positionBuffer);
+            velocities = getDerivativeValues(_positionBuffer);
+        } finally {
+            _positionBufferLock.unlock();
+        }
         LinkedList<TimestampedValue<Double>> accelerations = getDerivativeValues(velocities);
         LinkedList<TimestampedValue<Double>> jerks = getDerivativeValues(accelerations);
         return getWeightedAverage(jerks, 0.75);

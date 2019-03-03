@@ -1,17 +1,17 @@
 package frc.robot.autonomous;
 
-import frc.robot.autonomous.routines.*;
-import frc.libs.autonomous.LoggingContext;
+import frc.libs.autonomous.*;
 import frc.libs.autonomous.buildingblocks.*;
-import frc.robot.subsystems.drivebase.DriveController;
+import frc.robot.Robot;
+import frc.robot.autonomous.routines.*;
 
 public class AutoManager {
-    private final DriveController driveController;
+    private final Robot robot;
     private AutoRoutine currentRoutine;
 
-    public AutoManager(DriveController driveController)
+    public AutoManager(Robot robot)
     {
-        this.driveController = driveController;
+        this.robot = robot;
     }
 
     public void startAutonomous()
@@ -35,6 +35,6 @@ public class AutoManager {
 
     private AutoRoutine createAutoRoutine() {
         // TODO: Implment the logic that chooses the routine basd on a the switch value.
-        return new TestAutoRoutine(driveController);
+        return new TestAutoRoutine(robot);
     }
 }

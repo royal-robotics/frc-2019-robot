@@ -43,7 +43,7 @@ public class CargoManipulator
     public void eject() {
         _cargoIntakeArm.set(Value.kForward);
         _cargoIntake.set(-0.5);
-        _cargoShifter.set(Value.kReverse);
+        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(-0.5);
     }
 

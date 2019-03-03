@@ -11,7 +11,7 @@ public class HatchController implements IRobotController
     @Override
     public void init()
     {
-
+        _hatchManipulator.resetArmPosition();
     }
 
     @Override
