@@ -1,8 +1,6 @@
 package frc.libs.autonomous.buildingblocks;
 
 import java.util.*;
-import java.util.function.*;
-import org.apache.logging.log4j.*;
 import frc.libs.autonomous.*;
 
 /**

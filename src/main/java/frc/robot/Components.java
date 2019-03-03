@@ -43,7 +43,7 @@ public final class Components {
         public static WPI_VictorSPX hatchRoller = new WPI_VictorSPX(2);
 
         // Hatch Shooter
-        public static DoubleSolenoid carriageRock = new DoubleSolenoid(1, 1, 6);
+        public static Solenoid carriageRock = new Solenoid(1, 6);
         public static DoubleSolenoid carriageShoot = new DoubleSolenoid(1, 2, 5);
     }
 

@@ -11,7 +11,7 @@ public class HatchManipulator
 {
     private final TalonSRX _hatchArm;
     private final SpeedController _hatchRoller;
-    private final DoubleSolenoid _carriageRock;
+    private final Solenoid _carriageRock;
     private final DoubleSolenoid _carriageShoot;
 
     public HatchManipulator()
@@ -22,7 +22,7 @@ public class HatchManipulator
 
         // Setup hatch shooter
         _carriageRock = Components.HatchManipulator.carriageRock;
-        _carriageRock.set(Value.kReverse);
+        _carriageRock.set(false);
         _carriageShoot = Components.HatchManipulator.carriageShoot;
         _carriageShoot.set(Value.kReverse);
 
@@ -43,6 +43,11 @@ public class HatchManipulator
         pidConfig.selectedFeedbackCoefficient = 1.0;
         pidConfig.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Absolute;
         Components.HatchManipulator.hatchArm.configurePID(pidConfig);
+    }
+
+    public void resetArmPosition()
+    {
+        _hatchArm.setSelectedSensorPosition(0);
     }
 
     public void pullHatchIn()
@@ -77,12 +82,12 @@ public class HatchManipulator
 
     public void rockForward()
     {
-        _carriageRock.set(Value.kForward);
+        _carriageRock.set(true);
     }
 
     public void rockBackwards()
     {
-        _carriageRock.set(Value.kReverse);
+        _carriageRock.set(false);
     }
 
     public void shootHatchOut()

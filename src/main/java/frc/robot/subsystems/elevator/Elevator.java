@@ -1,6 +1,8 @@
 package frc.robot.subsystems.elevator;
 
 import com.ctre.phoenix.motorcontrol.can.*;
+import com.google.common.primitives.*;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.libs.components.RoyalEncoder;
@@ -45,16 +47,12 @@ public class Elevator
         _elevatorFollower.stop();
     }
 
-    public void raise() {
+    public void move(double power) {
         _elevatorPositionHolder.disable();
         _elevatorFollower.stop();
-        _elevator.set(0.4);
-    }
 
-    public void lower() {
-        _elevatorFollower.stop();
-        _elevatorPositionHolder.disable();
-        _elevator.set(-0.4);
+        power = Doubles.constrainToRange(power, -0.4, 0.4);
+        _elevator.set(power);
     }
 
     public void stop() {

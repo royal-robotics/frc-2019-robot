@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class ElevatorPositionHolder extends PIDController {
     // Output/Input Units: power per inch
-    private static final double Kp = 0.05;
+    private static final double Kp = 0.25;
     private static final double Ki = 0.0;
     private static final double Kd = 0.0;
 
@@ -18,6 +18,7 @@ public class ElevatorPositionHolder extends PIDController {
         super(Kp, Ki, Kd, source, output, LoopInterval);
 
         this.setOutputRange(-absoluteMaxPower, absoluteMaxPower);
+        //this.setPercentTolerance(0.05);
     }
 
     public void diagnosticPeriodic() {
