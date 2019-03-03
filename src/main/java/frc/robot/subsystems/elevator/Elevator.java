@@ -23,7 +23,7 @@ public class Elevator
         _elevatorMaster.setInverted(true);
         _elevatorSlave.setInverted(true);
         _elevatorSlave.follow(_elevatorMaster);
-        _elevator = new GravityAdjustedPercentOutput(_elevatorMaster, 0.12);
+        _elevator = new GravityAdjustedPercentOutput(_elevatorMaster, 0.15);
 
         // Setup elevator encoder
         // Total travel: 60.75 inches
@@ -46,7 +46,7 @@ public class Elevator
         _isStopped = false;
         _elevatorPositionHolder.disable();
 
-        power = Doubles.constrainToRange(power, -0.4, 0.4);
+        power = Doubles.constrainToRange(power, -0.5, 0.5);
         _elevator.set(power);
     }
 

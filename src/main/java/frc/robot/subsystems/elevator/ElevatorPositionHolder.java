@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class ElevatorPositionHolder extends PIDController {
-    private static final double LoopIntervalMs = 50.0;
+    private static final double LoopIntervalMs = 20.0;
     private static final double LoopInterval = LoopIntervalMs / 1000.0;
 
     // Output/Input Units: power per inch
-    private static final double Kp = 0.22;
+    private static final double Kp = 0.25;
     private static final double Ki = 0.04 / (1000.0 / LoopIntervalMs);
     private static final double Kd = 0.005;
 
@@ -20,7 +20,7 @@ public class ElevatorPositionHolder extends PIDController {
         _source = source;
         _output = output;
 
-        this.setOutputRange(-0.4, 0.5);
+        this.setOutputRange(-0.4, 0.6);
     }
 
     @Override

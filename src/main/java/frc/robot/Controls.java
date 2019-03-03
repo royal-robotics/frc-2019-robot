@@ -73,7 +73,7 @@ public final class Controls {
         public static boolean moveHatchLow() { return moveHatchLow.isPressed(); }
 
         public static boolean ManualControl() { return power.isPressed(); }
-        public static double GetPower() { return -power.getValue() * 0.4; }
+        public static double GetPower() { return -power.getValue() * 0.5; }
     }
 
     public static class CargoManipulator

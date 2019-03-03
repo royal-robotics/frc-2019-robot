@@ -65,8 +65,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    for (IRobotController robotController : _robotControllers)
+    for (IRobotController robotController : _robotControllers) {
       robotController.diagnosticPeriodic();
+    }
+      
   }
 
   /**
