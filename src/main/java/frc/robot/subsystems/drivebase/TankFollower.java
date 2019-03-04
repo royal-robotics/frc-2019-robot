@@ -4,8 +4,6 @@ import java.time.*;
 import com.google.common.base.*;
 import edu.wpi.first.wpilibj.*;
 import frc.libs.components.*;
-import frc.libs.motionprofile.IMotionProfile;
-import frc.libs.motionprofile.LinearMotionProfile;
 import frc.libs.motionprofile.IMotionProfile.Segment;
 import static frc.libs.utils.RobotModels.*;
 
@@ -21,9 +19,12 @@ public class TankFollower implements ITrajectoryFollower {
 
     private final ErrorContext _leftError;
     private final ErrorContext _rightError;
+    
+    private final TankFollowerLogger _leftLogger;
+    //private final TankFollowerLogger _rightLogger;
 
     // TODO: Pass these in or make these abstract properties.
-    private static final double _kP = 0.2; // distance proportional
+    private static final double _kP = 0.0; // distance proportional
     private static final double _kI = 0.0; // distance integral
     private static final double _kD = 0.0; // distance derivative
     private static final double _kVf = 1.0 / 170.0; // velocity feed
@@ -45,6 +46,13 @@ public class TankFollower implements ITrajectoryFollower {
         
         final double ControlLoopIntervalMs = 10.0;
         _controlLoop.startPeriodic(ControlLoopIntervalMs / 1000.0);
+
+        // When the follower starts we reset the encoders to zero because
+        // the trajectory assumes we start at zero.
+        _leftEncoder.reset();
+        _rightEncoder.reset();
+
+        _leftLogger = new TankFollowerLogger("Left", _rightEncoder);
     }
 
     private void controlLoop() {
@@ -61,6 +69,7 @@ public class TankFollower implements ITrajectoryFollower {
         double leftVelocityFeed = _kVf * segmentLeft.velocity;
         double leftAccelerationFeed = _kAf * segmentLeft.acceleration;
         double leftPower = leftVelocityFeed + leftAccelerationFeed + leftDistanceError;
+        _leftLogger.writeMotorUpdate(segmentLeft, leftDistanceError, leftVelocityFeed);
 
         Encoder rightEncoder = _rightEncoder.encoder;
         Segment segmentRight = _tankTrajectory.rightProfile.getSegment(timeIndex);

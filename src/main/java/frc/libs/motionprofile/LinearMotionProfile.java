@@ -48,8 +48,9 @@ public class LinearMotionProfile implements IMotionProfile {
         else
         {   // s = (Vi * t) + ((1 / 2) * A * t^2)
             // t = sqrt(s * 2 * A)
+            // TODO: Add initial velocity stuff
             _rampDistance = targetDistance / 2;
-            _rampSeconds = Math.sqrt(_rampDistance * 2.0 * accelaretion);
+            _rampSeconds = Math.sqrt(_rampDistance * 2.0 / accelaretion);
 
             // We never reach max velocity
             _maxVelocityDistance = 0.0;

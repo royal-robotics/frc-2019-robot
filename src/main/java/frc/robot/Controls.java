@@ -32,8 +32,8 @@ public final class Controls {
             private static Axis leftThrottle = new Axis(driver, Logitech310Axis.LeftStickY, 0.1);
             private static Axis rightThrottle = new Axis(driver, Logitech310Axis.RightStickY, 0.1);
 
-            private static double getLeftThrottleValue() { return leftThrottle.getValue(); }
-            private static double getRightThrottleValue() { return rightThrottle.getValue(); }
+            private static double getLeftThrottleValue() { return -leftThrottle.getValue(); }
+            private static double getRightThrottleValue() { return -rightThrottle.getValue(); }
             public static TankThrottleValues getThrottleValues() { return new TankThrottleValues(getLeftThrottleValue(), getRightThrottleValue()); }
         }
 
@@ -41,7 +41,7 @@ public final class Controls {
             private static Axis throttle = new Axis(driver, Logitech310Axis.LeftStickY, 0.1);
             private static Axis turn = new Axis(driver, Logitech310Axis.RightStickX, 0.1);
 
-            private static double getThrottleValue() { return throttle.getValue(); }
+            private static double getThrottleValue() { return -throttle.getValue(); }
             private static double turnPower() { return -turn.getValue() * (3.0 / 4.0); }
             private static double getLeftThrottleValue() { return getThrottleValue() + turnPower(); }
             private static double getRightThrottleValue() { return getThrottleValue() - turnPower(); }
