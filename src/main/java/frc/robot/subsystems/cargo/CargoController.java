@@ -16,9 +16,7 @@ public class CargoController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
-        if (Controls.CargoManipulator.intake()) {
-            _cargoManipulator.intake();
-        } else if (Controls.CargoManipulator.shoot()) {
+        if (Controls.CargoManipulator.shoot()) {
             _cargoManipulator.shoot();
         } else if (Controls.CargoManipulator.eject()) {
             _cargoManipulator.eject();

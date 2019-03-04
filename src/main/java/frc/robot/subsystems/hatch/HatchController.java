@@ -1,6 +1,5 @@
 package frc.robot.subsystems.hatch;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Controls;
 import frc.robot.subsystems.*;
 
@@ -11,7 +10,7 @@ public class HatchController implements IRobotController
     @Override
     public void init()
     {
-        _hatchManipulator.resetArmPosition();
+        _hatchManipulator.resetArm();
     }
 
     @Override
@@ -30,8 +29,12 @@ public class HatchController implements IRobotController
             _hatchManipulator.shootHatchIn();
         }
 
-        if (Controls.HatchManipulator.ManualHatchArm())
-            _hatchManipulator.moveHatchArm(Controls.HatchManipulator.GetHatchArmSpeed());
+        if (Controls.HatchManipulator.HatchArmHome())
+            _hatchManipulator.moveHatchArmHome();
+        else if (Controls.HatchManipulator.HatchArmFloor())
+            _hatchManipulator.moveHatchArmFloor();
+        else if (Controls.HatchManipulator.HatchArmStick())
+            _hatchManipulator.moveHatchArmStick();
         else
             _hatchManipulator.stopHatchArm();
 
