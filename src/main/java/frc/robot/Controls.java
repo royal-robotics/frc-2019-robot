@@ -93,11 +93,9 @@ public final class Controls {
 
     public static class CargoManipulator
     {
-        private static Button intake = new Button(operator, Logitech310Button.B, ButtonType.Hold);
         private static Button shoot = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
         private static Button eject = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
         
-        public static boolean intake() { return intake.isPressed(); }
         public static boolean shoot() { return shoot.isPressed(); }
         public static boolean eject() { return eject.isPressed(); }
     }
@@ -112,11 +110,14 @@ public final class Controls {
         public static boolean hatchPush() { return hatchPush.isPressed(); }
 
         // Arm
-        private static Button hatchIntake = new Button(operator, Logitech310Button.Y, ButtonType.Hold);
-        private static Axis hatchArm = new Axis(operator, Logitech310Axis.RightStickY, 0.1);
+        private static Button hatchIntake = new Button(operator, Logitech310Button.A, ButtonType.Hold);
+        private static Button hatchArmHome = new Button(operator, Logitech310Button.X, ButtonType.Hold);
+        private static Button hatchArmFloor = new Button(operator, Logitech310Button.B, ButtonType.Hold);
+        private static Button hatchArmStick = new Button(operator, Logitech310Button.Y, ButtonType.Hold);
 
         public static boolean HatchIntake() { return hatchIntake.isPressed(); }
-        public static boolean ManualHatchArm() { return hatchArm.isPressed(); }
-        public static double GetHatchArmSpeed() { return hatchArm.getValue(); }
+        public static boolean HatchArmHome() { return hatchArmHome.isPressed(); }
+        public static boolean HatchArmFloor() { return hatchArmFloor.isPressed(); }
+        public static boolean HatchArmStick() { return hatchArmStick.isPressed(); }
     }
 }

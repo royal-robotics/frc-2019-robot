@@ -35,23 +35,23 @@ public class CargoManipulator
 
     public void intake() {
         _cargoIntakeArm.set(Value.kForward);
-        _cargoIntake.set(0.5);
+        _cargoIntake.set(1.0);
         _cargoShifter.set(Value.kReverse);
-        _cargoShooter.set(0.5);
+        _cargoShooter.set(1.0);
     }
 
     public void eject() {
         _cargoIntakeArm.set(Value.kForward);
-        _cargoIntake.set(-0.5);
+        _cargoIntake.set(-1.0);
         _cargoShifter.set(Value.kForward);
-        _cargoShooter.set(-0.5);
+        _cargoShooter.set(-1.0);
     }
 
     public void shoot() {
         _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
         _cargoShifter.set(Value.kForward);
-        _cargoShooter.set(0.5);
+        _cargoShooter.set(0.75);
     }
 
     public void stop() {

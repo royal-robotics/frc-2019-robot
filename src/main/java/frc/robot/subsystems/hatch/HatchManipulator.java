@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.*;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.Components;
+import frc.libs.utils.Util;
 
 public class HatchManipulator
 {
@@ -14,7 +15,11 @@ public class HatchManipulator
     private final Solenoid _carriageRock;
     private final DoubleSolenoid _carriageShoot;
 
-    private int currentPosition;
+    private double currentAngle;
+
+    private final double HomeAngle = -72;
+    private final double StickAngle = -10.5;
+    private final double FloorAngle = 90;
 
     public HatchManipulator()
     {
@@ -31,13 +36,12 @@ public class HatchManipulator
         _hatchRoller.setInverted(true);
 
         // Set up hatch arm PID
-        resetArmPosition();
+        resetArm();
 
-        _hatchArm.setInverted(true);
         _hatchArm.setSensorPhase(true);
 
         _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        _hatchArm.config_kP(0, 1.0);
+        _hatchArm.config_kP(0, 2.0);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
         _hatchArm.configClosedLoopPeakOutput(0, 0.3);
@@ -48,10 +52,12 @@ public class HatchManipulator
         Components.HatchManipulator.hatchArm.configurePID(pidConfig);
     }
 
-    public void resetArmPosition()
+    public void resetArm()
     {
-        _hatchArm.setSelectedSensorPosition(0);
-        currentPosition = 0;
+        int encoderHome = Util.angleToEncoder(HomeAngle);
+        _hatchArm.setSelectedSensorPosition(encoderHome);
+        _hatchArm.set(ControlMode.Position, encoderHome);
+        currentAngle = HomeAngle;
     }
 
     public void pullHatchIn()
@@ -69,18 +75,27 @@ public class HatchManipulator
         _hatchRoller.set(0.0);
     }
 
-    public void moveHatchArm(double speed)
+    public void moveHatchArmHome()
     {
-        currentPosition = _hatchArm.getSelectedSensorPosition();
+        currentAngle = HomeAngle;
+        setArmAngle(currentAngle);
+    }
 
-        // Move hatch arm at 30% speed
-        double output = speed * 0.3;
-        _hatchArm.set(ControlMode.PercentOutput, output);
+    public void moveHatchArmFloor()
+    {
+        currentAngle = FloorAngle;
+        setArmAngle(currentAngle);
+    }
+
+    public void moveHatchArmStick()
+    {
+        currentAngle = StickAngle;
+        setArmAngle(currentAngle);
     }
 
     public void stopHatchArm()
     {
-        _hatchArm.set(ControlMode.Position, currentPosition);
+        setArmAngle(currentAngle);
     }
 
     public void rockForward()
@@ -105,13 +120,19 @@ public class HatchManipulator
 
     public void diagnostics()
     {
-        SmartDashboard.putNumber("HatchArmPosition", _hatchArm.getSelectedSensorPosition());
+        SmartDashboard.putNumber("HatchArmPosition", getArmAngle());
         SmartDashboard.putNumber("HatchArmPower", _hatchArm.getMotorOutputPercent());
-        SmartDashboard.putString("HatchArmControlMode", _hatchArm.getControlMode().toString());
+        SmartDashboard.putNumber("HatchArmTarget", Util.encoderToAngle((int)_hatchArm.getClosedLoopTarget()));
+        SmartDashboard.putNumber("HatchArmError", Util.encoderToAngle((int)_hatchArm.getClosedLoopError()));
+    }
 
-        if (_hatchArm.getControlMode() == ControlMode.Position) {
-            SmartDashboard.putNumber("HatchArmTarget", _hatchArm.getClosedLoopTarget());
-            SmartDashboard.putNumber("HatchArmError", _hatchArm.getClosedLoopError());
-        }
+    private double getArmAngle()
+    {
+        return Util.encoderToAngle(_hatchArm.getSelectedSensorPosition());
+    }
+
+    private void setArmAngle(double angle)
+    {
+        _hatchArm.set(ControlMode.Position, Util.angleToEncoder(angle));
     }
 }
