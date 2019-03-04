@@ -13,7 +13,7 @@ public class LinearMotionProfileTest {
         final double targetDistance = 100.0;
         final double maxVelocity = 10.0;
         final double acceleration = 100.0;
-        IMotionProfile motionProfile = new LinearMotionProfile(targetDistance, maxVelocity, acceleration);
+        IMotionProfile motionProfile = new LinearMotionProfile(targetDistance, maxVelocity, acceleration, true);
 
         System.out.println("DurationMs: " + motionProfile.duration().toMillis());
         System.out.println("time (ms), position, velocity, acceleration");

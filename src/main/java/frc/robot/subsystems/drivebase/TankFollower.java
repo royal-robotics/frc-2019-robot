@@ -24,10 +24,10 @@ public class TankFollower implements ITrajectoryFollower {
     //private final TankFollowerLogger _rightLogger;
 
     // TODO: Pass these in or make these abstract properties.
-    private static final double _kP = 0.0; // distance proportional
+    private static final double _kP = 0.05; // distance proportional
     private static final double _kI = 0.0; // distance integral
     private static final double _kD = 0.0; // distance derivative
-    private static final double _kVf = 1.0 / 170.0; // velocity feed
+    private static final double _kVf = 1.32 / 170.0; // velocity feed
     private static final double _kAf = 0.0; // acceleration feed
 
     public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete)

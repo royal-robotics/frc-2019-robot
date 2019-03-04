@@ -10,6 +10,7 @@ public class LinearMotionProfile implements IMotionProfile {
     public final double targetDistance;
     public final double maxVelocity;
     public final double accelaretion;
+    public final boolean invertOutputs;
 
     // The inital velcoity, we assume this is zero.
     private final double _initialVelocity = 0.0;
@@ -28,10 +29,14 @@ public class LinearMotionProfile implements IMotionProfile {
     // The time in seconds we're at max velocity.
     private final double _maxVelocitySeconds;
 
-    public LinearMotionProfile(double targetDistance, double maxVelocity, double accelaretion) {
+    public LinearMotionProfile(double targetDistance, double maxVelocity, double accelaretion, boolean invertOutputs) {
+        if (targetDistance < 0 || maxVelocity < 0 || accelaretion < 0)
+            throw new IllegalArgumentException("position values required");
+
         this.targetDistance = targetDistance;
         this.maxVelocity = maxVelocity;
         this.accelaretion = accelaretion;
+        this.invertOutputs = invertOutputs;
 
         // The seconds and distance required to reach max velocity.
         final double rampSeconds = calculateTime(_initialVelocity, maxVelocity, accelaretion);
@@ -157,8 +162,11 @@ public class LinearMotionProfile implements IMotionProfile {
         return Duration.ofSeconds(secondsOnly, nanos);
     }
 
-    private static Segment linearSegment(double seconds, double distance, double velocity, double acceleration) {
+    private Segment linearSegment(double seconds, double distance, double velocity, double acceleration) {
         Duration time = durationFromSeconds(seconds);
-        return new Segment(time, 0.0, distance, distance, velocity, acceleration, 0.0, 0.0);
+        if (invertOutputs)
+            return new Segment(time, 0.0, -distance, -distance, -velocity, -acceleration, 0.0, 0.0);
+        else
+            return new Segment(time, 0.0, distance, distance, velocity, acceleration, 0.0, 0.0);
     }
 }

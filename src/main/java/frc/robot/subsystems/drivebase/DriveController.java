@@ -41,11 +41,27 @@ public class DriveController implements IRobotController {
         {
             _driveBase.disableLift();
         }
+
+        if (Controls.DriveSystem.autoTestForward())
+        {
+            // followMotionProfile(76.0, 50.0, false, () -> {
+            //     System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
+            //     System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+            // });
+        }
+
+        if (Controls.DriveSystem.autoTestBackward())
+        {
+            // followMotionProfile(76.0, 50.0, true, () -> {
+            //     System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
+            //     System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+            // });
+        }
     }
 
     // TODO: This should take a tank profile as a parameter
-    public void followMotionProfile(Runnable onComplete) {
-        TankTrajectory tankTrajectory = new TankTrajectory();
+    public void followMotionProfile(double distance, double acceleration, boolean invert, Runnable onComplete) {
+        TankTrajectory tankTrajectory = new TankTrajectory(distance, acceleration, invert);
         _tankFollower = new TankFollower(_driveBase, tankTrajectory, onComplete);
     }
 

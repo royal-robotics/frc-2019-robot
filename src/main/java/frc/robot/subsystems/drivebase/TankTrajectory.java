@@ -7,9 +7,9 @@ public class TankTrajectory {
     public final IMotionProfile leftProfile;
     public final IMotionProfile rightProfile;
 
-    public TankTrajectory() {
-        this.leftProfile = new LinearMotionProfile(50.0, 100.0, 50.0);
-        this.rightProfile = new LinearMotionProfile(50.0, 100.0, 50.0);
+    public TankTrajectory(double distance, double acceleration, boolean invert) {
+        this.leftProfile = new LinearMotionProfile(distance, 100.0, acceleration, invert);
+        this.rightProfile = new LinearMotionProfile(distance, 100.0, acceleration, invert);
     }
 
     public Duration duration() {

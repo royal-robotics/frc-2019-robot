@@ -57,6 +57,13 @@ public final class Controls {
             public static TankThrottleValues getThrottleValues() { return cheesyDriveHelper.cheesyDrive(throttle, wheel, quickTurn); }
         }
 
+        private static Button autoTestBackward = new Button(driver, Logitech310Button.A, IButton.ButtonType.Toggle);
+        public static boolean autoTestBackward() { return autoTestBackward.isPressed(); }
+
+        private static Button autoTestForward = new Button(driver, Logitech310Button.Y, IButton.ButtonType.Toggle);
+        public static boolean autoTestForward() { return autoTestForward.isPressed(); }
+
+
         private static Axis liftRobot1 = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
         private static Axis liftRobot2 = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
 
