@@ -30,17 +30,15 @@ public class HatchController implements IRobotController
             _hatchManipulator.shootHatchIn();
         }
 
-        //if (Controls.HatchManipulator.ManualHatchArm())
-            //_hatchManipulator.moveHatchArm(Controls.HatchManipulator.GetHatchArmSpeed());
-        //else
-            //_hatchManipulator.stopHatchArm();
+        if (Controls.HatchManipulator.ManualHatchArm())
+            _hatchManipulator.moveHatchArm(Controls.HatchManipulator.GetHatchArmSpeed());
+        else
+            _hatchManipulator.stopHatchArm();
 
-        //if (Controls.HatchManipulator.HatchIntake())
-            //_hatchManipulator.pullHatchIn();
-        //else if (Controls.HatchManipulator.HatchPush())
-            //_hatchManipulator.pushHatchOut();
-        //else
-            //_hatchManipulator.stopHatchRoller();
+        if (Controls.HatchManipulator.HatchIntake())
+            _hatchManipulator.pullHatchIn();
+        else
+            _hatchManipulator.stopHatchRoller();
             
     }
 
