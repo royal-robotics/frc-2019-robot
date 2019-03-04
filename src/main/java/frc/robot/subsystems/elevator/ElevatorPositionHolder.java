@@ -26,7 +26,7 @@ public class ElevatorPositionHolder extends PIDController {
     @Override
     protected void calculate() {
         // If we're at the floor we don't need to power up the motors.
-        if (isBottomSetpoint() && isAtBottom()) {
+        if (this.isEnabled() && isBottomSetpoint() && isAtBottom()) {
             _output.disable();
             return;
         }

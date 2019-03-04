@@ -40,6 +40,7 @@ public class Elevator
     public void reset() {
         _royalEncoder.reset();
         _elevatorPositionHolder.reset();
+        _elevatorPositionHolder.setSetpoint(0.0);
     }
 
     public void move(double power) {

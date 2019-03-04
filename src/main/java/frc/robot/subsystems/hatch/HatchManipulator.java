@@ -14,6 +14,8 @@ public class HatchManipulator
     private final Solenoid _carriageRock;
     private final DoubleSolenoid _carriageShoot;
 
+    private int currentPosition;
+
     public HatchManipulator()
     {
         // Setup hatch intake
@@ -29,15 +31,16 @@ public class HatchManipulator
         _hatchRoller.setInverted(true);
 
         // Set up hatch arm PID
+        resetArmPosition();
+
         _hatchArm.setInverted(true);
+        _hatchArm.setSensorPhase(true);
+
         _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        _hatchArm.setSelectedSensorPosition(0);
         _hatchArm.config_kP(0, 1.0);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
         _hatchArm.configClosedLoopPeakOutput(0, 0.3);
-        _hatchArm.setSensorPhase(true);
-        _hatchArm.set(ControlMode.Position, 0);
 
         TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
         pidConfig.selectedFeedbackCoefficient = 1.0;
@@ -48,6 +51,7 @@ public class HatchManipulator
     public void resetArmPosition()
     {
         _hatchArm.setSelectedSensorPosition(0);
+        currentPosition = 0;
     }
 
     public void pullHatchIn()
@@ -67,17 +71,16 @@ public class HatchManipulator
 
     public void moveHatchArm(double speed)
     {
-        // Move hatch arm at 50% speed
-        double output = speed * 0.5;
-        if (output < 0)
-            _hatchArm.set(ControlMode.Position, 1100);
-        else
-            _hatchArm.set(ControlMode.Position, 0);
+        currentPosition = _hatchArm.getSelectedSensorPosition();
+
+        // Move hatch arm at 30% speed
+        double output = speed * 0.3;
+        _hatchArm.set(ControlMode.PercentOutput, output);
     }
 
     public void stopHatchArm()
     {
-        _hatchArm.set(ControlMode.Position, 0);
+        _hatchArm.set(ControlMode.Position, currentPosition);
     }
 
     public void rockForward()
@@ -103,10 +106,12 @@ public class HatchManipulator
     public void diagnostics()
     {
         SmartDashboard.putNumber("HatchArmPosition", _hatchArm.getSelectedSensorPosition());
-        SmartDashboard.putNumber("HatchArmTarget", _hatchArm.getClosedLoopTarget());
-        SmartDashboard.putNumber("HatchArmError", _hatchArm.getClosedLoopError());
-
         SmartDashboard.putNumber("HatchArmPower", _hatchArm.getMotorOutputPercent());
         SmartDashboard.putString("HatchArmControlMode", _hatchArm.getControlMode().toString());
+
+        if (_hatchArm.getControlMode() == ControlMode.Position) {
+            SmartDashboard.putNumber("HatchArmTarget", _hatchArm.getClosedLoopTarget());
+            SmartDashboard.putNumber("HatchArmError", _hatchArm.getClosedLoopError());
+        }
     }
 }
