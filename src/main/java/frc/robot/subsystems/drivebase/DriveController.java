@@ -6,11 +6,12 @@ import frc.robot.subsystems.*;
 
 public class DriveController implements IRobotController {
     private final DriveBase _driveBase = new DriveBase();
-    private final TankFollower _driveFollower = new TankFollower();
+
+    private TankFollower _tankFollower;
 
     @Override
     public void init() {
-
+        _driveBase.reset();
     }
 
     @Override
@@ -42,16 +43,26 @@ public class DriveController implements IRobotController {
         }
     }
 
-    @Override
-    public void diagnosticPeriodic() {
-
-    }
-
-    public void followMotionProfile(String profileParameter) {
-
+    // TODO: This should take a tank profile as a parameter
+    public void followMotionProfile(Runnable onComplete) {
+        _tankFollower = new TankFollower(_driveBase, onComplete);
     }
 
     public void drive(double left, double right) {
         _driveBase.driveTank(new TankThrottleValues(left, right));
+    }
+
+    public void stop() {
+        _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
+
+        if (_tankFollower != null)
+        {
+            _tankFollower.stop();
+        }
+    }
+
+    @Override
+    public void diagnosticPeriodic() {
+        _driveBase.diagnosticPeriodic();
     }
 }
