@@ -19,6 +19,8 @@ public class TestAutoRoutine extends AutoRoutine {
     protected List<AutoStep> createRoutine() {
         ArrayList<AutoStep> list_of_steps = new ArrayList<AutoStep>();
 
+        list_of_steps.add(new DriveStraightStep(this.logger.marker, robot._driveController, 60.0));
+
         return list_of_steps;
     }
 }

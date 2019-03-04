@@ -18,12 +18,12 @@ public final class Components {
         public static WPI_TalonSRX leftDrive1 = new WPI_TalonSRX(7);
         public static WPI_VictorSPX leftDrive2 = new WPI_VictorSPX(5);
         public static WPI_VictorSPX leftDrive3 = new WPI_VictorSPX(3);
-        public static Encoder leftEncoder = new Encoder(10, 11, true);
+        public static Encoder leftEncoder = new Encoder(10, 11);
 
         public static WPI_TalonSRX rightDrive1 = new WPI_TalonSRX(8);
         public static WPI_VictorSPX rightDrive2 = new WPI_VictorSPX(6);
         public static WPI_VictorSPX rightDrive3 = new WPI_VictorSPX(4);
-        public static Encoder rightEncoder = new Encoder(12, 13, false);
+        public static Encoder rightEncoder = new Encoder(12, 13);
 
         // TODO: Are these used?
         public static Solenoid lift = new Solenoid(0, 5);
