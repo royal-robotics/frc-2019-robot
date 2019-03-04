@@ -13,10 +13,8 @@ public class TankFollower implements ITrajectoryFollower {
     private final DriveBase _driveBase;
     private final RoyalEncoder _leftEncoder;
     private final RoyalEncoder _rightEncoder;
+    private final TankTrajectory _tankTrajectory;
     private final Runnable _onComplete;
-
-    private final IMotionProfile _leftProfile;
-    private final IMotionProfile _rightProfile;
 
     private final Stopwatch _stopwatch;
     private final Notifier _controlLoop;
@@ -28,18 +26,16 @@ public class TankFollower implements ITrajectoryFollower {
     private static final double _kP = 0.2; // distance proportional
     private static final double _kI = 0.0; // distance integral
     private static final double _kD = 0.0; // distance derivative
-    private static final double _kVf = 0.05; // velocity feed
+    private static final double _kVf = 1.0 / 170.0; // velocity feed
     private static final double _kAf = 0.0; // acceleration feed
 
-    public TankFollower(DriveBase driveBase, Runnable onComplete)
+    public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete)
     {
         _driveBase = driveBase;
         _leftEncoder = driveBase.leftEncoder;
         _rightEncoder = driveBase.rightEncoder;
+        _tankTrajectory = tankTrajectory;
         _onComplete = onComplete;
-
-        _leftProfile = new LinearMotionProfile(150.0, 60.0, 300.0);
-        _rightProfile = new LinearMotionProfile(150.0, 60.0, 300.0);
 
         _leftError = new ErrorContext();
         _rightError = new ErrorContext();
@@ -60,14 +56,14 @@ public class TankFollower implements ITrajectoryFollower {
         }
 
         Encoder leftEncoder = _leftEncoder.encoder;
-        Segment segmentLeft = _leftProfile.getSegment(timeIndex);
+        Segment segmentLeft = _tankTrajectory.leftProfile.getSegment(timeIndex);
         double leftDistanceError = getDistanceError(segmentLeft, timeIndex, leftEncoder, _leftError);
         double leftVelocityFeed = _kVf * segmentLeft.velocity;
         double leftAccelerationFeed = _kAf * segmentLeft.acceleration;
         double leftPower = leftVelocityFeed + leftAccelerationFeed + leftDistanceError;
 
         Encoder rightEncoder = _rightEncoder.encoder;
-        Segment segmentRight = _rightProfile.getSegment(timeIndex);
+        Segment segmentRight = _tankTrajectory.rightProfile.getSegment(timeIndex);
         double rightDistanceError = getDistanceError(segmentRight, timeIndex, rightEncoder, _rightError);
         double rightVelocityFeed = _kVf * segmentRight.velocity;
         double rightAccelerationFeed = _kAf * segmentRight.acceleration;
@@ -89,7 +85,7 @@ public class TankFollower implements ITrajectoryFollower {
     }
 
     private Duration getDuration() {
-        return _leftProfile.duration();
+        return _tankTrajectory.duration();
     }
 
     private static double secondsFromDuration(Duration duration) {

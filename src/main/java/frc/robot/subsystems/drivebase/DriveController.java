@@ -45,7 +45,8 @@ public class DriveController implements IRobotController {
 
     // TODO: This should take a tank profile as a parameter
     public void followMotionProfile(Runnable onComplete) {
-        _tankFollower = new TankFollower(_driveBase, onComplete);
+        TankTrajectory tankTrajectory = new TankTrajectory();
+        _tankFollower = new TankFollower(_driveBase, tankTrajectory, onComplete);
     }
 
     public void drive(double left, double right) {

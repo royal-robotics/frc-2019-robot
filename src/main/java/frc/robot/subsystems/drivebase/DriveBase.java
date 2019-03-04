@@ -26,9 +26,6 @@ public class DriveBase {
         _leftDrive = leftDrive1;
 
         final WPI_TalonSRX rightDrive1 = Components.DriveBase.rightDrive1;
-        rightDrive1.setInverted(true);
-        Components.DriveBase.rightDrive2.setInverted(true);
-        Components.DriveBase.rightDrive3.setInverted(true);
         Components.DriveBase.rightDrive2.follow(rightDrive1);
         Components.DriveBase.rightDrive3.follow(rightDrive1);
         _rightDrive = rightDrive1;
@@ -50,9 +47,8 @@ public class DriveBase {
     }
 
     public void driveTank(TankThrottleValues throttleValues) {
-        // TODO: Use `leftDrive1.setInverted(true)` instead of negative value
         _leftDrive.set(throttleValues.left);
-        _rightDrive.set(-throttleValues.right);
+        _rightDrive.set(throttleValues.right);
     }
 
     public void enableLift()
