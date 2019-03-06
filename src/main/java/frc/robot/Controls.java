@@ -117,10 +117,14 @@ public final class Controls {
         public static boolean hatchPush() { return hatchPush.isPressed(0.1); }
 
         // Arm
+       
         private static Button hatchIntake = new Button(operator, Logitech310Button.A, ButtonType.Hold);
         private static Button hatchArmHome = new Button(operator, Logitech310Button.X, ButtonType.Hold);
         private static Button hatchArmFloor = new Button(operator, Logitech310Button.B, ButtonType.Hold);
         private static Button hatchArmStick = new Button(operator, Logitech310Button.Y, ButtonType.Hold);
+        private static Axis power = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
+        public static boolean ManualControl() { return power.isPressed(); }
+        public static double GetPower() { return -power.getValue() * 0.5; }
 
         public static boolean HatchIntake() { return hatchIntake.isPressed(); }
         public static boolean HatchArmHome() { return hatchArmHome.isPressed(); }

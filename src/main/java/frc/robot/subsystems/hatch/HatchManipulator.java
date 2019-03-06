@@ -1,4 +1,4 @@
-package frc.robot.subsystems.hatch;
+  package frc.robot.subsystems.hatch;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -77,32 +77,20 @@ public class HatchManipulator
 
     public void moveHatchArmHome()
     {
-        if (currentAngle != HomeAngle)
-        {
-            _hatchArm.configClosedLoopPeakOutput(0, 0.5);
-            currentAngle = HomeAngle;
-            setArmAngle(currentAngle);
-        }
+        currentAngle = HomeAngle;
+        setArmAngle(currentAngle);
     }
 
     public void moveHatchArmFloor()
     {
-        if (currentAngle != FloorAngle)
-        {
-            _hatchArm.configClosedLoopPeakOutput(0, 0.3);
-            currentAngle = FloorAngle;
-            setArmAngle(currentAngle);
-        }
+        currentAngle = FloorAngle;
+        setArmAngle(currentAngle);
     }
 
     public void moveHatchArmStick()
     {
-        if (currentAngle != StickAngle)
-        {
-            _hatchArm.configClosedLoopPeakOutput(0, 0.5);
-            currentAngle = StickAngle;
-            setArmAngle(currentAngle);
-        }
+        currentAngle = StickAngle;
+        setArmAngle(currentAngle);
     }
 
     public void stopHatchArm()
@@ -118,16 +106,6 @@ public class HatchManipulator
     public void rockBackwards()
     {
         _carriageRock.set(false);
-    }
-
-    public void toggleRocked()
-    {
-        boolean currentRock = _carriageRock.get();
-        _carriageRock.set(!currentRock); 
-    }
-
-    public boolean getPositionHatchRock() {
-        return _carriageRock.get();
     }
 
     public void shootHatchOut()
@@ -147,6 +125,14 @@ public class HatchManipulator
         SmartDashboard.putNumber("HatchArmTarget", Util.encoderToAngle((int)_hatchArm.getClosedLoopTarget()));
         SmartDashboard.putNumber("HatchArmError", Util.encoderToAngle((int)_hatchArm.getClosedLoopError()));
     }
+    public void manualHatchArm(double hatchValue)
+    {
+        double currentArmAngle = getArmAngle();
+        double newArmAngle = currentArmAngle + hatchValue;
+        setArmAngle(newArmAngle);
+
+    }
+    
 
     private double getArmAngle()
     {

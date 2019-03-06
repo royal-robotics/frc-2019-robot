@@ -28,8 +28,9 @@ public class HatchController implements IRobotController
             _hatchManipulator.rockBackwards();
             _hatchManipulator.shootHatchIn();
         }
-
-        if (Controls.HatchManipulator.HatchArmHome())
+        if(Controls.HatchManipulator.ManualControl())
+            _hatchManipulator.manualHatchArm(Controls.HatchManipulator.GetPower());
+        else if (Controls.HatchManipulator.HatchArmHome())
             _hatchManipulator.moveHatchArmHome();
         else if (Controls.HatchManipulator.HatchArmFloor())
             _hatchManipulator.moveHatchArmFloor();
