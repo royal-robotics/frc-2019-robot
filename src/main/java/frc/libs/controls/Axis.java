@@ -34,8 +34,9 @@ public class Axis implements IButton {
     }
 
     public boolean isToggled(double edge) {
+        double previousValue = lastReading;
         double currentValue = getValue();
-        boolean value = lastReading < edge && currentValue > edge;
+        boolean value = previousValue < edge && currentValue > edge;
         return value;
     }
 }

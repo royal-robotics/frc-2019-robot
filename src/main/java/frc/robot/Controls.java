@@ -42,7 +42,7 @@ public final class Controls {
             private static Axis turn = new Axis(driver, Logitech310Axis.RightStickX, 0.1);
 
             private static double getThrottleValue() { return -throttle.getValue(); }
-            private static double turnPower() { return -turn.getValue() * (3.0 / 4.0); }
+            private static double turnPower() { return turn.getValue() * (3.0 / 4.0); }
             private static double getLeftThrottleValue() { return getThrottleValue() + turnPower(); }
             private static double getRightThrottleValue() { return getThrottleValue() - turnPower(); }
             public static TankThrottleValues getThrottleValues() { return new TankThrottleValues(getLeftThrottleValue(), getRightThrottleValue()); }
@@ -73,7 +73,7 @@ public final class Controls {
 
     public static class ElevatorSystem
     {
-        private static Axis power = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
+        private static Axis power = new Axis(operator, Logitech310Axis.RightStickY, 0.1);
         private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
         private static Button moveBottom = new Button(operator, Logitech310Button.Down, IButton.ButtonType.Hold);
         private static Button moveHatchLow = new Button(operator, Logitech310Button.BottomLeft, IButton.ButtonType.Hold);
@@ -113,8 +113,8 @@ public final class Controls {
         private static Axis hatchRock = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
         private static Axis hatchPush = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
 
-        public static boolean hatchRock() { return hatchRock.isPressed(); }
-        public static boolean hatchPush() { return hatchPush.isPressed(); }
+        public static boolean hatchRock() { return hatchRock.isPressed(0.1); }
+        public static boolean hatchPush() { return hatchPush.isPressed(0.1); }
 
         // Arm
         private static Button hatchIntake = new Button(operator, Logitech310Button.A, ButtonType.Hold);

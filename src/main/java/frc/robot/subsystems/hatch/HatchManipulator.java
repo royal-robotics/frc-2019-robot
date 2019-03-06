@@ -77,20 +77,32 @@ public class HatchManipulator
 
     public void moveHatchArmHome()
     {
-        currentAngle = HomeAngle;
-        setArmAngle(currentAngle);
+        if (currentAngle != HomeAngle)
+        {
+            _hatchArm.configClosedLoopPeakOutput(0, 0.5);
+            currentAngle = HomeAngle;
+            setArmAngle(currentAngle);
+        }
     }
 
     public void moveHatchArmFloor()
     {
-        currentAngle = FloorAngle;
-        setArmAngle(currentAngle);
+        if (currentAngle != FloorAngle)
+        {
+            _hatchArm.configClosedLoopPeakOutput(0, 0.3);
+            currentAngle = FloorAngle;
+            setArmAngle(currentAngle);
+        }
     }
 
     public void moveHatchArmStick()
     {
-        currentAngle = StickAngle;
-        setArmAngle(currentAngle);
+        if (currentAngle != StickAngle)
+        {
+            _hatchArm.configClosedLoopPeakOutput(0, 0.5);
+            currentAngle = StickAngle;
+            setArmAngle(currentAngle);
+        }
     }
 
     public void stopHatchArm()
@@ -106,6 +118,16 @@ public class HatchManipulator
     public void rockBackwards()
     {
         _carriageRock.set(false);
+    }
+
+    public void toggleRocked()
+    {
+        boolean currentRock = _carriageRock.get();
+        _carriageRock.set(!currentRock); 
+    }
+
+    public boolean getPositionHatchRock() {
+        return _carriageRock.get();
     }
 
     public void shootHatchOut()
