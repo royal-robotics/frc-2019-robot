@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivebase;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.interfaces.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.Components;
 import frc.libs.components.RoyalEncoder;
@@ -12,6 +13,7 @@ public class DriveBase {
     private final SpeedController _rightDrive;
     public final RoyalEncoder leftEncoder;
     public final RoyalEncoder rightEncoder;
+    public final Gyro gyro;
 
     private final Solenoid _lift;
     private final DoubleSolenoid _climb;
@@ -36,6 +38,8 @@ public class DriveBase {
 
         Encoder rightEncoder = Components.DriveBase.rightEncoder;
         this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse, false);
+
+        gyro = Components.DriveBase.gyro;
 
         _lift = Components.DriveBase.lift;
         _climb = Components.DriveBase.climb;

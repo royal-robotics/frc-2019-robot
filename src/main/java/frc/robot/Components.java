@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
  * Common place for static declarations of all robot
@@ -15,6 +16,8 @@ import edu.wpi.first.wpilibj.*;
  */
 public final class Components {
     public static class DriveBase {
+        public static Gyro gyro = new ADXRS450_Gyro();
+
         public static WPI_TalonSRX leftDrive1 = new WPI_TalonSRX(7);
         public static WPI_VictorSPX leftDrive2 = new WPI_VictorSPX(5);
         public static WPI_VictorSPX leftDrive3 = new WPI_VictorSPX(3);
