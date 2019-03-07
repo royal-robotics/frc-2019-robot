@@ -18,6 +18,9 @@ public class DriveBase {
     private final Solenoid _lift;
     private final DoubleSolenoid _climb;
 
+    public static final double WheelDiameter = 6.0;
+    public static final double WheelbaseWidth = 25.0;
+
     public DriveBase() {
         final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
         Components.DriveBase.leftDrive2.follow(leftDrive1);
@@ -40,6 +43,7 @@ public class DriveBase {
         this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse, false);
 
         gyro = Components.DriveBase.gyro;
+        gyro.reset();
 
         _lift = Components.DriveBase.lift;
         _climb = Components.DriveBase.climb;
@@ -69,6 +73,8 @@ public class DriveBase {
         SmartDashboard.putNumber("Drive-Power-Left", _leftDrive.get());
         SmartDashboard.putNumber("Drive-Power-Right", _rightDrive.get());
         
+        SmartDashboard.putNumber("Drive-Angle", gyro.getAngle());
+
         SmartDashboard.putNumber("Drive-Distance-Left", leftEncoder.getDistance());
         SmartDashboard.putNumber("Drive-Distance-Right", rightEncoder.getDistance());
 
@@ -80,12 +86,9 @@ public class DriveBase {
         // The ratio that relates the rate the encoder turns vs. the wheel.
         final double EncoderGearRatio = 1.0;
         
-        // The diameter of one of the drivebase wheels
-        final double WheelDiameterInches = 6.0;
-        
         // The number of pulses per encoder rotation
         final double PulsesPerRotation = 256.0;
 
-        return  EncoderGearRatio * WheelDiameterInches * Math.PI / PulsesPerRotation;
+        return  EncoderGearRatio * WheelDiameter * Math.PI / PulsesPerRotation;
     }
 }

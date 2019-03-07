@@ -51,8 +51,9 @@ public class TankFollower implements ITrajectoryFollower {
         // the trajectory assumes we start at zero.
         _leftEncoder.reset();
         _rightEncoder.reset();
+        _driveBase.gyro.reset();
 
-        _leftLogger = new TankFollowerLogger("Left", _rightEncoder);
+        _leftLogger = new TankFollowerLogger("Left", _leftEncoder);
     }
 
     private void controlLoop() {
@@ -63,34 +64,57 @@ public class TankFollower implements ITrajectoryFollower {
             return;
         }
 
-        Encoder leftEncoder = _leftEncoder.encoder;
         Segment segmentLeft = _tankTrajectory.leftProfile.getSegment(timeIndex);
-        double leftDistanceError = getDistanceError(segmentLeft, timeIndex, leftEncoder, _leftError);
-        double leftVelocityFeed = _kVf * segmentLeft.velocity;
-        double leftAccelerationFeed = _kAf * segmentLeft.acceleration;
-        double leftPower = leftVelocityFeed + leftAccelerationFeed + leftDistanceError;
-        _leftLogger.writeMotorUpdate(segmentLeft, leftDistanceError, leftVelocityFeed);
-
-        Encoder rightEncoder = _rightEncoder.encoder;
         Segment segmentRight = _tankTrajectory.rightProfile.getSegment(timeIndex);
-        double rightDistanceError = getDistanceError(segmentRight, timeIndex, rightEncoder, _rightError);
-        double rightVelocityFeed = _kVf * segmentRight.velocity;
-        double rightAccelerationFeed = _kAf * segmentRight.acceleration;
-        double rightPower = rightVelocityFeed + rightAccelerationFeed + rightDistanceError;
+        double headingAdjustment = getHeadingAdjustment(segmentLeft, segmentRight);
+
+        double leftDistanceError = getDistanceAdjustment(segmentLeft, timeIndex, _leftEncoder, _leftError, -headingAdjustment);
+        double leftOutputFeed = getOutputFeed(segmentLeft);
+        double leftPower = leftOutputFeed + leftDistanceError;
+        _leftLogger.writeMotorUpdate(segmentLeft, leftDistanceError, leftPower);
+
+        double rightDistanceError = getDistanceAdjustment(segmentRight, timeIndex, _rightEncoder, _rightError, headingAdjustment);
+        double rightOutputFeed = getOutputFeed(segmentLeft);
+        double rightPower = rightOutputFeed + rightDistanceError;
 
         _driveBase.driveTank(new TankThrottleValues(leftPower, rightPower));
     }
 
-    public double getDistanceError(Segment segment, Duration duration, Encoder encoder, ErrorContext errorContext) {
-        double position = encoder.getDistance();
-        double positionError = segment.position - position;
+    public double getOutputFeed(Segment segment) {
+        double leftVelocityFeed = _kVf * segment.velocity;
+        double leftAccelerationFeed = _kAf * segment.acceleration;
+        return leftVelocityFeed + leftAccelerationFeed;
+    }
+
+    public double getHeadingAdjustment(Segment leftTarget, Segment rightTarget) {
+        // Magic number used to tune the impact the heading error has on the output.
+        // TODO: this should be a tunning constant.
+        final double kAngleAdjustment = 0.75;
+
+        // Both the left and right segments should have the same heading.
+        final double angle = _driveBase.gyro.getAngle();
+        final double targetAngle = leftTarget.heading;
+        final double angleError = targetAngle - angle;
+
+        // Calculate the angle error caused by position errors.
+        // We subtract this from the observed angle error so we don't over compensate.
+        final double leftPosError = leftTarget.position - _driveBase.leftEncoder.getDistance();
+        final double rightPosError = rightTarget.position - _driveBase.rightEncoder.getDistance();
+        final double positionErrorShift = leftPosError - rightPosError;
+        final double inchesPerDegree = (DriveBase.WheelbaseWidth * Math.PI) / 360.0;
+        final double positionAngleError = Math.toDegrees(Math.asin((positionErrorShift) / DriveBase.WheelbaseWidth));
+
+        return (angleError - positionAngleError) * inchesPerDegree * kAngleAdjustment;
+    }
+
+    public double getDistanceAdjustment(Segment segment, Duration duration, RoyalEncoder encoder, ErrorContext errorContext, double angleAdjustment) {
+        double positionError = (segment.position - encoder.getDistance()) + angleAdjustment;
         double derivativeError = (positionError - errorContext.lastPositionError) / secondsFromDuration(duration);
         errorContext.lastPositionError = positionError;
 
         double proportionalAdjustment = _kP * positionError;
         double derivativeAdjustment = _kD * derivativeError;
-        double distanceAdjustment = proportionalAdjustment + derivativeAdjustment;
-        return distanceAdjustment;
+        return proportionalAdjustment + derivativeAdjustment;
     }
 
     private Duration getDuration() {
