@@ -40,7 +40,7 @@ public class DriveBase {
 
         _frontLift = Components.DriveBase.frontLift;
         _backLift = Components.DriveBase.backLift;
-        _backLift.set(Value.kReverse);
+        _backLift.set(Value.kForward);
     }
 
     public void reset() {
@@ -65,7 +65,7 @@ public class DriveBase {
 
     public void enableBackLift()
     {
-        _backLift.set(Value.kReverse  );
+        _backLift.set(Value.kReverse);
     }
 
     public void disableBackLift() 
