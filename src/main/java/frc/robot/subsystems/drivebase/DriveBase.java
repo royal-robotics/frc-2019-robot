@@ -45,6 +45,7 @@ public class DriveBase {
 
         gyro = Components.DriveBase.gyro;
         gyro.reset();
+        gyro.calibrate();
 
         _frontLift = Components.DriveBase.frontLift;
         _backLift = Components.DriveBase.backLift;
@@ -54,6 +55,7 @@ public class DriveBase {
     public void reset() {
         leftEncoder.reset();
         rightEncoder.reset();
+        gyro.reset();
     }
 
     public void driveTank(TankThrottleValues throttleValues) {

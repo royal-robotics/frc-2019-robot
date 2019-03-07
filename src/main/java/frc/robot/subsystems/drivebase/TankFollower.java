@@ -40,20 +40,19 @@ public class TankFollower implements ITrajectoryFollower {
 
         _leftError = new ErrorContext();
         _rightError = new ErrorContext();
-
-        _stopwatch = Stopwatch.createStarted();
-        _controlLoop = new Notifier(() -> controlLoop());
         
-        final double ControlLoopIntervalMs = 10.0;
-        _controlLoop.startPeriodic(ControlLoopIntervalMs / 1000.0);
-
         // When the follower starts we reset the encoders to zero because
         // the trajectory assumes we start at zero.
         _leftEncoder.reset();
         _rightEncoder.reset();
-        _driveBase.gyro.reset();
 
         _leftLogger = new TankFollowerLogger("Left", _leftEncoder);
+
+        final double ControlLoopIntervalMs = 10.0;
+        _stopwatch = Stopwatch.createStarted();
+        _controlLoop = new Notifier(() -> controlLoop());
+
+        _controlLoop.startPeriodic(ControlLoopIntervalMs / 1000.0);
     }
 
     private void controlLoop() {
@@ -68,12 +67,12 @@ public class TankFollower implements ITrajectoryFollower {
         Segment segmentRight = _tankTrajectory.rightProfile.getSegment(timeIndex);
         double headingAdjustment = getHeadingAdjustment(segmentLeft, segmentRight);
 
-        double leftDistanceError = getDistanceAdjustment(segmentLeft, timeIndex, _leftEncoder, _leftError, -headingAdjustment);
+        double leftDistanceError = getDistanceAdjustment(segmentLeft, timeIndex, _leftEncoder, _leftError, headingAdjustment);
         double leftOutputFeed = getOutputFeed(segmentLeft);
         double leftPower = leftOutputFeed + leftDistanceError;
         _leftLogger.writeMotorUpdate(segmentLeft, leftDistanceError, leftPower);
 
-        double rightDistanceError = getDistanceAdjustment(segmentRight, timeIndex, _rightEncoder, _rightError, headingAdjustment);
+        double rightDistanceError = getDistanceAdjustment(segmentRight, timeIndex, _rightEncoder, _rightError, -headingAdjustment);
         double rightOutputFeed = getOutputFeed(segmentLeft);
         double rightPower = rightOutputFeed + rightDistanceError;
 
