@@ -26,8 +26,8 @@ public final class Components {
         public static Encoder rightEncoder = new Encoder(12, 13);
 
         // TODO: Are these used?
-        public static Solenoid lift = new Solenoid(0, 5);
-        public static DoubleSolenoid climb = new DoubleSolenoid(0, 1, 6);
+        public static Solenoid frontLift = new Solenoid(0, 5);
+        public static DoubleSolenoid backLift = new DoubleSolenoid(0, 1, 6);
     }
 
     public static class Elevator

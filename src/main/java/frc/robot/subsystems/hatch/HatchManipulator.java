@@ -44,7 +44,7 @@ public class HatchManipulator
         _hatchArm.config_kP(0, 2.0);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
-        _hatchArm.configClosedLoopPeakOutput(0, 0.3);
+        _hatchArm.configClosedLoopPeakOutput(0, 0.7);
 
         TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
         pidConfig.selectedFeedbackCoefficient = 1.0;

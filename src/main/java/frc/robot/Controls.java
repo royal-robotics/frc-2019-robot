@@ -68,7 +68,8 @@ public final class Controls {
         private static Axis liftRobot2 = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
 
         // Requires at least one trigger to lift robot and both triggers released to drop
-        public static boolean LiftRobot() { return (liftRobot1.isPressed() || liftRobot2.isPressed()); }
+        public static boolean LiftRobotFront() { return (liftRobot1.isPressed()); }
+        public static boolean LiftRobotBack() {return(liftRobot2.isPressed()); }
     }
 
     public static class ElevatorSystem

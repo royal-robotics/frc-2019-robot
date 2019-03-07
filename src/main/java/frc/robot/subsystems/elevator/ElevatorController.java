@@ -5,7 +5,7 @@ import frc.robot.subsystems.*;
 
 public class ElevatorController implements IRobotController
 {
-    private final Elevator _elevator = new Elevator();
+    public static final Elevator _elevator = new Elevator();
 
     @Override
     public void init() {

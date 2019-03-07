@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivebase;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.Components;
 import frc.libs.components.RoyalEncoder;
@@ -13,15 +14,15 @@ public class DriveBase {
     public final RoyalEncoder leftEncoder;
     public final RoyalEncoder rightEncoder;
 
-    private final Solenoid _lift;
-    private final DoubleSolenoid _climb;
+    private final Solenoid _frontLift;
+    private final DoubleSolenoid _backLift;
 
     public DriveBase() {
         final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
         Components.DriveBase.leftDrive2.follow(leftDrive1);
         Components.DriveBase.leftDrive3.follow(leftDrive1);
         _leftDrive = leftDrive1;
-
+ 
         final WPI_TalonSRX rightDrive1 = Components.DriveBase.rightDrive1;
         rightDrive1.setInverted(true);
         Components.DriveBase.rightDrive2.setInverted(true);
@@ -37,8 +38,9 @@ public class DriveBase {
         Encoder rightEncoder = Components.DriveBase.rightEncoder;
         this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse, false);
 
-        _lift = Components.DriveBase.lift;
-        _climb = Components.DriveBase.climb;
+        _frontLift = Components.DriveBase.frontLift;
+        _backLift = Components.DriveBase.backLift;
+        _backLift.set(Value.kReverse);
     }
 
     public void reset() {
@@ -51,14 +53,24 @@ public class DriveBase {
         _rightDrive.set(throttleValues.right);
     }
 
-    public void enableLift()
+    public void enableFrontLift()
     {
-        _lift.set(true);
+        _frontLift.set(true);
     }
 
-    public void disableLift()
+    public void disableFrontLift()
     {
-        _lift.set(false);
+        _frontLift.set(false);
+    }
+
+    public void enableBackLift()
+    {
+        _backLift.set(Value.kReverse  );
+    }
+
+    public void disableBackLift() 
+    {
+        _backLift.set(Value.kForward);
     }
 
     public void diagnosticPeriodic() {
@@ -84,4 +96,4 @@ public class DriveBase {
 
         return  EncoderGearRatio * WheelDiameterInches * Math.PI / PulsesPerRotation;
     }
-}
+}   

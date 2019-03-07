@@ -2,10 +2,13 @@ package frc.robot.subsystems.hatch;
 
 import frc.robot.Controls;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.elevator.*;
 
 public class HatchController implements IRobotController
 {
     private final HatchManipulator _hatchManipulator = new HatchManipulator();
+
+    private final Elevator elevator_elevator = ElevatorController._elevator;
 
     @Override
     public void init()
@@ -16,6 +19,9 @@ public class HatchController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
+        if(elevator_elevator.getElevatorHeight() < 8)
+            return;
+
         if (Controls.HatchManipulator.hatchRock()) {
             _hatchManipulator.rockForward();
             
