@@ -33,13 +33,22 @@ public class DriveController implements IRobotController {
         }
         _driveBase.driveTank(throttleValues);
 
-        if (Controls.DriveSystem.LiftRobot())
+        if (Controls.DriveSystem.LiftRobotFront())
         {
-            _driveBase.enableLift();
+            _driveBase.enableFrontLift();
         }
         else
         {
-            _driveBase.disableLift();
+            _driveBase.disableFrontLift();
+        }
+
+        if (Controls.DriveSystem.LiftRobotBack())
+        {
+            _driveBase.enableBackLift();
+        }
+        else
+        {
+            _driveBase.disableBackLift();
         }
 
         if (Controls.DriveSystem.autoTestForward())

@@ -1,4 +1,4 @@
-package frc.robot.subsystems.hatch;
+  package frc.robot.subsystems.hatch;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -44,7 +44,7 @@ public class HatchManipulator
         _hatchArm.config_kP(0, 2.0);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
-        _hatchArm.configClosedLoopPeakOutput(0, 0.3);
+        _hatchArm.configClosedLoopPeakOutput(0, 0.7);
 
         TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
         pidConfig.selectedFeedbackCoefficient = 1.0;
@@ -125,6 +125,14 @@ public class HatchManipulator
         SmartDashboard.putNumber("HatchArmTarget", Util.encoderToAngle((int)_hatchArm.getClosedLoopTarget()));
         SmartDashboard.putNumber("HatchArmError", Util.encoderToAngle((int)_hatchArm.getClosedLoopError()));
     }
+    public void manualHatchArm(double hatchValue)
+    {
+        double currentArmAngle = getArmAngle();
+        double newArmAngle = currentArmAngle + hatchValue;
+        setArmAngle(newArmAngle);
+
+    }
+    
 
     private double getArmAngle()
     {

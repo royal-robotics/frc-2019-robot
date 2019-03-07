@@ -76,4 +76,8 @@ public class Elevator
         
         _elevatorPositionHolder.diagnosticPeriodic();
     }
+    public double getElevatorHeight(){
+        return _royalEncoder.getDistance();
+
+    }
 }
