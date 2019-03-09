@@ -19,7 +19,7 @@ public class HatchManipulator
 
     private final double HomeAngle = -72;
     private final double StickAngle = -10.5;
-    private final double FloorAngle = 90;
+    private final double FloorAngle = 80;
 
     public HatchManipulator()
     {
@@ -37,14 +37,13 @@ public class HatchManipulator
 
         // Set up hatch arm PID
         resetArm();
-
-        _hatchArm.setSensorPhase(true);
+        _hatchArm.setInverted(true);
+        _hatchArm.setSensorPhase(false);
 
         _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        _hatchArm.config_kP(0, 2.0);
+        _hatchArm.config_kP(0, 2.5);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
-        _hatchArm.configClosedLoopPeakOutput(0, 0.7);
 
         TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
         pidConfig.selectedFeedbackCoefficient = 1.0;
@@ -77,25 +76,29 @@ public class HatchManipulator
 
     public void moveHatchArmHome()
     {
-        currentAngle = HomeAngle;
-        setArmAngle(currentAngle);
+        if (currentAngle != HomeAngle)
+        {
+            currentAngle = HomeAngle;
+            setArmAngle(currentAngle);
+        }
     }
 
     public void moveHatchArmFloor()
     {
-        currentAngle = FloorAngle;
-        setArmAngle(currentAngle);
+        if (currentAngle != FloorAngle)
+        {
+            currentAngle = FloorAngle;
+            setArmAngle(currentAngle);
+        }
     }
 
     public void moveHatchArmStick()
     {
-        currentAngle = StickAngle;
-        setArmAngle(currentAngle);
-    }
-
-    public void stopHatchArm()
-    {
-        setArmAngle(currentAngle);
+        if (currentAngle != StickAngle)
+        {
+            currentAngle = StickAngle;
+            setArmAngle(currentAngle);
+        }
     }
 
     public void rockForward()
@@ -125,14 +128,13 @@ public class HatchManipulator
         SmartDashboard.putNumber("HatchArmTarget", Util.encoderToAngle((int)_hatchArm.getClosedLoopTarget()));
         SmartDashboard.putNumber("HatchArmError", Util.encoderToAngle((int)_hatchArm.getClosedLoopError()));
     }
+
     public void manualHatchArm(double hatchValue)
     {
-        double currentArmAngle = getArmAngle();
-        double newArmAngle = currentArmAngle + hatchValue;
+        currentAngle = getArmAngle();
+        double newArmAngle = currentAngle + hatchValue;
         setArmAngle(newArmAngle);
-
     }
-    
 
     private double getArmAngle()
     {

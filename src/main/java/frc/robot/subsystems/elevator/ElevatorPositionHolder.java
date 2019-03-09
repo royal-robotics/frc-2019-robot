@@ -20,7 +20,7 @@ public class ElevatorPositionHolder extends PIDController {
         _source = source;
         _output = output;
 
-        this.setOutputRange(-0.4, 0.6);
+        this.setOutputRange(-0.4, 0.75);
     }
 
     @Override

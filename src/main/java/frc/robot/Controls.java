@@ -75,7 +75,7 @@ public final class Controls {
     public static class ElevatorSystem
     {
         private static Axis power = new Axis(operator, Logitech310Axis.RightStickY, 0.1);
-        private static Button quickMoveTest = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
+        private static Button quickMoveTest = new Button(driver, Logitech310Button.Up, IButton.ButtonType.Hold);
         private static Button moveBottom = new Button(operator, Logitech310Button.Down, IButton.ButtonType.Hold);
         private static Button moveHatchLow = new Button(operator, Logitech310Button.BottomLeft, IButton.ButtonType.Hold);
         private static Button moveHatchMid = new Button(operator, Logitech310Button.Left, IButton.ButtonType.Hold);
@@ -124,12 +124,12 @@ public final class Controls {
         private static Button hatchArmFloor = new Button(operator, Logitech310Button.B, ButtonType.Hold);
         private static Button hatchArmStick = new Button(operator, Logitech310Button.Y, ButtonType.Hold);
         private static Axis power = new Axis(operator, Logitech310Axis.LeftStickY, 0.1);
-        public static boolean ManualControl() { return power.isPressed(); }
-        public static double GetPower() { return -power.getValue() * 0.5; }
 
         public static boolean HatchIntake() { return hatchIntake.isPressed(); }
         public static boolean HatchArmHome() { return hatchArmHome.isPressed(); }
         public static boolean HatchArmFloor() { return hatchArmFloor.isPressed(); }
         public static boolean HatchArmStick() { return hatchArmStick.isPressed(); }
+        public static boolean ManualControl() { return power.isPressed(); }
+        public static double GetPower() { return -power.getValue() * 20.0; }
     }
 }
