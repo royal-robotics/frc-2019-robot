@@ -4,8 +4,6 @@ import java.io.*;
 import java.time.Duration;
 import java.util.*;
 
-import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters.UriConverter;
-
 public class CsvFileMotionProfile implements IMotionProfile {
 
     List<Segment> segments = new ArrayList<>();
@@ -28,7 +26,8 @@ public class CsvFileMotionProfile implements IMotionProfile {
             double velocity = Double.parseDouble(values[4]);
             double acceleration = Double.parseDouble(values[5]);
             double jerk = Double.parseDouble(values[6]);
-            double heading = Double.parseDouble(values[7]);
+            double headingRadians = Double.parseDouble(values[7]);
+            double heading = -(Math.toDegrees(headingRadians) - 90);
 
             Segment segment = new Segment(time, x, y, position, velocity, acceleration, jerk, heading);
             segments.add(segment);
@@ -58,7 +57,7 @@ public class CsvFileMotionProfile implements IMotionProfile {
         double indexPercent = indexSeconds / durationSeconds;
 
         int discreteIndex = (int)Math.round(indexPercent * segments.size());
-        return segments.get(discreteIndex);
+        return segments.get(discreteIndex - 1);
     }
 
     private static Duration durationFromSeconds(double seconds) {

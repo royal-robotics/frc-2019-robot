@@ -5,6 +5,8 @@ import com.google.common.base.*;
 import edu.wpi.first.wpilibj.*;
 import frc.libs.components.*;
 import frc.libs.motionprofile.IMotionProfile.Segment;
+import frc.robot.Components;
+
 import static frc.libs.utils.RobotModels.*;
 
 public class TankFollower implements ITrajectoryFollower {
@@ -21,13 +23,14 @@ public class TankFollower implements ITrajectoryFollower {
     private final ErrorContext _rightError;
     
     private final TankFollowerLogger _leftLogger;
-    //private final TankFollowerLogger _rightLogger;
+    private final TankFollowerLogger _rightLogger;
 
     // TODO: Pass these in or make these abstract properties.
-    private static final double _kP = 0.05; // distance proportional
+    //private static final double _kP = 0.15; // distance proportional
+    private static final double _kP = 0.4; // distance proportional
     private static final double _kI = 0.0; // distance integral
     private static final double _kD = 0.0; // distance derivative
-    private static final double _kVf = 1.32 / 170.0; // velocity feed
+    private static final double _kVf = 2.5 / 170.0; // velocity feed
     private static final double _kAf = 0.0; // acceleration feed
 
     public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete)
@@ -45,8 +48,10 @@ public class TankFollower implements ITrajectoryFollower {
         // the trajectory assumes we start at zero.
         _leftEncoder.reset();
         _rightEncoder.reset();
+        _driveBase.gyro.reset();
 
-        _leftLogger = new TankFollowerLogger("Left", _leftEncoder);
+        _leftLogger = new TankFollowerLogger("Left", Components.DriveBase.leftDrive1, _leftEncoder, driveBase.gyro);
+        _rightLogger = new TankFollowerLogger("Right", Components.DriveBase.rightDrive1, _rightEncoder, driveBase.gyro);
 
         final double ControlLoopIntervalMs = 10.0;
         _stopwatch = Stopwatch.createStarted();
@@ -70,17 +75,18 @@ public class TankFollower implements ITrajectoryFollower {
         double leftDistanceError = getDistanceAdjustment(segmentLeft, timeIndex, _leftEncoder, _leftError, headingAdjustment);
         double leftOutputFeed = getOutputFeed(segmentLeft);
         double leftPower = leftOutputFeed + leftDistanceError;
-        _leftLogger.writeMotorUpdate(segmentLeft, leftDistanceError, leftPower);
+        _leftLogger.writeMotorUpdate(segmentLeft, headingAdjustment, leftDistanceError);
 
         double rightDistanceError = getDistanceAdjustment(segmentRight, timeIndex, _rightEncoder, _rightError, -headingAdjustment);
         double rightOutputFeed = getOutputFeed(segmentLeft);
         double rightPower = rightOutputFeed + rightDistanceError;
+        _rightLogger.writeMotorUpdate(segmentRight, -headingAdjustment, rightDistanceError);
 
         _driveBase.driveTank(new TankThrottleValues(leftPower, rightPower));
     }
 
     public double getOutputFeed(Segment segment) {
-        double leftVelocityFeed = _kVf * segment.velocity;
+        double leftVelocityFeed = (_kVf * segment.velocity);
         double leftAccelerationFeed = _kAf * segment.acceleration;
         return leftVelocityFeed + leftAccelerationFeed;
     }
@@ -88,7 +94,7 @@ public class TankFollower implements ITrajectoryFollower {
     public double getHeadingAdjustment(Segment leftTarget, Segment rightTarget) {
         // Magic number used to tune the impact the heading error has on the output.
         // TODO: this should be a tunning constant.
-        final double kAngleAdjustment = 0.75;
+        final double kAngleAdjustment = 1.0;
 
         // Both the left and right segments should have the same heading.
         final double angle = _driveBase.gyro.getAngle();
@@ -103,11 +109,12 @@ public class TankFollower implements ITrajectoryFollower {
         final double inchesPerDegree = (DriveBase.WheelbaseWidth * Math.PI) / 360.0;
         final double positionAngleError = Math.toDegrees(Math.asin((positionErrorShift) / DriveBase.WheelbaseWidth));
 
-        return (angleError - positionAngleError) * inchesPerDegree * kAngleAdjustment;
+        //return (angleError - positionAngleError) * inchesPerDegree * kAngleAdjustment;
+        return angleError * inchesPerDegree * kAngleAdjustment;
     }
 
-    public double getDistanceAdjustment(Segment segment, Duration duration, RoyalEncoder encoder, ErrorContext errorContext, double angleAdjustment) {
-        double positionError = (segment.position - encoder.getDistance()) + angleAdjustment;
+    public double getDistanceAdjustment(Segment segment, Duration duration, RoyalEncoder encoder, ErrorContext errorContext, double headingAdjustment) {
+        double positionError = (segment.position - encoder.getDistance()) + headingAdjustment;
         double derivativeError = (positionError - errorContext.lastPositionError) / secondsFromDuration(duration);
         errorContext.lastPositionError = positionError;
 
