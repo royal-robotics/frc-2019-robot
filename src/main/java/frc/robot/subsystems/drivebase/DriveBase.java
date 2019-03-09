@@ -2,7 +2,8 @@ package frc.robot.subsystems.drivebase;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.interfaces.*;
+import edu.wpi.first.wpilibj.DoubleSolenoid.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.Components;
 import frc.libs.components.RoyalEncoder;
@@ -13,9 +14,13 @@ public class DriveBase {
     private final SpeedController _rightDrive;
     public final RoyalEncoder leftEncoder;
     public final RoyalEncoder rightEncoder;
+    public final Gyro gyro;
 
     private final Solenoid _frontLift;
     private final DoubleSolenoid _backLift;
+
+    public static final double WheelDiameter = 6.0;
+    public static final double WheelbaseWidth = 25.0;
 
     public DriveBase() {
         final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
@@ -38,6 +43,10 @@ public class DriveBase {
         Encoder rightEncoder = Components.DriveBase.rightEncoder;
         this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse, false);
 
+        gyro = Components.DriveBase.gyro;
+        gyro.reset();
+        gyro.calibrate();
+
         _frontLift = Components.DriveBase.frontLift;
         _backLift = Components.DriveBase.backLift;
         _backLift.set(Value.kForward);
@@ -46,6 +55,7 @@ public class DriveBase {
     public void reset() {
         leftEncoder.reset();
         rightEncoder.reset();
+        gyro.reset();
     }
 
     public void driveTank(TankThrottleValues throttleValues) {
@@ -77,6 +87,8 @@ public class DriveBase {
         SmartDashboard.putNumber("Drive-Power-Left", _leftDrive.get());
         SmartDashboard.putNumber("Drive-Power-Right", _rightDrive.get());
         
+        SmartDashboard.putNumber("Drive-Angle", gyro.getAngle());
+
         SmartDashboard.putNumber("Drive-Distance-Left", leftEncoder.getDistance());
         SmartDashboard.putNumber("Drive-Distance-Right", rightEncoder.getDistance());
 
@@ -88,12 +100,9 @@ public class DriveBase {
         // The ratio that relates the rate the encoder turns vs. the wheel.
         final double EncoderGearRatio = 1.0;
         
-        // The diameter of one of the drivebase wheels
-        final double WheelDiameterInches = 6.0;
-        
         // The number of pulses per encoder rotation
         final double PulsesPerRotation = 256.0;
 
-        return  EncoderGearRatio * WheelDiameterInches * Math.PI / PulsesPerRotation;
+        return  EncoderGearRatio * WheelDiameter * Math.PI / PulsesPerRotation;
     }
 }   

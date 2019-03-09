@@ -53,18 +53,18 @@ public class DriveController implements IRobotController {
 
         if (Controls.DriveSystem.autoTestForward())
         {
-            // followMotionProfile(76.0, 50.0, false, () -> {
-            //     System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
-            //     System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
-            // });
+            followMotionProfile(76.0, 50.0, false, () -> {
+                System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
+                System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+            });
         }
 
         if (Controls.DriveSystem.autoTestBackward())
         {
-            // followMotionProfile(76.0, 50.0, true, () -> {
-            //     System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
-            //     System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
-            // });
+            followMotionProfile(76.0, 50.0, true, () -> {
+                System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
+                System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+            });
         }
     }
 
