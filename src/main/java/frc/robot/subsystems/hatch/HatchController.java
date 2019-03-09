@@ -8,7 +8,7 @@ public class HatchController implements IRobotController
 {
     private final HatchManipulator _hatchManipulator = new HatchManipulator();
 
-    private final Elevator elevator_elevator = ElevatorController._elevator;
+    private final Elevator _elevator = ElevatorController._elevator;
 
     @Override
     public void init()
@@ -19,9 +19,6 @@ public class HatchController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
-        if(elevator_elevator.getElevatorHeight() < 8)
-            return;
-
         if (Controls.HatchManipulator.hatchRock()) {
             _hatchManipulator.rockForward();
             
@@ -34,6 +31,10 @@ public class HatchController implements IRobotController
             _hatchManipulator.rockBackwards();
             _hatchManipulator.shootHatchIn();
         }
+
+        if(_elevator.getElevatorHeight() < 8.0)
+            return;
+
         if(Controls.HatchManipulator.ManualControl())
             _hatchManipulator.manualHatchArm(Controls.HatchManipulator.GetPower());
         else if (Controls.HatchManipulator.HatchArmHome())
@@ -42,8 +43,6 @@ public class HatchController implements IRobotController
             _hatchManipulator.moveHatchArmFloor();
         else if (Controls.HatchManipulator.HatchArmStick())
             _hatchManipulator.moveHatchArmStick();
-        else
-            _hatchManipulator.stopHatchArm();
 
         if (Controls.HatchManipulator.HatchIntake())
             _hatchManipulator.pullHatchIn();
