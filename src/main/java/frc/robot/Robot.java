@@ -9,6 +9,8 @@ package frc.robot;
 
 import java.util.*;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.*;
 import frc.libs.autonomous.LoggingContext;
 import frc.robot.autonomous.*;
@@ -105,6 +107,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+
+    Components.DriveBase.leftDrive1.setNeutralMode(NeutralMode.Coast);
+    Components.DriveBase.leftDrive2.setNeutralMode(NeutralMode.Coast);
+    Components.DriveBase.leftDrive3.setNeutralMode(NeutralMode.Coast);
+    Components.DriveBase.rightDrive1.setNeutralMode(NeutralMode.Coast);
+    Components.DriveBase.rightDrive2.setNeutralMode(NeutralMode.Coast);
+    Components.DriveBase.rightDrive3.setNeutralMode(NeutralMode.Coast);
+
     _autoManager.stopAutonomous();
 
     for (IRobotController robotController : _robotControllers)

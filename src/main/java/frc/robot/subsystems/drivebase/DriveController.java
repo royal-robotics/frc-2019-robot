@@ -7,6 +7,7 @@ import frc.robot.subsystems.*;
 public class DriveController implements IRobotController {
     private final DriveBase _driveBase = new DriveBase();
 
+    private boolean _followerRunning = false;
     private TankFollower _tankFollower;
 
     @Override
@@ -31,7 +32,9 @@ public class DriveController implements IRobotController {
             default:
                 throw new UnsupportedOperationException();
         }
-        _driveBase.driveTank(throttleValues);
+
+        if (!_followerRunning)
+            _driveBase.driveTank(throttleValues);
 
         if (Controls.DriveSystem.LiftRobotFront())
         {
@@ -53,17 +56,21 @@ public class DriveController implements IRobotController {
 
         if (Controls.DriveSystem.autoTestForward())
         {
+            _followerRunning = true;
             followMotionProfile(76.0, 50.0, false, () -> {
                 System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
                 System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+                _followerRunning = false;
             });
         }
 
         if (Controls.DriveSystem.autoTestBackward())
         {
+            _followerRunning = true;
             followMotionProfile(76.0, 50.0, true, () -> {
                 System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
                 System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+                _followerRunning = false;
             });
         }
     }

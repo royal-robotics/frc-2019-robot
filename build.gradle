@@ -3,7 +3,7 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2019.3.2"
 }
 
-//apply from: "compile-motion-profile.gradle"
+// apply from: "compile-motion-profile.gradle"
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
