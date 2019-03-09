@@ -35,6 +35,7 @@ dir.eachFileRecurse (FileType.FILES) { file ->
             }
         }
         build.finalizedBy(compileTemplateTask)
+        tasks.deploy.dependsOn(compileTemplateTask)
     }
 }
 
