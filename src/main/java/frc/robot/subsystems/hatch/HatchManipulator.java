@@ -41,7 +41,7 @@ public class HatchManipulator
         _hatchArm.setSensorPhase(false);
 
         _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        _hatchArm.configClosedLoopPeakOutput(0, 1.0);
+        _hatchArm.configClosedLoopPeakOutput(0, 1.0); 
         _hatchArm.config_kP(0, 3.5);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
