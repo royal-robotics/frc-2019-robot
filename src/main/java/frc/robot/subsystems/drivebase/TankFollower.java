@@ -145,6 +145,7 @@ public class TankFollower implements ITrajectoryFollower {
 
     public void stop() {
         _controlLoop.stop();
+        _controlLoop.close();
     }
 
     private class ErrorContext {
