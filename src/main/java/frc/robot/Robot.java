@@ -19,8 +19,6 @@ import frc.robot.subsystems.cargo.CargoController;
 import frc.robot.subsystems.drivebase.*;
 import frc.robot.subsystems.elevator.ElevatorController;
 import frc.robot.subsystems.hatch.HatchController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -36,7 +34,6 @@ public class Robot extends TimedRobot {
   public final HatchController _hatchController = new HatchController();
   public final CargoController _cargoController = new CargoController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   static {
     // Load classes eagerly when the robot is constructed.
     LoggingContext.poke();
@@ -58,10 +55,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     for (IRobotController robotController : _robotControllers)
       robotController.init();
-
-    m_chooser.setDefaultOption("No Auto Selected", "NoAutoRoutine");
-    m_chooser.addOption("TestAutoRoutine", "TestAutoRoutine");
-    SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   /**
@@ -93,7 +86,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    _autoManager.startAutonomous(m_chooser.getSelected());
+    _autoManager.startAutonomous();
     _driveController.setNeutralMode(NeutralMode.Brake);
     _compressor.stop();
   }
