@@ -28,6 +28,7 @@ public class ElevatorPositionHolder extends PIDController {
         _output = output;
 
         this.setOutputRange(-0.4, 0.75);
+        this.setAbsoluteTolerance(1.0);
     }
 
     public void setSetpoint(double setpoint, Runnable onComplete) {
@@ -43,10 +44,8 @@ public class ElevatorPositionHolder extends PIDController {
 
     @Override
     protected void calculate() {
-        targetCheck();
-
         // When we get to the setpoint notify the setting (if interested)
-        if (_onTargetTime.elapsed(TimeUnit.MILLISECONDS) > 0)
+        if (this.onTarget())
         {
             if (onCompleteSetpoint != null)
             {
@@ -62,22 +61,6 @@ public class ElevatorPositionHolder extends PIDController {
         }
 
         super.calculate();
-    }
-
-    private void targetCheck() {
-        final double band = 1.0;
-        final double target = getSetpoint();
-        final double position = _source.pidGet();
-
-        if ((position < target + band) && (position > target - band))
-        {
-            if (!_onTargetTime.isRunning())
-                _onTargetTime.start();
-        }
-        else
-        {
-            _onTargetTime.reset();
-        }        
     }
 
     private boolean isBottomSetpoint() {

@@ -33,9 +33,5 @@ public class RightRocketAutoRoutine extends AutoRoutine {
         AutoStep shootHatch = new HatchShootStep(_parent, _hatchController);
         AutoStep lowerElevator = new ElevatorMoveStep(_parent, _elevatorController, 5);
         return Arrays.asList(moveFromPlatform, raiseElevator, moveToRocket, shootHatch, lowerElevator);
-
-        // AutoStep raiseElevator = new ElevatorMoveStep(_parent, _elevatorController, 20);
-        // AutoStep shootHatch = new HatchShootStep(_parent, _hatchController);
-        // return Arrays.asList(raiseElevator, shootHatch);
     }
 }
