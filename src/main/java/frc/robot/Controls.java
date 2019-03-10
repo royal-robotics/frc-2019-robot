@@ -84,7 +84,7 @@ public final class Controls {
         private static Button moveCargoMid = new Button(operator, Logitech310Button.Right, IButton.ButtonType.Hold);
         private static Button moveCargoHigh = new Button(operator, Logitech310Button.TopRight, IButton.ButtonType.Hold);
         private static Button moveTop = new Button(operator, Logitech310Button.Up, IButton.ButtonType.Hold);
-
+ 
         public static boolean quickMoveTest() { return quickMoveTest.isPressed(); }
         public static boolean moveBottom() { return moveBottom.isPressed(); }
         public static boolean moveHatchLow() { return moveHatchLow.isPressed(); }
@@ -130,6 +130,6 @@ public final class Controls {
         public static boolean HatchArmFloor() { return hatchArmFloor.isPressed(); }
         public static boolean HatchArmStick() { return hatchArmStick.isPressed(); }
         public static boolean ManualControl() { return power.isPressed(); }
-        public static double GetPower() { return -power.getValue() * 20.0; }
+        public static double GetPower() { return power.getValue() * 20.0; }
     }
 }

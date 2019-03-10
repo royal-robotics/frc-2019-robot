@@ -18,7 +18,7 @@ public class HatchManipulator
     private double currentAngle;
 
     private final double HomeAngle = -72;
-    private final double StickAngle = -10.5;
+    private final double StickAngle = -35.5;
     private final double FloorAngle = 80;
 
     public HatchManipulator()
@@ -41,7 +41,8 @@ public class HatchManipulator
         _hatchArm.setSensorPhase(false);
 
         _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        _hatchArm.config_kP(0, 2.5);
+        _hatchArm.configClosedLoopPeakOutput(0, 1.0); 
+        _hatchArm.config_kP(0, 3.5);
         _hatchArm.config_kI(0, 0);
         _hatchArm.config_kD(0, 0);
 
