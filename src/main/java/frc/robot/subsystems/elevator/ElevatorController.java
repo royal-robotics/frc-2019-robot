@@ -28,7 +28,7 @@ public class ElevatorController implements IRobotController
         }
         else if (Controls.ElevatorSystem.moveHatchLow())
         {
-            _elevator.quickMove(9.5);
+            _elevator.quickMove(10.0);
         }
         else if (Controls.ElevatorSystem.moveHatchMid())
         {
@@ -40,7 +40,7 @@ public class ElevatorController implements IRobotController
         }
         else if (Controls.ElevatorSystem.moveCargoLow())
         {
-            _elevator.quickMove(17.75);
+            _elevator.quickMove(18.75);
         }
         else if (Controls.ElevatorSystem.moveCargoMid())
         {
