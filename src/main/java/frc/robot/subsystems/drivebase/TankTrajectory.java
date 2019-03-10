@@ -9,9 +9,9 @@ public class TankTrajectory {
     public IMotionProfile leftProfile;
     public IMotionProfile rightProfile;
 
-    public TankTrajectory(double distance, double acceleration, boolean invert) {
-        this.leftProfile = new LinearMotionProfile(distance, 80.0, acceleration, invert);
-        this.rightProfile = new LinearMotionProfile(distance, 80.0, acceleration, invert);
+    public TankTrajectory(double distance, double maxVelocity, double acceleration, boolean invert) {
+        this.leftProfile = new LinearMotionProfile(distance, maxVelocity, acceleration, invert);
+        this.rightProfile = new LinearMotionProfile(distance, maxVelocity, acceleration, invert);
     }
 
     public TankTrajectory(String trajectoryName, boolean invert) {
