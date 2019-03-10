@@ -22,7 +22,7 @@ public class AutoChooser {
             _chooser.addOption(routine.getSimpleName(), routine.getSimpleName());
         }
 
-        SmartDashboard.putData("Select an Auto!", _chooser);
+        SmartDashboard.putData("Auto Routine", _chooser);
     }
 
     public AutoRoutine getSelectedRoutine() {
@@ -45,6 +45,7 @@ public class AutoChooser {
     }
 
     private static List<Class> selectableRoutines() {
-        return Arrays.asList(RightRocketAutoRoutine.class, RightFrontHatchAutoRoutine.class);
+        return Arrays.asList(RightRocketAutoRoutine.class, 
+                             RightFrontHatchAutoRoutine.class);
     }
 }

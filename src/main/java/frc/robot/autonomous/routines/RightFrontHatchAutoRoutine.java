@@ -27,7 +27,10 @@ public class RightFrontHatchAutoRoutine extends AutoRoutine {
 
     @Override
     protected List<AutoStep> createRoutine() {
-        AutoStep moveForward = new DriveStraightStep(_parent, _driveController, 76.0, 40.0, 80);
-        return Arrays.asList(moveForward);
+        return Arrays.asList(
+            new TrajectoryDriveStep(_parent, _driveController, "rightFrontHatch", false),
+            new ElevatorMoveStep(_parent, _elevatorController, 5),
+            new HatchShootStep(_parent, _hatchController)
+        );
     }
 }
