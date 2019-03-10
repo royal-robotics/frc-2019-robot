@@ -17,7 +17,7 @@ public class DriveStraightStep extends AutoStep {
 
     @Override
     protected void initialize() {
-        TankTrajectory tankTrajectory = new TankTrajectory(_distance, 100.0, true);
+        TankTrajectory tankTrajectory = new TankTrajectory(_distance, 100.0, false);
         _driveController.followTankTrajectory(tankTrajectory, () -> {
             _driveController.drive(0.0, 0.0);
             this.complete();

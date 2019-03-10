@@ -36,6 +36,6 @@ public class AutoManager {
     private AutoRoutine createAutoRoutine(String selectedAuto) {
         // TODO: Implment the logic that chooses the routine basd on a the switch value.
         System.out.println("Selected auto routine: " + selectedAuto);
-        return new TestAutoRoutine(robot);
+        return new RightRocketAutoRoutine(robot);
     }
 }
