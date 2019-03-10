@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
   private final AutoManager _autoManager;
+  private final Compressor _compressor = new Compressor();
   public final DriveController _driveController = new DriveController();
   public final ElevatorController _elevatorController = new ElevatorController();
   public final HatchController _hatchController = new HatchController();
@@ -94,6 +95,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     _autoManager.startAutonomous(m_chooser.getSelected());
     _driveController.setNeutralMode(NeutralMode.Brake);
+    _compressor.stop();
   }
 
   /**
@@ -108,6 +110,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     _autoManager.stopAutonomous();
     _driveController.setNeutralMode(NeutralMode.Coast);
+    _compressor.start();
   }
 
   /**
@@ -117,6 +120,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     _autoManager.stopAutonomous();
     _driveController.setNeutralMode(NeutralMode.Coast);
+    _compressor.start();
 
     for (IRobotController robotController : _robotControllers)
       robotController.init();
