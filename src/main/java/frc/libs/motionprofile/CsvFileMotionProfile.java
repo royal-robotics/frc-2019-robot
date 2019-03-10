@@ -8,7 +8,8 @@ public class CsvFileMotionProfile implements IMotionProfile {
 
     List<Segment> segments = new ArrayList<>();
 
-    public CsvFileMotionProfile(File file) throws NumberFormatException, IOException {
+    public CsvFileMotionProfile(File file, boolean invert) throws NumberFormatException, IOException {
+        final double kInvert = invert ? -1 : 1;
         FileReader fileReader = new FileReader(file);
         BufferedReader br = new BufferedReader(fileReader);
 
@@ -22,10 +23,10 @@ public class CsvFileMotionProfile implements IMotionProfile {
             Duration time = durationFromSeconds(Double.parseDouble(values[0]));
             double x = Double.parseDouble(values[1]);
             double y = Double.parseDouble(values[2]);
-            double position = Double.parseDouble(values[3]);
-            double velocity = Double.parseDouble(values[4]);
-            double acceleration = Double.parseDouble(values[5]);
-            double jerk = Double.parseDouble(values[6]);
+            double position = Double.parseDouble(values[3]) * kInvert;
+            double velocity = Double.parseDouble(values[4]) * kInvert;
+            double acceleration = Double.parseDouble(values[5]) * kInvert;
+            double jerk = Double.parseDouble(values[6]) * kInvert;
             double headingRadians = Double.parseDouble(values[7]);
             double heading = -(Math.toDegrees(headingRadians) - 90);
 

@@ -14,13 +14,19 @@ public class TankTrajectory {
         this.rightProfile = new LinearMotionProfile(distance, 80.0, acceleration, invert);
     }
 
-    public TankTrajectory(String trajectoryName) {
+    public TankTrajectory(String trajectoryName, boolean invert) {
         try {
             String leftTrajectoryName = trajectoryName + "-left";
-            this.leftProfile = new CsvFileMotionProfile(getTrajectoryFile(leftTrajectoryName));
-
             String rightTrajectoryName = trajectoryName + "-right";
-            this.rightProfile = new CsvFileMotionProfile(getTrajectoryFile(rightTrajectoryName));
+
+            if (invert) {
+                String tempLeft = leftTrajectoryName;
+                leftTrajectoryName = rightTrajectoryName;
+                rightTrajectoryName = tempLeft;
+            }
+
+            this.leftProfile = new CsvFileMotionProfile(getTrajectoryFile(leftTrajectoryName), invert);
+            this.rightProfile = new CsvFileMotionProfile(getTrajectoryFile(rightTrajectoryName), invert);
         } catch (Exception e) {
             System.out.println("This is really bad and everything is broken sorry :(");
             this.leftProfile = null;
