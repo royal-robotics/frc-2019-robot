@@ -20,7 +20,7 @@ public class HatchShootStep extends AutoStep {
     @Override
     protected void initialize() {
         _scheduler.setHandler(() -> rockOutStep());
-        _scheduler.startSingle(0.25);
+        _scheduler.startSingle(0.50);
     }
 
     private void rockOutStep() {
