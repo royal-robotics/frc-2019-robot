@@ -7,7 +7,7 @@
     },
     "waypoints": [
         {"x": 0, "y": 0, "angle": 1.570795},
-        {"x": 0, "y": 120, "angle": 1.570795}
+        {"x": -20, "y": 115.0, "angle": 1.570795}
     ],
     "tankModifier": {
         "wheelbaseWidth": 25.0

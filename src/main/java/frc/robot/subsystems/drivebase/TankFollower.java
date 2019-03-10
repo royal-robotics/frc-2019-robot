@@ -60,9 +60,15 @@ public class TankFollower implements ITrajectoryFollower {
         double leftOutputFeed = getOutputFeed(leftSegment);
         double leftPower = leftOutputFeed + leftAdjustment;
 
+        if (Math.abs(leftPower) > 1.0)
+            System.err.printf("Left output power set too high (%.2f)\n", leftPower);
+
         double rightAdjustment = getDistanceAdjustment(rightSegment, timeIndex, _rightEncoder, _rightError, -headingAdjustment);
         double rightOutputFeed = getOutputFeed(leftSegment);
         double rightPower = rightOutputFeed + rightAdjustment;
+        
+        if (Math.abs(rightPower) > 1.0)
+            System.err.printf("Right output power set too high (%.2f)\n", rightPower);
 
         _driveBase.driveTank(new TankThrottleValues(leftPower, rightPower));
         _logger.writeMotorUpdate(timeIndex, leftSegment, leftAdjustment, rightSegment, rightAdjustment, headingAdjustment);
@@ -93,9 +99,6 @@ public class TankFollower implements ITrajectoryFollower {
     }
 
     public double getHeadingAdjustment(Segment leftTarget, Segment rightTarget) {
-        // Magic number used to tune the impact the heading error has on the output.
-        final double kAngleAdjustment = 0.0;
-
         // Both the left and right segments should have the same heading.
         final double angle = _gyro.getAngle();
         final double targetAngle = leftTarget.heading;
@@ -108,10 +111,15 @@ public class TankFollower implements ITrajectoryFollower {
         final double positionErrorShift = leftPosError - rightPosError;
         final double headingErrorPosition = Math.toDegrees(Math.asin((positionErrorShift) / DriveBase.WheelbaseWidth));
 
+        if (headingErrorPosition > headingErrorGyro)
+            System.err.println("HEP > HEG: " + headingErrorPosition);
+
         final double headingError = headingErrorGyro - headingErrorPosition;
         final double wheelbaseCircumference = 2 * Math.PI * DriveBase.WheelbaseWidth;
         final double distanceHeadingAdjustment = wheelbaseCircumference * (headingError / 360.0);
 
+        // Magic number used to tune the impact the heading error has on the output.
+        final double kAngleAdjustment = 1.0;
         return (distanceHeadingAdjustment / 2) * kAngleAdjustment;
     }
 
@@ -121,7 +129,7 @@ public class TankFollower implements ITrajectoryFollower {
         errorContext.lastPositionError = positionError;
         
         // TODO: Pass these in or make these abstract properties.
-        final double _kP = 0.1; // distance proportional
+        final double _kP = 0.4; // distance proportional
         final double _kD = 0.0; // distance derivative
         double proportionalAdjustment = _kP * positionError;
         double derivativeAdjustment = _kD * derivativeError;

@@ -37,12 +37,15 @@ public class DriveBase {
         Components.DriveBase.rightDrive3.follow(rightDrive1);
         rightDrive = rightDrive1;
 
-        final double inchesPerPulse = inchesPerPulse();
+        // TODO: These are probaly different for the comp bot.
+        final double pnumaticalWheelKludgeLeft =  0.96994;
+        final double pnumaticalWheelKludgeRight = 0.97845;
+
         Encoder leftEncoder = Components.DriveBase.leftEncoder;
-        this.leftEncoder = new RoyalEncoder(leftEncoder, inchesPerPulse, true);
+        this.leftEncoder = new RoyalEncoder(leftEncoder, inchesPerPulse(pnumaticalWheelKludgeLeft), true);
 
         Encoder rightEncoder = Components.DriveBase.rightEncoder;
-        this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse, false);
+        this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse(pnumaticalWheelKludgeRight), false);
 
         gyro = Components.DriveBase.gyro;
         gyro.reset();
@@ -97,13 +100,15 @@ public class DriveBase {
         SmartDashboard.putNumber("Drive-Velocity-Right", rightEncoder.getVelocity());
     }
 
-    private static double inchesPerPulse() {
+    private static double inchesPerPulse(double pnumaticalWheelKludge) {
         // The ratio that relates the rate the encoder turns vs. the wheel.
         final double EncoderGearRatio = 1.0;
         
         // The number of pulses per encoder rotation
         final double PulsesPerRotation = 256.0;
 
-        return  EncoderGearRatio * WheelDiameter * Math.PI / PulsesPerRotation;
+        final double InchesPerPulse = EncoderGearRatio * WheelDiameter * Math.PI / PulsesPerRotation;
+
+        return InchesPerPulse * pnumaticalWheelKludge;
     }
 }   

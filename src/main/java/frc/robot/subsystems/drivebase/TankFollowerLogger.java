@@ -82,7 +82,7 @@ public class TankFollowerLogger {
 
         // Left
         _fileOutput.printf(
-            ",%.2f,%.2f,%.2f,%.2f,%.2fm%.2f",
+            ",%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
             leftSegment.position,
             _driveBase.leftEncoder.getDistance(),
             leftSegment.velocity,
@@ -92,7 +92,7 @@ public class TankFollowerLogger {
             
         // Right
         _fileOutput.printf(
-            ",%.2f,%.2f,%.2f,%.2f,%.2fm%.2f",
+            ",%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
             rightSegment.position,
             _driveBase.rightEncoder.getDistance(),
             rightSegment.velocity,
