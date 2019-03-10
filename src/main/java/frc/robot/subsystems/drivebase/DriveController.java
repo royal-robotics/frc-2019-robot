@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drivebase;
 
-import frc.robot.Controls;
+import frc.robot.*;
+import com.ctre.phoenix.motorcontrol.*;
 import frc.libs.utils.RobotModels.*;
 import frc.robot.subsystems.*;
 
@@ -89,6 +90,10 @@ public class DriveController implements IRobotController {
             default:
                 throw new UnsupportedOperationException();
         }
+    }
+
+    public void setNeutralMode(NeutralMode mode) {
+        _driveBase.setNeutralMode(mode);
     }
 
     public void stop() {
