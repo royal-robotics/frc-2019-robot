@@ -67,6 +67,13 @@ public class Elevator
         _elevatorPositionHolder.enable();
     }
 
+    public void quickMove(double height, Runnable onComplete)
+    {
+        _isStopped = false;
+        _elevatorPositionHolder.setSetpoint(height, onComplete);
+        _elevatorPositionHolder.enable();
+    }
+
     public void diagnosticPeriodic() {
         SmartDashboard.putNumber("Elevator-Component-Power", _elevator.get());
         SmartDashboard.putNumber("Elevator-Component-Encoder", _royalEncoder.getDistance());
@@ -76,8 +83,7 @@ public class Elevator
         
         _elevatorPositionHolder.diagnosticPeriodic();
     }
-    public double getElevatorHeight(){
+    public double getElevatorHeight() {
         return _royalEncoder.getDistance();
-
     }
 }

@@ -48,7 +48,20 @@ public class HatchController implements IRobotController
             _hatchManipulator.pullHatchIn();
         else
             _hatchManipulator.stopHatchRoller();
-            
+    }
+
+    public void setRock(boolean setRockOut) {
+        if (setRockOut)
+            _hatchManipulator.rockForward();
+        else
+            _hatchManipulator.rockBackwards();
+    }
+
+    public void setShoot(boolean setShooterOut) {
+        if (setShooterOut)
+            _hatchManipulator.shootHatchOut();
+        else
+            _hatchManipulator.shootHatchIn();
     }
 
     @Override

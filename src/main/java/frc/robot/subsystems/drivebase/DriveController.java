@@ -60,12 +60,13 @@ public class DriveController implements IRobotController {
         });
     }
 
-    public void followTankTrajectory(TankTrajectory tankTrajectory, Runnable onCompleted) {
+    public TankFollower followTankTrajectory(TankTrajectory tankTrajectory, Runnable onCompleted) {
         // Stop the current follower if one is already running.
         if (isFollowerRunning())
             _tankFollower.stop();
 
         _tankFollower = new TankFollower(_driveBase, tankTrajectory, onCompleted);
+        return _tankFollower;
     }
 
     public void drive(double left, double right) {

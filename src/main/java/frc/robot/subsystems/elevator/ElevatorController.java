@@ -60,6 +60,14 @@ public class ElevatorController implements IRobotController
         }
     }
 
+    public void quickMove(double height, Runnable onComplete) {
+        _elevator.quickMove(height, onComplete);
+    }
+
+    public void stop() {
+        _elevator.stop();
+    }
+
     @Override
     public void diagnosticPeriodic() {
         _elevator.diagnosticPeriodic();

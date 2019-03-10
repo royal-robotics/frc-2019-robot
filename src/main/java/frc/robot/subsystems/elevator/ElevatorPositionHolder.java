@@ -1,5 +1,9 @@
 package frc.robot.subsystems.elevator;
 
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Stopwatch;
+
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
@@ -14,6 +18,9 @@ public class ElevatorPositionHolder extends PIDController {
 
     private final PIDSource _source;
     private final GravityAdjustedPercentOutput _output;
+    private final Stopwatch _onTargetTime = Stopwatch.createUnstarted();
+
+    private Runnable onCompleteSetpoint;
 
     public ElevatorPositionHolder(PIDSource source, GravityAdjustedPercentOutput output) {
         super(Kp, Ki, Kd, source, output, LoopInterval);
@@ -23,8 +30,31 @@ public class ElevatorPositionHolder extends PIDController {
         this.setOutputRange(-0.4, 0.75);
     }
 
+    public void setSetpoint(double setpoint, Runnable onComplete) {
+        super.setSetpoint(setpoint);
+        onCompleteSetpoint = onComplete;
+    }
+
+    @Override
+    public void setSetpoint(double setpoint) {
+        super.setSetpoint(setpoint);
+        onCompleteSetpoint = null;
+    }
+
     @Override
     protected void calculate() {
+        targetCheck();
+
+        // When we get to the setpoint notify the setting (if interested)
+        if (_onTargetTime.elapsed(TimeUnit.MILLISECONDS) > 0)
+        {
+            if (onCompleteSetpoint != null)
+            {
+                onCompleteSetpoint.run();
+                onCompleteSetpoint = null;
+            }
+        }
+
         // If we're at the floor we don't need to power up the motors.
         if (this.isEnabled() && isBottomSetpoint() && isAtBottom()) {
             _output.disable();
@@ -32,6 +62,22 @@ public class ElevatorPositionHolder extends PIDController {
         }
 
         super.calculate();
+    }
+
+    private void targetCheck() {
+        final double band = 1.0;
+        final double target = getSetpoint();
+        final double position = _source.pidGet();
+
+        if ((position < target + band) && (position > target - band))
+        {
+            if (!_onTargetTime.isRunning())
+                _onTargetTime.start();
+        }
+        else
+        {
+            _onTargetTime.reset();
+        }        
     }
 
     private boolean isBottomSetpoint() {
