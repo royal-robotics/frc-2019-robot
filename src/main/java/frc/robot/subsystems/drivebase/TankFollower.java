@@ -26,12 +26,8 @@ public class TankFollower implements ITrajectoryFollower {
     private final TankFollowerLogger _rightLogger;
 
     // TODO: Pass these in or make these abstract properties.
-    //private static final double _kP = 0.15; // distance proportional
-    private static final double _kP = 0.4; // distance proportional
-    private static final double _kI = 0.0; // distance integral
+    private static final double _kP = 0.1; // distance proportional
     private static final double _kD = 0.0; // distance derivative
-    private static final double _kVf = 2.5 / 170.0; // velocity feed
-    private static final double _kAf = 0.0; // acceleration feed
 
     public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete)
     {
@@ -75,42 +71,63 @@ public class TankFollower implements ITrajectoryFollower {
         double leftDistanceError = getDistanceAdjustment(segmentLeft, timeIndex, _leftEncoder, _leftError, headingAdjustment);
         double leftOutputFeed = getOutputFeed(segmentLeft);
         double leftPower = leftOutputFeed + leftDistanceError;
-        _leftLogger.writeMotorUpdate(segmentLeft, headingAdjustment, leftDistanceError);
+        _leftLogger.writeMotorUpdate(timeIndex, segmentLeft, headingAdjustment, leftDistanceError);
 
         double rightDistanceError = getDistanceAdjustment(segmentRight, timeIndex, _rightEncoder, _rightError, -headingAdjustment);
         double rightOutputFeed = getOutputFeed(segmentLeft);
         double rightPower = rightOutputFeed + rightDistanceError;
-        _rightLogger.writeMotorUpdate(segmentRight, -headingAdjustment, rightDistanceError);
+        _rightLogger.writeMotorUpdate(timeIndex, segmentRight, -headingAdjustment, rightDistanceError);
 
         _driveBase.driveTank(new TankThrottleValues(leftPower, rightPower));
     }
 
     public double getOutputFeed(Segment segment) {
-        double leftVelocityFeed = (_kVf * segment.velocity);
-        double leftAccelerationFeed = _kAf * segment.acceleration;
-        return leftVelocityFeed + leftAccelerationFeed;
+        final double velocityFeed = getVelocityFeed(segment.velocity);
+
+        final double kAf = 0.0;
+        final double accelerationFeed = kAf * segment.acceleration;
+
+        return velocityFeed + accelerationFeed;
+    }
+
+    public static double getVelocityFeed(double velocity) {
+        // Constant Velocity Feed:
+        // final double kVf = 1.35 / DriveBase.TopSpeed;
+        // return (kVf * segment.velocity);
+
+        // Linear Velocity Feed:
+        final double m = 0.0056;
+        final double b = 0.062;
+        return (m * velocity) + b;
+
+        // Quadratic Velocity Feed:
+        // final double a = 0.056;
+        // final double b = 0.0061;
+        // final double c = -0.0000035;
+        // return a + (b * velocity) + (c * Math.pow(c, 2));
     }
 
     public double getHeadingAdjustment(Segment leftTarget, Segment rightTarget) {
         // Magic number used to tune the impact the heading error has on the output.
-        // TODO: this should be a tunning constant.
-        final double kAngleAdjustment = 1.0;
+        final double kAngleAdjustment = 0.0;
 
         // Both the left and right segments should have the same heading.
         final double angle = _driveBase.gyro.getAngle();
         final double targetAngle = leftTarget.heading;
-        final double angleError = targetAngle - angle;
+        final double headingErrorGyro = targetAngle - angle;
 
-        // Calculate the angle error caused by position errors.
+        // Calculate the heading error caused by position errors.
         // We subtract this from the observed angle error so we don't over compensate.
         final double leftPosError = leftTarget.position - _driveBase.leftEncoder.getDistance();
         final double rightPosError = rightTarget.position - _driveBase.rightEncoder.getDistance();
         final double positionErrorShift = leftPosError - rightPosError;
-        final double inchesPerDegree = (DriveBase.WheelbaseWidth * Math.PI) / 360.0;
-        final double positionAngleError = Math.toDegrees(Math.asin((positionErrorShift) / DriveBase.WheelbaseWidth));
+        final double headingErrorPosition = Math.toDegrees(Math.asin((positionErrorShift) / DriveBase.WheelbaseWidth));
 
-        //return (angleError - positionAngleError) * inchesPerDegree * kAngleAdjustment;
-        return angleError * inchesPerDegree * kAngleAdjustment;
+        final double headingError = headingErrorGyro - headingErrorPosition;
+        final double wheelbaseCircumference = 2 * Math.PI * DriveBase.WheelbaseWidth;
+        final double distanceHeadingAdjustment = wheelbaseCircumference * (headingError / 360.0);
+
+        return (distanceHeadingAdjustment / 2) * kAngleAdjustment;
     }
 
     public double getDistanceAdjustment(Segment segment, Duration duration, RoyalEncoder encoder, ErrorContext errorContext, double headingAdjustment) {

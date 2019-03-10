@@ -108,12 +108,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
 
-    Components.DriveBase.leftDrive1.setNeutralMode(NeutralMode.Coast);
-    Components.DriveBase.leftDrive2.setNeutralMode(NeutralMode.Coast);
-    Components.DriveBase.leftDrive3.setNeutralMode(NeutralMode.Coast);
-    Components.DriveBase.rightDrive1.setNeutralMode(NeutralMode.Coast);
-    Components.DriveBase.rightDrive2.setNeutralMode(NeutralMode.Coast);
-    Components.DriveBase.rightDrive3.setNeutralMode(NeutralMode.Coast);
+    Components.DriveBase.leftDrive1.setNeutralMode(NeutralMode.Brake);
+    Components.DriveBase.leftDrive2.setNeutralMode(NeutralMode.Brake);
+    Components.DriveBase.leftDrive3.setNeutralMode(NeutralMode.Brake);
+    Components.DriveBase.rightDrive1.setNeutralMode(NeutralMode.Brake);
+    Components.DriveBase.rightDrive2.setNeutralMode(NeutralMode.Brake);
+    Components.DriveBase.rightDrive3.setNeutralMode(NeutralMode.Brake);
 
     _autoManager.stopAutonomous();
 

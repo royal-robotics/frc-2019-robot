@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drivebase;
 
 import java.io.*;
+import java.time.Duration;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.interfaces.*;
@@ -43,14 +44,14 @@ public class TankFollowerLogger {
         }
     }
 
-    public void writeMotorUpdate(Segment expected, double headingError, double distanceError) {
+    public void writeMotorUpdate(Duration time, Segment expected, double headingError, double distanceError) {
         // We failed to setup the logging file for some reason
         if (_fileOutput == null)
             return;
 
         _fileOutput.printf(
             "%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f\n",
-            (double)expected.time.toMillis(),
+            (double)time.toMillis(),
             expected.position,
             expected.velocity,
             expected.acceleration,

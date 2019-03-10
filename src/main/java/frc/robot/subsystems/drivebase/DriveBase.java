@@ -21,6 +21,7 @@ public class DriveBase {
 
     public static final double WheelDiameter = 6.0;
     public static final double WheelbaseWidth = 25.0;
+    public static final double TopSpeed = 170.0;
 
     public DriveBase() {
         final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
