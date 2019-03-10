@@ -10,8 +10,8 @@ import frc.libs.components.RoyalEncoder;
 import frc.libs.utils.RobotModels.*;
 
 public class DriveBase {
-    private final SpeedController _leftDrive;
-    private final SpeedController _rightDrive;
+    public final SpeedController leftDrive;
+    public final SpeedController rightDrive;
     public final RoyalEncoder leftEncoder;
     public final RoyalEncoder rightEncoder;
     public final Gyro gyro;
@@ -27,7 +27,7 @@ public class DriveBase {
         final WPI_TalonSRX leftDrive1 = Components.DriveBase.leftDrive1;
         Components.DriveBase.leftDrive2.follow(leftDrive1);
         Components.DriveBase.leftDrive3.follow(leftDrive1);
-        _leftDrive = leftDrive1;
+        leftDrive = leftDrive1;
  
         final WPI_TalonSRX rightDrive1 = Components.DriveBase.rightDrive1;
         rightDrive1.setInverted(true);
@@ -35,7 +35,7 @@ public class DriveBase {
         Components.DriveBase.rightDrive3.setInverted(true);
         Components.DriveBase.rightDrive2.follow(rightDrive1);
         Components.DriveBase.rightDrive3.follow(rightDrive1);
-        _rightDrive = rightDrive1;
+        rightDrive = rightDrive1;
 
         final double inchesPerPulse = inchesPerPulse();
         Encoder leftEncoder = Components.DriveBase.leftEncoder;
@@ -60,8 +60,8 @@ public class DriveBase {
     }
 
     public void driveTank(TankThrottleValues throttleValues) {
-        _leftDrive.set(throttleValues.left);
-        _rightDrive.set(throttleValues.right);
+        leftDrive.set(throttleValues.left);
+        rightDrive.set(throttleValues.right);
     }
 
     public void enableFrontLift()
@@ -85,8 +85,8 @@ public class DriveBase {
     }
 
     public void diagnosticPeriodic() {
-        SmartDashboard.putNumber("Drive-Power-Left", _leftDrive.get());
-        SmartDashboard.putNumber("Drive-Power-Right", _rightDrive.get());
+        SmartDashboard.putNumber("Drive-Power-Left", leftDrive.get());
+        SmartDashboard.putNumber("Drive-Power-Right", rightDrive.get());
         
         SmartDashboard.putNumber("Drive-Angle", gyro.getAngle());
 

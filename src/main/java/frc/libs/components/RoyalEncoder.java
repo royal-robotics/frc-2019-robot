@@ -1,8 +1,8 @@
 package frc.libs.components;
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.*;
 import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.*;
 
 import edu.wpi.first.wpilibj.*;
 
