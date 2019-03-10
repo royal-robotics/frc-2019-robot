@@ -1,5 +1,6 @@
 package frc.robot.subsystems.drivebase;
 
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.interfaces.*;
@@ -65,6 +66,15 @@ public class DriveBase {
     public void driveTank(TankThrottleValues throttleValues) {
         leftDrive.set(throttleValues.left);
         rightDrive.set(throttleValues.right);
+    }
+
+    public void setNeutralMode(NeutralMode mode) {
+        Components.DriveBase.leftDrive1.setNeutralMode(mode);
+        Components.DriveBase.leftDrive2.setNeutralMode(mode);
+        Components.DriveBase.leftDrive3.setNeutralMode(mode);
+        Components.DriveBase.rightDrive1.setNeutralMode(mode);
+        Components.DriveBase.rightDrive2.setNeutralMode(mode);
+        Components.DriveBase.rightDrive3.setNeutralMode(mode);
     }
 
     public void enableFrontLift()

@@ -93,6 +93,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     _autoManager.startAutonomous(m_chooser.getSelected());
+    _driveController.setNeutralMode(NeutralMode.Brake);
   }
 
   /**
@@ -106,6 +107,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     _autoManager.stopAutonomous();
+    _driveController.setNeutralMode(NeutralMode.Coast);
   }
 
   /**
@@ -113,15 +115,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-
-    Components.DriveBase.leftDrive1.setNeutralMode(NeutralMode.Brake);
-    Components.DriveBase.leftDrive2.setNeutralMode(NeutralMode.Brake);
-    Components.DriveBase.leftDrive3.setNeutralMode(NeutralMode.Brake);
-    Components.DriveBase.rightDrive1.setNeutralMode(NeutralMode.Brake);
-    Components.DriveBase.rightDrive2.setNeutralMode(NeutralMode.Brake);
-    Components.DriveBase.rightDrive3.setNeutralMode(NeutralMode.Brake);
-
     _autoManager.stopAutonomous();
+    _driveController.setNeutralMode(NeutralMode.Coast);
 
     for (IRobotController robotController : _robotControllers)
       robotController.init();
