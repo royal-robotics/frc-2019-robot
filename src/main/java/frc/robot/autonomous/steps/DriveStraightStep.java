@@ -8,9 +8,6 @@ public class DriveStraightStep extends AutoStep {
     private final DriveController _driveController;
     private final double _distance;
 
-    // We don't construct it until the autoStep starts
-    //private TankFollower _tankFollower = null;
-
     public DriveStraightStep(Marker markerParent, DriveController driveController, double distance) {
         super(markerParent);
 
@@ -20,7 +17,8 @@ public class DriveStraightStep extends AutoStep {
 
     @Override
     protected void initialize() {
-        _driveController.followMotionProfile(_distance, 50.0, false, () -> {
+        TankTrajectory tankTrajectory = new TankTrajectory(_distance, 100.0, true);
+        _driveController.followTankTrajectory(tankTrajectory, () -> {
             _driveController.drive(0.0, 0.0);
             this.complete();
         });

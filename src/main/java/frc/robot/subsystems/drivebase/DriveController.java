@@ -7,7 +7,6 @@ import frc.robot.subsystems.*;
 public class DriveController implements IRobotController {
     private final DriveBase _driveBase = new DriveBase();
 
-    private boolean _followerRunning = false;
     private TankFollower _tankFollower;
 
     @Override
@@ -17,24 +16,11 @@ public class DriveController implements IRobotController {
 
     @Override
     public void teleopPeriodic() {
-        TankThrottleValues throttleValues;
-        switch(Controls.DriveSystem.ControlMode.getSimpleName())
+        if (!isFollowerRunning())
         {
-            case "TankDrive":
-                throttleValues = Controls.DriveSystem.TankDrive.getThrottleValues();
-                break;
-            case "DifferentialDrive":
-                throttleValues = Controls.DriveSystem.DifferentialDrive.getThrottleValues();
-                break;
-            case "CheesyDrive":
-                throttleValues = Controls.DriveSystem.CheesyDrive.getThrottleValues();
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
-
-        if (!_followerRunning)
+            TankThrottleValues throttleValues = readThrottleValues();
             _driveBase.driveTank(throttleValues);
+        }
 
         if (Controls.DriveSystem.LiftRobotFront())
         {
@@ -56,33 +42,52 @@ public class DriveController implements IRobotController {
 
         if (Controls.DriveSystem.autoTestForward())
         {
-            _followerRunning = true;
-            followMotionProfile(76.0, 50.0, false, () -> {
-                System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
-                System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
-                _followerRunning = false;
-            });
+            TankTrajectory tankTrajectory = new TankTrajectory("example");
+            followTankTrajectory(tankTrajectory);
         }
 
         if (Controls.DriveSystem.autoTestBackward())
         {
-            _followerRunning = true;
-            followMotionProfile(76.0, 50.0, true, () -> {
-                System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
-                System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
-                _followerRunning = false;
-            });
+            TankTrajectory tankTrajectory = new TankTrajectory(76.0, 50.0, true);
+            followTankTrajectory(tankTrajectory);
         }
     }
 
-    // TODO: This should take a tank profile as a parameter
-    public void followMotionProfile(double distance, double acceleration, boolean invert, Runnable onComplete) {
-        TankTrajectory tankTrajectory = new TankTrajectory(distance, acceleration, invert);
-        _tankFollower = new TankFollower(_driveBase, tankTrajectory, onComplete);
+    public void followTankTrajectory(TankTrajectory tankTrajectory) {
+        followTankTrajectory(tankTrajectory, () -> {
+            System.out.println("Current Distance: " + _driveBase.leftEncoder.getDistance());
+            System.out.println("Current Velocity: " + _driveBase.leftEncoder.getVelocity());
+        });
+    }
+
+    public void followTankTrajectory(TankTrajectory tankTrajectory, Runnable onCompleted) {
+        // Stop the current follower if one is already running.
+        if (isFollowerRunning())
+            _tankFollower.stop();
+
+        _tankFollower = new TankFollower(_driveBase, tankTrajectory, onCompleted);
     }
 
     public void drive(double left, double right) {
         _driveBase.driveTank(new TankThrottleValues(left, right));
+    }
+
+    public boolean isFollowerRunning() {
+        return _tankFollower != null && _tankFollower.isRunning();
+    }
+
+    private static TankThrottleValues readThrottleValues() {
+        switch(Controls.DriveSystem.ControlMode.getSimpleName())
+        {
+            case "TankDrive":
+                return Controls.DriveSystem.TankDrive.getThrottleValues();
+            case "DifferentialDrive":
+                return Controls.DriveSystem.DifferentialDrive.getThrottleValues();
+            case "CheesyDrive":
+                return Controls.DriveSystem.CheesyDrive.getThrottleValues();
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 
     public void stop() {
@@ -91,6 +96,7 @@ public class DriveController implements IRobotController {
         if (_tankFollower != null)
         {
             _tankFollower.stop();
+            _tankFollower = null;
         }
     }
 

@@ -1,6 +1,8 @@
 package frc.robot.subsystems.drivebase;
 
+import java.io.*;
 import java.time.*;
+import edu.wpi.first.wpilibj.*;
 import frc.libs.motionprofile.*;
 
 public class TankTrajectory {
@@ -8,12 +10,17 @@ public class TankTrajectory {
     public IMotionProfile rightProfile;
 
     public TankTrajectory(double distance, double acceleration, boolean invert) {
-        // this.leftProfile = new LinearMotionProfile(distance, 100.0, acceleration, invert);
-        // this.rightProfile = new LinearMotionProfile(distance, 100.0, acceleration, invert);
+        this.leftProfile = new LinearMotionProfile(distance, 80.0, acceleration, invert);
+        this.rightProfile = new LinearMotionProfile(distance, 80.0, acceleration, invert);
+    }
 
+    public TankTrajectory(String trajectoryName) {
         try {
-            this.leftProfile = new CsvFileMotionProfile("/home/lvuser/deploy/tank-drive-trajectory-left.csv");
-            this.rightProfile = new CsvFileMotionProfile("/home/lvuser/deploy/tank-drive-trajectory-right.csv");
+            String leftTrajectoryName = trajectoryName + "-left";
+            this.leftProfile = new CsvFileMotionProfile(getTrajectoryFile(leftTrajectoryName));
+
+            String rightTrajectoryName = trajectoryName + "-right";
+            this.rightProfile = new CsvFileMotionProfile(getTrajectoryFile(rightTrajectoryName));
         } catch (Exception e) {
             System.out.println("This is really bad and everything is broken sorry :(");
             this.leftProfile = null;
@@ -22,6 +29,12 @@ public class TankTrajectory {
     }
 
     public Duration duration() {
+        // Both profiles should have the same duration
         return leftProfile.duration();
+    }
+
+    private static File getTrajectoryFile(String templateName) {
+        String templateFilename = templateName + ".trajectory.csv";
+        return new File(Filesystem.getDeployDirectory(), templateFilename);
     }
 }

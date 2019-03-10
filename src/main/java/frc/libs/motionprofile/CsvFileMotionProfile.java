@@ -8,8 +8,8 @@ public class CsvFileMotionProfile implements IMotionProfile {
 
     List<Segment> segments = new ArrayList<>();
 
-    public CsvFileMotionProfile(String filename) throws NumberFormatException, IOException {
-        FileReader fileReader = new FileReader(filename);
+    public CsvFileMotionProfile(File file) throws NumberFormatException, IOException {
+        FileReader fileReader = new FileReader(file);
         BufferedReader br = new BufferedReader(fileReader);
 
         // Skip the csv headers line

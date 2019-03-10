@@ -22,6 +22,7 @@ public class TankFollower implements ITrajectoryFollower {
 
     private final Stopwatch _stopwatch;
     private final Notifier _controlLoop;
+    private boolean _isFinished = false;
 
     public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete)
     {
@@ -139,6 +140,7 @@ public class TankFollower implements ITrajectoryFollower {
 
     @Override
     public void complete() {
+        _isFinished = true;
         stop();
         _onComplete.run();
     }
@@ -146,6 +148,10 @@ public class TankFollower implements ITrajectoryFollower {
     public void stop() {
         _controlLoop.stop();
         _controlLoop.close();
+    }
+
+    public boolean isRunning() {
+        return !_isFinished;
     }
 
     private class ErrorContext {

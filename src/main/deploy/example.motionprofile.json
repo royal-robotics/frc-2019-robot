@@ -10,8 +10,6 @@
         {"x": 0, "y": 120, "angle": 1.570795}
     ],
     "tankModifier": {
-        "wheelbaseWidth": 25.0,
-        "leftNameOverride": "tank-drive-trajectory-left",
-        "rightNameOverride": "tank-drive-trajectory-right"
+        "wheelbaseWidth": 25.0
     }
 }
