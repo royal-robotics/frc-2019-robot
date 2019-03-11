@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
@@ -15,6 +16,9 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
  * for more easily. A scoped components file is the compromise.
  */
 public final class Components {
+
+    public static DigitalInput compJumper = new DigitalInput(25);
+
     public static class DriveBase {
         public static Gyro gyro = new ADXRS450_Gyro();
 

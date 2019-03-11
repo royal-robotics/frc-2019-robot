@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.interfaces.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.Components;
+import frc.robot.ConfigValues;
 import frc.libs.components.RoyalEncoder;
 import frc.libs.utils.RobotModels.*;
 
@@ -38,15 +39,11 @@ public class DriveBase {
         Components.DriveBase.rightDrive3.follow(rightDrive1);
         rightDrive = rightDrive1;
 
-        // TODO: These are probaly different for the comp bot.
-        final double pnumaticalWheelKludgeLeft =  0.96994;
-        final double pnumaticalWheelKludgeRight = 0.97845;
-
         Encoder leftEncoder = Components.DriveBase.leftEncoder;
-        this.leftEncoder = new RoyalEncoder(leftEncoder, inchesPerPulse(pnumaticalWheelKludgeLeft), true);
+        this.leftEncoder = new RoyalEncoder(leftEncoder, inchesPerPulse(ConfigValues.pnumaticalWheelKludgeLeft()), true);
 
         Encoder rightEncoder = Components.DriveBase.rightEncoder;
-        this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse(pnumaticalWheelKludgeRight), false);
+        this.rightEncoder = new RoyalEncoder(rightEncoder, inchesPerPulse(ConfigValues.pnumaticalWheelKludgeRight()), false);
 
         gyro = Components.DriveBase.gyro;
         gyro.reset();
