@@ -26,8 +26,9 @@ public class LinearMotionProfile implements IMotionProfile {
     // The distance traveled at max velocity.
     private final double _maxVelocityDistance;
 
-    // The time in seconds we're at max velocity.
+    // The number of seconds that we are at max velocity.
     private final double _maxVelocitySeconds;
+
 
     public LinearMotionProfile(double targetDistance, double maxVelocity, double accelaretion, boolean invertOutputs) {
         if (targetDistance < 0 || maxVelocity < 0 || accelaretion < 0)
@@ -125,7 +126,7 @@ public class LinearMotionProfile implements IMotionProfile {
             {
                 // We're breaking / slowing down
                 double brakingSeconds = seconds - (_rampSeconds + _maxVelocitySeconds);
-                double brakingDistance = calculateDistance(seconds, maxVelocity, -accelaretion);
+                double brakingDistance = calculateDistance(brakingSeconds, maxVelocity, -accelaretion);
                 double brakingVelocity = calculateVelocity(maxVelocity, brakingSeconds, -accelaretion);
                 double distance = _rampDistance + _maxVelocityDistance + brakingDistance;
                 return linearSegment(seconds, distance, brakingVelocity, -accelaretion);
@@ -140,7 +141,7 @@ public class LinearMotionProfile implements IMotionProfile {
 
     private static final double calculateTime(double vI, double vF, double a) {
         // t = (Vf - Vi) / A
-        return Math.round((vF - vI) / a);
+        return (vF - vI) / a;
     }
 
     private static final double calculateDistance(double t, double vI, double a) {

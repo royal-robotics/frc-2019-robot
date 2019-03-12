@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.*;
  * with respect to time (velocity, acceleration, jerk).
  */
 public class RoyalEncoder {
-    private final int PositionBufferSize = 5;
+    private final int PositionBufferSize = 2;
     private final LinkedList<TimestampedValue<Double>> _positionBuffer = new LinkedList<>();
     private final ReentrantLock _positionBufferLock = new ReentrantLock();
 
