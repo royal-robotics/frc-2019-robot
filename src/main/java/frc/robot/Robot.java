@@ -89,6 +89,9 @@ public class Robot extends TimedRobot {
     _autoManager.startAutonomous();
     _driveController.setNeutralMode(NeutralMode.Brake);
     _compressor.stop();
+
+    for (IRobotController robotController : _robotControllers)
+      robotController.init();
   }
 
   /**
