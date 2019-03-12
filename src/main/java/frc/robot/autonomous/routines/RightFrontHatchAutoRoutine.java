@@ -30,7 +30,8 @@ public class RightFrontHatchAutoRoutine extends AutoRoutine {
         return Arrays.asList(
             new TrajectoryDriveStep(_parent, _driveController, "rightFrontHatch", false),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
-            new HatchShootStep(_parent, _hatchController)
+            new HatchShootStep(_parent, _hatchController),
+            new ElevatorMoveStep(_parent, _elevatorController, 1)
         );
     }
 }

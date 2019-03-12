@@ -43,7 +43,7 @@ public class DriveController implements IRobotController {
 
         if (Controls.DriveSystem.autoTestForward())
         {
-            TankTrajectory trajectory = new TankTrajectory("rightRocket", true);
+            TankTrajectory trajectory = new TankTrajectory(120.0, 60, 100, false);
             followTankTrajectory(trajectory);
         }
 
