@@ -119,7 +119,7 @@ public class TankFollower implements ITrajectoryFollower {
         final double distanceHeadingAdjustment = wheelbaseCircumference * (headingError / 360.0);
 
         // Magic number used to tune the impact the heading error has on the output.
-        final double kAngleAdjustment = 0.75;
+        final double kAngleAdjustment = 1.0;
         return (distanceHeadingAdjustment / 2) * kAngleAdjustment;
     }
 
@@ -129,7 +129,7 @@ public class TankFollower implements ITrajectoryFollower {
         errorContext.lastPositionError = positionError;
         
         // TODO: Pass these in or make these abstract properties.
-        final double _kP = 0.4; // distance proportional
+        final double _kP = 0.2; // distance proportional
         final double _kD = 0.0; // distance derivative
         double proportionalAdjustment = _kP * positionError;
         double derivativeAdjustment = _kD * derivativeError;

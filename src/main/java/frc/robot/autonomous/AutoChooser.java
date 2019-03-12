@@ -26,22 +26,25 @@ public class AutoChooser {
     }
 
     public AutoRoutine getSelectedRoutine() {
-        String routineName = _chooser.getSelected();
-        try {
-            for (Class routine : _routines) {
-                if (routine.getSimpleName().equals(routineName))
-                {
-                    Constructor constructor = routine.getConstructor(Robot.class);
-                    return (AutoRoutine)constructor.newInstance(_robot);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println("Unable to selected: " + routineName);
-            System.err.println(e);
-        }
-        return null;
+
+        return new RightFrontHatchAutoRoutine(_robot);
+
+        // String routineName = _chooser.getSelected();
+        // try {
+        //     for (Class routine : _routines) {
+        //         if (routine.getSimpleName().equals(routineName))
+        //         {
+        //             Constructor constructor = routine.getConstructor(Robot.class);
+        //             return (AutoRoutine)constructor.newInstance(_robot);
+        //         }
+        //     }
+        // }
+        // catch (Exception e)
+        // {
+        //     System.out.println("Unable to selected: " + routineName);
+        //     System.err.println(e);
+        // }
+        // return null;
     }
 
     private static List<Class> selectableRoutines() {

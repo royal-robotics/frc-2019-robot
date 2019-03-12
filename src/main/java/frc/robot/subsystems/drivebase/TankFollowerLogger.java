@@ -2,14 +2,23 @@ package frc.robot.subsystems.drivebase;
 
 import java.io.*;
 import java.time.*;
+
+import frc.libs.components.*;
 import frc.libs.motionprofile.IMotionProfile.*;
 
 public class TankFollowerLogger {
     private final DriveBase _driveBase;
     private PrintStream _fileOutput;
+    
+    private final RoyalGyroOffset _gyro;
+    private final RoyalEncoderOffset _leftEncoder;
+    private final RoyalEncoderOffset _rightEncoder;
 
     public TankFollowerLogger(DriveBase driveBase) {
         _driveBase = driveBase;
+        _gyro = new RoyalGyroOffset(_driveBase.gyro);
+        _leftEncoder = new RoyalEncoderOffset(_driveBase.leftEncoder);
+        _rightEncoder = new RoyalEncoderOffset(_driveBase.rightEncoder);
 
         try
         {
@@ -84,9 +93,9 @@ public class TankFollowerLogger {
         _fileOutput.printf(
             ",%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
             leftSegment.position,
-            _driveBase.leftEncoder.getDistance(),
+            _leftEncoder.getDistance(),
             leftSegment.velocity,
-            _driveBase.leftEncoder.getVelocity(),
+            _leftEncoder.getVelocity(),
             _driveBase.leftDrive.get(),
             leftAdjustment);
             
@@ -94,16 +103,16 @@ public class TankFollowerLogger {
         _fileOutput.printf(
             ",%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
             rightSegment.position,
-            _driveBase.rightEncoder.getDistance(),
+            _rightEncoder.getDistance(),
             rightSegment.velocity,
-            _driveBase.rightEncoder.getVelocity(),
+            _rightEncoder.getVelocity(),
             _driveBase.rightDrive.get(),
             rightAdjustment);
 
         _fileOutput.printf(
             ",%.2f,%.2f,%.2f\n",
             leftSegment.heading,
-            _driveBase.gyro.getAngle(),
+            _gyro.getAngle(),
             headingAdjustment);
     }
 
