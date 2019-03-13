@@ -27,6 +27,6 @@ public class TrajectoryDriveStep extends AutoStep {
 
     @Override
     public void stop() {
-        _follower.stop();
+        _driveController.stop();
     }
 }

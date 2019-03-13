@@ -97,13 +97,13 @@ public class DriveController implements IRobotController {
     }
 
     public void stop() {
-        _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
-
         if (_tankFollower != null)
         {
             _tankFollower.stop();
             _tankFollower = null;
         }
+
+        _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
     }
 
     @Override
