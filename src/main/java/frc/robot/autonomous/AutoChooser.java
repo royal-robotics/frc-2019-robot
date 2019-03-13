@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.libs.autonomous.buildingblocks.AutoRoutine;
 import frc.robot.Robot;
 import frc.robot.autonomous.routines.*;
+import frc.robot.Controls;
+
 
 public class AutoChooser {
     private final Robot _robot;
@@ -26,8 +28,55 @@ public class AutoChooser {
     }
 
     public AutoRoutine getSelectedRoutine() {
-
         return new RightRocketAutoRoutine(_robot);
+        // switch(Controls.getFieldStartPosition()) {
+        //     case 3: {
+        //         switch(Controls.getAutoRoutineId()) {
+        //             case 1: {
+        //                 return new RightFrontHatchAutoRoutine(_robot);
+        //             }
+
+        //             case 2: {
+        //                 return new RightRocketAutoRoutine(_robot);
+        //             }
+
+        //             case 3: {
+        //                 return new RightCargoAutoRoutine(_robot);
+        //             }
+        //             default: {
+        //                 return null;
+        //             }
+        //         }
+        //     }
+
+        //     case 2: {
+        //         return new CenterRightFrontHatchAutoRoutine(_robot);
+                
+        //     }
+
+        //     case 10: {
+        //         return new CenterLeftFrontHatchAutoRoutine(_robot);
+        //     }
+
+        //     case 9: {
+        //         switch(Controls.getAutoRoutineId()){
+        //             case 1: {
+        //                 return new LeftFrontHatchAutoRoutine(_robot);
+        //             }
+
+        //             case 2: {
+        //                 return new LeftRocketAutoRoutine(_robot);
+        //             }
+        //             default: {
+        //                 return null;
+        //             }
+        //         }
+        //     }
+
+        //     default: {
+        //         return null;
+        //     }
+        // }
 
         // String routineName = _chooser.getSelected();
         // try {

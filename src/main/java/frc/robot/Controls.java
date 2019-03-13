@@ -23,6 +23,7 @@ import static frc.libs.controls.Controllers.*;
 public final class Controls {
     private static Joystick driver = new Joystick(0);
     private static Joystick operator = new Joystick(1);
+    private static Joystick autoSelector = new Joystick(2);
 
     public static class DriveSystem {
 
@@ -131,5 +132,34 @@ public final class Controls {
         public static boolean HatchArmStick() { return hatchArmStick.isPressed(); }
         public static boolean ManualControl() { return power.isPressed(); }
         public static double GetPower() { return power.getValue() * 20.0; }
+
+        
     }
+
+    public static int getFieldStartPosition()
+
+    {
+        int result = 0;
+
+        result += autoSelector.getRawButton(2) ? 1 : 0;
+        result += autoSelector.getRawButton(3) ? 2 : 0;
+        result += autoSelector.getRawButton(4) ? 4 : 0;
+        result += autoSelector.getRawButton(5) ? 8 : 0;
+
+        return result + 1;
+    }
+    
+    public static int getAutoRoutineId()
+
+    {
+        int autoValue = 0;
+
+        autoValue += autoSelector.getRawButton(13) ? 1 : 0;
+        autoValue += autoSelector.getRawButton(14) ? 2 : 0;
+        autoValue += autoSelector.getRawButton(15) ? 4 : 0;
+        autoValue += autoSelector.getRawButton(16) ? 8 : 0;
+
+        return autoValue + 1;
+    }
+
 }
