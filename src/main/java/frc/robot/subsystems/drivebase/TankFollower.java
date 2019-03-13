@@ -129,7 +129,7 @@ public class TankFollower implements ITrajectoryFollower {
         errorContext.lastPositionError = positionError;
         
         // TODO: Pass these in or make these abstract properties.
-        final double _kP = 0.4; // distance proportional
+        final double _kP = 0.2; // distance proportional
         final double _kD = 0.0; // distance derivative
         double proportionalAdjustment = _kP * positionError;
         double derivativeAdjustment = _kD * derivativeError;

@@ -32,7 +32,6 @@ public final class Components {
         public static WPI_VictorSPX rightDrive3 = new WPI_VictorSPX(4);
         public static Encoder rightEncoder = new Encoder(12, 13);
 
-        // TODO: Are these used?
         public static Solenoid frontLift = new Solenoid(0, 5);
         public static DoubleSolenoid backLift = new DoubleSolenoid(0, 1, 6);
     }

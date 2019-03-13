@@ -27,12 +27,15 @@ public class RightRocketAutoRoutine extends AutoRoutine {
 
     @Override
     protected List<AutoStep> createRoutine() {
-        AutoStep moveFromPlatform = new DriveStraightStep(_parent, _driveController, -60.0, 40.0, 80);
-        AutoStep moveBackupToRocket = new TrajectoryDriveStep(_parent, _driveController, "rightRocket", true);
-        AutoStep raiseElevator = new ElevatorMoveStep(_parent, _elevatorController, 58);
-        AutoStep moveToRocket = new DriveStraightStep(_parent, _driveController, 76.0, 40.0, 80);
-        AutoStep shootHatch = new HatchShootStep(_parent, _hatchController);
-        AutoStep lowerElevator = new ElevatorMoveStep(_parent, _elevatorController, 5);
-        return Arrays.asList(moveFromPlatform, moveBackupToRocket, raiseElevator, moveToRocket, shootHatch, lowerElevator);
+        return Arrays.asList(
+            new TrajectoryDriveStep(_parent, _driveController, "rightRocket1", true),
+            new ElevatorMoveStep(_parent, _elevatorController, 60),
+            new DriveStraightStep(_parent, _driveController, 32.0, 40.0, 60),
+            new HatchShootStep(_parent, _hatchController),
+            new ElevatorMoveStep(_parent, _elevatorController, 5),
+            new ElevatorMoveStep(_parent, _elevatorController, 0),
+            new TrajectoryDriveStep(_parent, _driveController, "rightRocket2", true),
+            new TrajectoryDriveStep(_parent, _driveController, "rightRocket3", false)
+        );
     }
 }

@@ -10,13 +10,13 @@ import frc.robot.subsystems.drivebase.DriveController;
 import frc.robot.subsystems.elevator.ElevatorController;
 import frc.robot.subsystems.hatch.HatchController;
 
-public class RightFrontHatchAutoRoutine extends AutoRoutine {
+public class CenterRightFrontHatchAutoRoutine extends AutoRoutine {
     private final Marker _parent;
     private final DriveController _driveController;
     private final ElevatorController _elevatorController;
     private final HatchController _hatchController;
 
-    public RightFrontHatchAutoRoutine(Robot robot) {
+    public CenterRightFrontHatchAutoRoutine(Robot robot) {
         super();
 
         _parent = this.logger.marker;
@@ -28,7 +28,7 @@ public class RightFrontHatchAutoRoutine extends AutoRoutine {
     @Override
     protected List<AutoStep> createRoutine() {
         return Arrays.asList(
-            new TrajectoryDriveStep(_parent, _driveController, "rightFrontHatch", false),
+            new TrajectoryDriveStep(_parent, _driveController, "centerRightFrontHatch", false),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new HatchShootStep(_parent, _hatchController),
             new ElevatorMoveStep(_parent, _elevatorController, 9)
