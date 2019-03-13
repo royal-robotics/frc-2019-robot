@@ -11,93 +11,70 @@ import frc.robot.Controls;
 
 public class AutoChooser {
     private final Robot _robot;
-    private final SendableChooser<String> _chooser;
-    private final List<Class> _routines;
 
     public AutoChooser(Robot robot) {
         _robot = robot;
-        _chooser = new SendableChooser<>();
-        _routines = selectableRoutines();
-
-        _chooser.setDefaultOption("No Auto Selected", _routines.get(0).getSimpleName());
-        for (Class routine : _routines) {
-            _chooser.addOption(routine.getSimpleName(), routine.getSimpleName());
-        }
-
-        SmartDashboard.putData("Auto Routine", _chooser);
     }
 
     public AutoRoutine getSelectedRoutine() {
-        return new RightRocketAutoRoutine(_robot);
-        // switch(Controls.getFieldStartPosition()) {
-        //     case 3: {
-        //         switch(Controls.getAutoRoutineId()) {
-        //             case 1: {
-        //                 return new RightFrontHatchAutoRoutine(_robot);
-        //             }
+        AutoRoutine routine = null;
 
-        //             case 2: {
-        //                 return new RightRocketAutoRoutine(_robot);
-        //             }
+        switch(Controls.getFieldStartPosition()) {
+            case 3: {   // Right side of platform
+                switch(Controls.getAutoRoutineId()) {
+                    case 1: {
+                        routine = new RightFrontHatchAutoRoutine(_robot);
+                        break;
+                    }
+                    case 2: {
+                        routine = new RightRocketAutoRoutine(_robot);
+                        break;
+                    }
+                    case 3: {
+                        routine = new RightCargoAutoRoutine(_robot);
+                        break;
+                    }
+                    case 4: {
+                        routine = new RightPlatformCargoAutoRoutine(_robot);
+                        break;
+                    }
+                }
+                break;
+            }
 
-        //             case 3: {
-        //                 return new RightCargoAutoRoutine(_robot);
-        //             }
-        //             default: {
-        //                 return null;
-        //             }
-        //         }
-        //     }
+            case 2: {// Right side of platform center.
+                routine = new CenterRightFrontHatchAutoRoutine(_robot);
+                break;
+            }
 
-        //     case 2: {
-        //         return new CenterRightFrontHatchAutoRoutine(_robot);
-                
-        //     }
+            case 10: {// Left side of platform center
+                routine = new CenterLeftFrontHatchAutoRoutine(_robot);
+                break;
+            }
 
-        //     case 10: {
-        //         return new CenterLeftFrontHatchAutoRoutine(_robot);
-        //     }
+            case 9: {// Left side of platform
+                switch(Controls.getAutoRoutineId()){
+                    case 1: {
+                        routine = new LeftFrontHatchAutoRoutine(_robot);
+                        break;
+                    }
+                    case 2: {
+                        routine = new LeftRocketAutoRoutine(_robot);
+                        break;
+                    }
+                    case 3: {
+                        routine = new LeftCargoAutoRoutine(_robot);
+                        break;
+                    }
+                    case 4: {
+                        routine = new LeftPlatformCargoAutoRoutine(_robot);
+                        break;
+                    }
+                }
+                break;
+            }
+        }
 
-        //     case 9: {
-        //         switch(Controls.getAutoRoutineId()){
-        //             case 1: {
-        //                 return new LeftFrontHatchAutoRoutine(_robot);
-        //             }
-
-        //             case 2: {
-        //                 return new LeftRocketAutoRoutine(_robot);
-        //             }
-        //             default: {
-        //                 return null;
-        //             }
-        //         }
-        //     }
-
-        //     default: {
-        //         return null;
-        //     }
-        // }
-
-        // String routineName = _chooser.getSelected();
-        // try {
-        //     for (Class routine : _routines) {
-        //         if (routine.getSimpleName().equals(routineName))
-        //         {
-        //             Constructor constructor = routine.getConstructor(Robot.class);
-        //             return (AutoRoutine)constructor.newInstance(_robot);
-        //         }
-        //     }
-        // }
-        // catch (Exception e)
-        // {
-        //     System.out.println("Unable to selected: " + routineName);
-        //     System.err.println(e);
-        // }
-        // return null;
-    }
-
-    private static List<Class> selectableRoutines() {
-        return Arrays.asList(RightRocketAutoRoutine.class, 
-                             RightFrontHatchAutoRoutine.class);
+        return routine;
     }
 }

@@ -115,15 +115,12 @@ public class TankFollower implements ITrajectoryFollower {
         final double positionErrorShift = leftPosError - rightPosError;
         final double headingErrorPosition = Math.toDegrees(Math.asin((positionErrorShift) / DriveBase.WheelbaseWidth));
 
-        if (headingErrorPosition > headingErrorGyro)
-            System.err.println("HEP > HEG: " + headingErrorPosition);
-
         final double headingError = headingErrorGyro - headingErrorPosition;
         final double wheelbaseCircumference = 2 * Math.PI * DriveBase.WheelbaseWidth;
         final double distanceHeadingAdjustment = wheelbaseCircumference * (headingError / 360.0);
 
         // Magic number used to tune the impact the heading error has on the output.
-        final double kAngleAdjustment = 0.0;
+        final double kAngleAdjustment = 1.0;
         return (distanceHeadingAdjustment / 2) * kAngleAdjustment;
     }
 

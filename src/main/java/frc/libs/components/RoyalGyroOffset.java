@@ -13,7 +13,7 @@ public class RoyalGyroOffset {
     }
 
     public void setOffset(double offset) {
-        _offset = 0.0;
+        _offset = offset;
     }
 
     public double getAngle() {

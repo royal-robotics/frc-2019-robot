@@ -31,7 +31,6 @@ public class CsvFileMotionProfile implements IMotionProfile {
             double jerk = Double.parseDouble(values[6]) * kInvert;
             double headingRadians = Double.parseDouble(values[7]);
             double heading = -(Pathfinder.boundHalfDegrees(Math.toDegrees(headingRadians)));
-            //double heading = -(Math.toDegrees(headingRadians) - 90);
 
             Segment segment = new Segment(time, x, y, position, velocity, acceleration, jerk, heading);
             segments.add(segment);

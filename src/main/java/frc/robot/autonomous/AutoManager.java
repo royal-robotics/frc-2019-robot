@@ -38,68 +38,67 @@ public class AutoManager {
     }
 
     public void printCurrentAutoRoutine() {
-        SmartDashboard.putNumber("getFieldStartPosition", Controls.getFieldStartPosition());
-        
+        String position = "Bad Setting";
+        String routine = "Manual";
+
         switch(Controls.getFieldStartPosition()) {
             case 3: {
+                position = "Right";
                 switch(Controls.getAutoRoutineId()) {
                     case 1: {
-                        SmartDashboard.putString("AutoRoutine-Name", "RightFrontHatchAutoRoutine");
+                        routine = "RightFrontHatchAutoRoutine";
                         break;
                     }
-
                     case 2: {
-                        SmartDashboard.putString("AutoRoutine-Name", "RightRocketAutoRoutine");
+                        routine = "RightRocketAutoRoutine";
                         break;
                     }
-
                     case 3: {
-                        SmartDashboard.putString("AutoRoutine-Name", "RightCargoAutoRoutine");
+                        routine = "RightCargoAutoRoutine";
                         break;
                     }
-
-                    default: {
-                        SmartDashboard.putString("AutoRoutine-Name", "No Routine");
+                    case 4: {
+                        routine = "RightPlatformCargoAutoRoutine";
                         break;
                     }
                 }
                 break;
             }
-
             case 2: {
-                SmartDashboard.putString("AutoRoutine-Name", "CenterRightFrontHatchAutoRoutine");
-                break;    
-            }
-
-            case 10: {
-                SmartDashboard.putString("AutoRoutine-Name", "CenterLeftFrontHatchAutoRoutine");
+                position = "Center Right";
+                routine = "CenterRightFrontHatchAutoRoutine";
                 break;
             }
-
+            case 10: {
+                position = "Center Left";
+                routine = "CenterLeftFrontHatchAutoRoutine";
+                break;
+            }
             case 9: {
-                switch(Controls.getAutoRoutineId()){
+                position = "Left";
+                switch(Controls.getAutoRoutineId()) {
                     case 1: {
-                        SmartDashboard.putString("AutoRoutine-Name", "LeftFrontHatchAutoRoutine");
+                        routine = "LeftFrontHatchAutoRoutine";
                         break;
                     }
-
                     case 2: {
-                        SmartDashboard.putString("AutoRoutine-Name", "LeftRocketAutoRoutine");
+                        routine = "LeftRocketAutoRoutine";
                         break;
                     }
-
-                    default: {
-                        SmartDashboard.putString("AutoRoutine-Name", "No Routine");
+                    case 3: {
+                        routine = "LeftCargoAutoRoutine";
+                        break;
+                    }
+                    case 4: {
+                        routine = "LeftPlatformCargoAutoRoutine";
                         break;
                     }
                 }
-                break;
-            }
-
-            default: {
-                SmartDashboard.putString("AutoRoutine-Name", "No Routine");
                 break;
             }
         }
+
+        SmartDashboard.putString("AutoFieldStartPosition", position);
+        SmartDashboard.putString("AutoRoutineName", routine);
     }
 }
