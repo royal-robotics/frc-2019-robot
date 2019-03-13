@@ -54,10 +54,6 @@ public class AutoManager {
                         break;
                     }
                     case 3: {
-                        routine = "RightCargoAutoRoutine";
-                        break;
-                    }
-                    case 4: {
                         routine = "RightPlatformCargoAutoRoutine";
                         break;
                     }
@@ -86,10 +82,6 @@ public class AutoManager {
                         break;
                     }
                     case 3: {
-                        routine = "LeftCargoAutoRoutine";
-                        break;
-                    }
-                    case 4: {
                         routine = "LeftPlatformCargoAutoRoutine";
                         break;
                     }

@@ -30,4 +30,12 @@ public class CargoController implements IRobotController
     {
 
     }
+
+    public void stop() {
+        _cargoManipulator.stop();
+    }
+
+    public void shoot() {
+        _cargoManipulator.shoot();
+    }
 }

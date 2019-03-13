@@ -31,7 +31,7 @@ public class CenterLeftFrontHatchAutoRoutine extends AutoRoutine {
             new TrajectoryDriveStep(_parent, _driveController, "centerLeftFrontHatch", false),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new HatchShootStep(_parent, _hatchController),
-            new ElevatorMoveStep(_parent, _elevatorController, 9)
+            new ElevatorMoveStep(_parent, _elevatorController, 0)
         );
     }
 }

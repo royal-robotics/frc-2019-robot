@@ -31,10 +31,6 @@ public class AutoChooser {
                         break;
                     }
                     case 3: {
-                        routine = new RightCargoAutoRoutine(_robot);
-                        break;
-                    }
-                    case 4: {
                         routine = new RightPlatformCargoAutoRoutine(_robot);
                         break;
                     }
@@ -63,10 +59,6 @@ public class AutoChooser {
                         break;
                     }
                     case 3: {
-                        routine = new LeftCargoAutoRoutine(_robot);
-                        break;
-                    }
-                    case 4: {
                         routine = new LeftPlatformCargoAutoRoutine(_robot);
                         break;
                     }
