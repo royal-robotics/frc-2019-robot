@@ -4,6 +4,8 @@ import java.io.*;
 import java.time.Duration;
 import java.util.*;
 
+import jaci.pathfinder.Pathfinder;
+
 public class CsvFileMotionProfile implements IMotionProfile {
 
     List<Segment> segments = new ArrayList<>();
@@ -28,7 +30,8 @@ public class CsvFileMotionProfile implements IMotionProfile {
             double acceleration = Double.parseDouble(values[5]) * kInvert;
             double jerk = Double.parseDouble(values[6]) * kInvert;
             double headingRadians = Double.parseDouble(values[7]);
-            double heading = -(Math.toDegrees(headingRadians) - 90);
+            double heading = -(Pathfinder.boundHalfDegrees(Math.toDegrees(headingRadians)));
+            //double heading = -(Math.toDegrees(headingRadians) - 90);
 
             Segment segment = new Segment(time, x, y, position, velocity, acceleration, jerk, heading);
             segments.add(segment);
@@ -57,8 +60,8 @@ public class CsvFileMotionProfile implements IMotionProfile {
 
         double indexPercent = indexSeconds / durationSeconds;
 
-        int discreteIndex = (int)Math.round(indexPercent * segments.size());
-        return segments.get(discreteIndex - 1);
+        int discreteIndex = (int)Math.floor(indexPercent * segments.size());
+        return segments.get(discreteIndex);
     }
 
     private static Duration durationFromSeconds(double seconds) {

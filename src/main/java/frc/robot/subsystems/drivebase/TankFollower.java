@@ -30,10 +30,14 @@ public class TankFollower implements ITrajectoryFollower {
         _tankTrajectory = tankTrajectory;
         _onComplete = onComplete;
 
-        _logger = new TankFollowerLogger(driveBase);
-        _gyro = new RoyalGyroOffset(_driveBase.gyro);
+        
         _leftEncoder = new RoyalEncoderOffset(_driveBase.leftEncoder);
         _rightEncoder = new RoyalEncoderOffset(_driveBase.rightEncoder);
+        _gyro = new RoyalGyroOffset(_driveBase.gyro);
+        // Set the the encoder offset to match the initial heading of the trajectory
+        _gyro.setOffset(tankTrajectory.leftProfile.getSegment(Duration.ZERO).heading);
+
+        _logger = new TankFollowerLogger(driveBase, _gyro);
 
         _leftError = new ErrorContext();
         _rightError = new ErrorContext();
@@ -119,7 +123,7 @@ public class TankFollower implements ITrajectoryFollower {
         final double distanceHeadingAdjustment = wheelbaseCircumference * (headingError / 360.0);
 
         // Magic number used to tune the impact the heading error has on the output.
-        final double kAngleAdjustment = 1.0;
+        final double kAngleAdjustment = 0.0;
         return (distanceHeadingAdjustment / 2) * kAngleAdjustment;
     }
 

@@ -14,9 +14,9 @@ public class TankFollowerLogger {
     private final RoyalEncoderOffset _leftEncoder;
     private final RoyalEncoderOffset _rightEncoder;
 
-    public TankFollowerLogger(DriveBase driveBase) {
+    public TankFollowerLogger(DriveBase driveBase, RoyalGyroOffset gyro) {
         _driveBase = driveBase;
-        _gyro = new RoyalGyroOffset(_driveBase.gyro);
+        _gyro = gyro;
         _leftEncoder = new RoyalEncoderOffset(_driveBase.leftEncoder);
         _rightEncoder = new RoyalEncoderOffset(_driveBase.rightEncoder);
 

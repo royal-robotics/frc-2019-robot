@@ -27,7 +27,7 @@ public class AutoChooser {
 
     public AutoRoutine getSelectedRoutine() {
 
-        return new RightFrontHatchAutoRoutine(_robot);
+        return new RightRocketAutoRoutine(_robot);
 
         // String routineName = _chooser.getSelected();
         // try {

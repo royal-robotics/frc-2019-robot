@@ -1,17 +1,26 @@
+
 {
+
     "config": {
+
         "dt": 0.01,
-        "maxVelocity": 60.0,
-        "maxAcceleration": 60.0,
-        "maxJerk": 1500.0
+
+        "maxVelocity": 70.0,
+
+        "maxAcceleration": 100.0,
+
+        "maxJerk": 200.0
     },
+
     "waypoints": [
-        {"x":  68.25, "y": 208.00, "angle": 0.0},
-        {"x": 116.50, "y": 208.00, "angle": 0.0},
-        {"x": 237.00, "y": 264.00, "angle": 5.7596},
-        {"x": 287.66, "y": 279.77, "angle": 0.5021}
+        {"x": 120, "y": 220, "angle": -0.7854},
+        {"x": 150, "y": 170, "angle": -1.5708}
     ],
+
     "tankModifier": {
+
         "wheelbaseWidth": 25.0
+
     }
+
 }

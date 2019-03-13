@@ -3,7 +3,7 @@
         "dt": 0.01,
         "maxVelocity": 60.0,
         "maxAcceleration": 60.0,
-        "maxJerk": 1500.0
+        "maxJerk": 200.0
     },
     "waypoints": [
         {"x": 295.25, "y": 254.50, "angle": 3.1415},
