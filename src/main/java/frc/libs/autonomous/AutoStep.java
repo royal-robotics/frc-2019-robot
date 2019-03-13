@@ -5,12 +5,14 @@ import org.apache.logging.log4j.*;
 public abstract class AutoStep
 {
     protected final LoggingContext logger;
+    protected final Marker parent;
     private boolean _hasStarted;
     private boolean _hasCompleted;
 
     public AutoStep(Marker markerParent)
     {
         this.logger = new LoggingContext(markerParent, this);
+        this.parent = this.logger.marker;
         _hasStarted = false;
         _hasCompleted = false;
     }
