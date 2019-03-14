@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
   public final HatchController _hatchController = new HatchController();
   public final CargoController _cargoController = new CargoController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
+  private boolean manualAuto;
   static {
     // Load classes eagerly when the robot is constructed.
     LoggingContext.poke();
@@ -89,9 +90,14 @@ public class Robot extends TimedRobot {
     for (IRobotController robotController : _robotControllers)
       robotController.init();
 
-      _driveController.setNeutralMode(NeutralMode.Brake);
-      _compressor.stop();
-      _autoManager.startAutonomous();
+    _driveController.setNeutralMode(NeutralMode.Brake);
+    _compressor.stop();
+
+    // If no auto, set manual
+    manualAuto = !_autoManager.startAutonomous();
+    if (manualAuto) {
+      teleopInit();
+    }
   }
 
   /**
@@ -99,7 +105,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    
+    if (manualAuto) {
+      teleopPeriodic();
+    }
   }
 
   @Override

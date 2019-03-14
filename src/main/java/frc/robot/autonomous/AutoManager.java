@@ -16,7 +16,7 @@ public class AutoManager {
         this.autoChooser = new AutoChooser(robot);
     }
 
-    public void startAutonomous()
+    public boolean startAutonomous()
     {
         // If there is already a routine running we stop it.
         stopAutonomous();
@@ -24,7 +24,10 @@ public class AutoManager {
         currentRoutine = autoChooser.getSelectedRoutine();
         if (currentRoutine != null) {
             currentRoutine.start();
-        } 
+            return true;
+        }
+
+        return false;
     }
 
     public void stopAutonomous()
@@ -63,6 +66,10 @@ public class AutoManager {
             case 2: {
                 position = "Center Right";
                 routine = "CenterRightFrontHatchAutoRoutine";
+                break;
+            }
+            case 1: {
+                position = "Manual";
                 break;
             }
             case 10: {
