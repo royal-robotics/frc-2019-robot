@@ -2,6 +2,8 @@ package frc.robot.subsystems.drivebase;
 
 import frc.robot.*;
 import com.ctre.phoenix.motorcontrol.*;
+
+import edu.wpi.first.networktables.*;
 import frc.libs.utils.RobotModels.*;
 import frc.robot.subsystems.*;
 
@@ -51,6 +53,35 @@ public class DriveController implements IRobotController {
         {
             TankTrajectory trajectory = new TankTrajectory("example", true);
             followTankTrajectory(trajectory);
+        }
+
+        NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+        NetworkTableEntry pipeline = limelight.getEntry("pipeline");
+        if (Controls.DriveSystem.autoTargetTest())
+        {
+            pipeline.setNumber(1);
+            if (limelight.getEntry("tv").getNumber(0.0).equals(1.0))
+            {
+                if (limelight.getEntry("tx").getNumber(0.0).doubleValue() > 1.0)
+                {
+                    _driveBase.driveTank(new TankThrottleValues(30.0, -30.0));
+                }
+                else if (limelight.getEntry("tx").getNumber(0.0).doubleValue() < -1.0)
+                {
+                    _driveBase.driveTank(new TankThrottleValues(-30.0, 30.0));
+                }
+                else
+                {
+                    _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
+                }
+            }
+            else {
+                _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
+            }
+        }
+        else
+        {
+            pipeline.setNumber(0);
         }
     }
 
