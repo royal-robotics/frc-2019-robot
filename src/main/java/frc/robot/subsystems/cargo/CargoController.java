@@ -16,8 +16,9 @@ public class CargoController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
+        boolean useMaxPower = Controls.CargoManipulator.forceMaxPower();
         if (Controls.CargoManipulator.shoot()) {
-            _cargoManipulator.shoot();
+            _cargoManipulator.shoot(useMaxPower);
         } else if (Controls.CargoManipulator.eject()) {
             _cargoManipulator.eject();
         } else {

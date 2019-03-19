@@ -104,9 +104,11 @@ public final class Controls {
     {
         private static Button shoot = new Button(operator, Logitech310Button.RightBumper, ButtonType.Hold);
         private static Button eject = new Button(operator, Logitech310Button.LeftBumper, ButtonType.Hold);
-        
+        private static Button forceMaxPower = new Button(operator, Logitech310Button.Back, ButtonType.Hold);
+
         public static boolean shoot() { return shoot.isPressed(); }
         public static boolean eject() { return eject.isPressed(); }
+        public static boolean forceMaxPower() { return forceMaxPower.isPressed(); }
     }
 
     public static class HatchManipulator

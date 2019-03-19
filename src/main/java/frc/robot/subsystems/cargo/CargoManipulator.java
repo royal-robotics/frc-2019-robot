@@ -47,11 +47,15 @@ public class CargoManipulator
         _cargoShooter.set(-1.0);
     }
 
-    public void shoot() {
+    public void shoot(boolean useMaxPower) {
         _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
         _cargoShifter.set(Value.kForward);
-        _cargoShooter.set(0.75);
+        _cargoShooter.set(useMaxPower ? 1.0 : 0.80);
+    }
+
+    public void shoot() {
+        this.shoot(false);
     }
 
     public void stop() {

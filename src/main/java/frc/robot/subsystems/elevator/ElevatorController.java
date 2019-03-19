@@ -28,31 +28,31 @@ public class ElevatorController implements IRobotController
         }
         else if (Controls.ElevatorSystem.moveHatchLow())
         {
-            _elevator.quickMove(10.0);
+            _elevator.quickMove(9.0);
         }
         else if (Controls.ElevatorSystem.moveHatchMid())
         {
-            _elevator.quickMove(38.0);
+            _elevator.quickMove(37.0);
         }
         else if (Controls.ElevatorSystem.moveHatchHigh())
         {
-            _elevator.quickMove(60.0);
+            _elevator.quickMove(58.5);
         }
         else if (Controls.ElevatorSystem.moveCargoLow())
         {
-            _elevator.quickMove(18.75);
+            _elevator.quickMove(15.75);
         }
         else if (Controls.ElevatorSystem.moveCargoMid())
         {
-            _elevator.quickMove(30.5);
+            _elevator.quickMove(28.5);
         }
         else if (Controls.ElevatorSystem.moveCargoHigh())
         {
-            _elevator.quickMove(58.5);
+            _elevator.quickMove(56.5);
         }
         else if (Controls.ElevatorSystem.moveTop())
         {
-            _elevator.quickMove(60.0);
+            _elevator.quickMove(59.0);
         }
         else
         {

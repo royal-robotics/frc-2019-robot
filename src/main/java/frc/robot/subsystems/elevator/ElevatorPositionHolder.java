@@ -13,8 +13,8 @@ public class ElevatorPositionHolder extends PIDController {
 
     // Output/Input Units: power per inch
     private static final double Kp = 0.25;
-    private static final double Ki = 0.04 / (1000.0 / LoopIntervalMs);
-    private static final double Kd = 0.005;
+    private static final double Ki = 0.25 / (1000.0 / LoopIntervalMs);
+    private static final double Kd = 0.45;
 
     private final PIDSource _source;
     private final GravityAdjustedPercentOutput _output;
@@ -27,7 +27,7 @@ public class ElevatorPositionHolder extends PIDController {
         _source = source;
         _output = output;
 
-        this.setOutputRange(-0.4, 0.75);
+        this.setOutputRange(-0.4, 0.6);
         this.setAbsoluteTolerance(1.0);
     }
 

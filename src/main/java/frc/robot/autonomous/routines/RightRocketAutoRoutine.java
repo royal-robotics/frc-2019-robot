@@ -29,7 +29,7 @@ public class RightRocketAutoRoutine extends AutoRoutine {
     protected List<AutoStep> createRoutine() {
         return Arrays.asList(
             new TrajectoryDriveStep(_parent, _driveController, "rightRocket1", true),
-            new ElevatorMoveStep(_parent, _elevatorController, 60),
+            new ElevatorMoveStep(_parent, _elevatorController, 59),
             new DriveStraightStep(_parent, _driveController, 30.0, 40.0, 60),
             new HatchShootStep(_parent, _hatchController),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
