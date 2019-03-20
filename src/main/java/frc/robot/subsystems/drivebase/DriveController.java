@@ -3,7 +3,6 @@ package frc.robot.subsystems.drivebase;
 import frc.robot.*;
 import com.ctre.phoenix.motorcontrol.*;
 
-import edu.wpi.first.networktables.*;
 import frc.libs.components.Limelight;
 import frc.libs.utils.RobotModels.*;
 import frc.robot.subsystems.*;
@@ -11,8 +10,14 @@ import frc.robot.subsystems.*;
 public class DriveController implements IRobotController {
     private final DriveBase _driveBase = new DriveBase();
     private final Limelight _limelight = new Limelight();
+    private final DriveVisionRotater _driveVisionRotater;
 
     private TankFollower _tankFollower;
+
+    public DriveController() {
+        _driveVisionRotater = new DriveVisionRotater(_limelight, _driveBase);
+        _driveVisionRotater.disable();
+    }
 
     @Override
     public void init() {
@@ -21,10 +26,21 @@ public class DriveController implements IRobotController {
 
     @Override
     public void teleopPeriodic() {
-        if (!isFollowerRunning())
+        if (!isFollowerRunning() && !_driveVisionRotater.isEnabled())
         {
             TankThrottleValues throttleValues = readThrottleValues();
             _driveBase.driveTank(throttleValues);
+        }
+
+        if (Controls.DriveSystem.autoTargetTest())
+        {
+            _limelight.setPipeline(1);
+            _driveVisionRotater.enable();
+        }
+        else
+        {
+            _limelight.setPipeline(0);
+            _driveVisionRotater.disable();
         }
 
         if (Controls.DriveSystem.LiftRobotFront())
@@ -55,33 +71,6 @@ public class DriveController implements IRobotController {
         {
             TankTrajectory trajectory = new TankTrajectory("example", true);
             followTankTrajectory(trajectory);
-        }
-
-        if (Controls.DriveSystem.autoTargetTest())
-        {
-            _limelight.setPipeline(1);
-            if (_limelight.hasTarget())
-            {
-                if (_limelight.xTarget() > 1.0)
-                {
-                    _driveBase.driveTank(new TankThrottleValues(30.0, -30.0));
-                }
-                else if (_limelight.xTarget() < -1.0)
-                {
-                    _driveBase.driveTank(new TankThrottleValues(-30.0, 30.0));
-                }
-                else
-                {
-                    _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
-                }
-            }
-            else {
-                _driveBase.driveTank(new TankThrottleValues(0.0, 0.0));
-            }
-        }
-        else
-        {
-            _limelight.setPipeline(0);
         }
     }
 
