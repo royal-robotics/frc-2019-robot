@@ -19,17 +19,17 @@ public class HatchController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
-        if (Controls.HatchManipulator.hatchRock()) {
-            _hatchManipulator.rockForward();
+        if (Controls.HatchManipulator.hatchPusher()) {
+            _hatchManipulator.pusherOut();
             
-            if (Controls.HatchManipulator.hatchPush())
-                _hatchManipulator.shootHatchOut();
+            if (Controls.HatchManipulator.hatchFingers())
+                _hatchManipulator.closeFingers();
             else
-                _hatchManipulator.shootHatchIn();
+                _hatchManipulator.openFingers();
         }
         else {
-            _hatchManipulator.rockBackwards();
-            _hatchManipulator.shootHatchIn();
+            _hatchManipulator.pusherIn();
+            _hatchManipulator.openFingers();
         }
 
         if(_elevator.getElevatorHeight() < 8.0)
@@ -50,18 +50,18 @@ public class HatchController implements IRobotController
             _hatchManipulator.stopHatchRoller();
     }
 
-    public void setRock(boolean setRockOut) {
-        if (setRockOut)
-            _hatchManipulator.rockForward();
+    public void setFingers(boolean setFingers) {
+        if (setFingers)
+            _hatchManipulator.openFingers();
         else
-            _hatchManipulator.rockBackwards();
+            _hatchManipulator.closeFingers();
     }
 
-    public void setShoot(boolean setShooterOut) {
-        if (setShooterOut)
-            _hatchManipulator.shootHatchOut();
+    public void setPusher(boolean setPusher) {
+        if (setPusher)
+            _hatchManipulator.pusherOut();
         else
-            _hatchManipulator.shootHatchIn();
+            _hatchManipulator.pusherIn();
     }
 
     @Override

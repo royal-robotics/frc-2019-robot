@@ -117,11 +117,11 @@ public final class Controls {
     public static class HatchManipulator
     {
         // Holder
-        private static Axis hatchRock = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
-        private static Axis hatchPush = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
+        private static Axis hatchPusher = new Axis(operator, Logitech310Axis.RightTrigger, 0.1);
+        private static Axis hatchFingers = new Axis(operator, Logitech310Axis.LeftTrigger, 0.1);
 
-        public static boolean hatchRock() { return hatchRock.isPressed(0.1); }
-        public static boolean hatchPush() { return hatchPush.isPressed(0.1); }
+        public static boolean hatchPusher() { return hatchPusher.isPressed(0.1); }
+        public static boolean hatchFingers() { return hatchFingers.isPressed(0.1); }
 
         // Arm
        

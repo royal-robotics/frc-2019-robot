@@ -14,42 +14,43 @@ public class HatchShootStep extends AutoStep {
     {
         super(parent);
         _hatchController = hatchController;
-        _scheduler = new Notifier(() -> rockOutStep());
+        _scheduler = new Notifier(() -> pusherOutStep());
     }
 
     @Override
     protected void initialize() {
-        _scheduler.setHandler(() -> rockOutStep());
+        _scheduler.setHandler(() -> pusherOutStep());
         _scheduler.startSingle(0.50);
     }
 
-    private void rockOutStep() {
-        _hatchController.setRock(true);
+    private void pusherOutStep() {
+        _hatchController.setPusher(true);
 
-        _scheduler.setHandler(() -> shootOutStep());
+        _scheduler.setHandler(() -> fingersOutStep());
         _scheduler.startSingle(0.50);
     }
 
-    private void shootOutStep() {
-        _hatchController.setShoot(true);
-
-        _scheduler.setHandler(() -> rockInStep());
-        _scheduler.startSingle(0.50);
-    }
-
-    private void rockInStep() {
-        _hatchController.setRock(false);
-        _hatchController.setShoot(false);
+    private void pusherInStep() {
+        _hatchController.setPusher(false);
+        _hatchController.setFingers(false);
 
         _scheduler.setHandler(() -> complete());
         _scheduler.startSingle(0.50);
     }
 
+    private void fingersOutStep() {
+        _hatchController.setFingers(true);
+
+        _scheduler.setHandler(() -> pusherInStep());
+        _scheduler.startSingle(0.50);
+    }
+
+
     @Override
     public void stop() {
         _scheduler.close();
 
-        _hatchController.setRock(false);
-        _hatchController.setShoot(false);
+        _hatchController.setPusher(false);
+        _hatchController.setFingers(false);
     }
 }

@@ -12,8 +12,8 @@ public class HatchManipulator
 {
     private final TalonSRX _hatchArm;
     private final SpeedController _hatchRoller;
-    private final Solenoid _carriageRock;
-    private final DoubleSolenoid _carriageShoot;
+    private final Solenoid _carriageFingers;
+    private final DoubleSolenoid _carriagePusher;
 
     private double currentAngle;
 
@@ -28,10 +28,10 @@ public class HatchManipulator
         _hatchRoller = Components.HatchManipulator.hatchRoller;
 
         // Setup hatch shooter
-        _carriageRock = Components.HatchManipulator.carriageRock;
-        _carriageRock.set(false);
-        _carriageShoot = Components.HatchManipulator.carriageShoot;
-        _carriageShoot.set(Value.kReverse);
+        _carriageFingers = Components.HatchManipulator.carriageFingers;
+        _carriageFingers.set(true);
+        _carriagePusher = Components.HatchManipulator.carriagePusher;
+        _carriagePusher.set(Value.kReverse);
 
         _hatchRoller.setInverted(true);
 
@@ -102,24 +102,24 @@ public class HatchManipulator
         }
     }
 
-    public void rockForward()
+    public void openFingers()
     {
-        _carriageRock.set(true);
+        _carriageFingers.set(true);
     }
 
-    public void rockBackwards()
+    public void closeFingers()
     {
-        _carriageRock.set(false);
+        _carriageFingers.set(false);
     }
 
-    public void shootHatchOut()
+    public void pusherOut()
     {
-        _carriageShoot.set(Value.kForward);
+        _carriagePusher.set(Value.kForward);
     }
 
-    public void shootHatchIn()
+    public void pusherIn()
     {
-        _carriageShoot.set(Value.kReverse);
+        _carriagePusher.set(Value.kReverse);
     }
 
     public void diagnostics()
