@@ -78,7 +78,7 @@ public final class Controls {
 
     public static class ElevatorSystem
     {
-        private static Axis power = new Axis(operator, Logitech310Axis.RightStickY, 0.1);
+        private static Axis power = new Axis(operator, Logitech310Axis.RightStickY, 0.2);
         private static Button quickMoveTest = new Button(driver, Logitech310Button.Up, IButton.ButtonType.Hold);
         private static Button moveBottom = new Button(operator, Logitech310Button.Down, IButton.ButtonType.Hold);
         private static Button moveHatchLow = new Button(operator, Logitech310Button.BottomLeft, IButton.ButtonType.Hold);

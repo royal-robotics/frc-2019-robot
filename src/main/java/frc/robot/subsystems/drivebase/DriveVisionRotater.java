@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.libs.components.Limelight;
 import frc.libs.utils.RobotModels.TankThrottleValues;
-import frc.robot.subsystems.drivebase.*;
 
 public class DriveVisionRotater extends PIDController {
     private final Limelight _limelight;
@@ -17,13 +16,15 @@ public class DriveVisionRotater extends PIDController {
 
     // Output/Input Units: power per inch
     private static final double Kp = 0.04;
-    private static final double Ki = 0.0 / (1000.0 / LoopIntervalMs);
-    private static final double Kd = 0.0;
+    private static final double Ki = 0.05 / (1000.0 / LoopIntervalMs);
+    private static final double Kd = 0.05;
 
     public DriveVisionRotater(Limelight limelight, DriveBase drivebase) {
         super(Kp, Ki, Kd, new LimelightSource(limelight), new DriveBaseOutput(drivebase), LoopInterval);
         _limelight = limelight;
         _drivebase = drivebase;
+
+        this.setAbsoluteTolerance(1.0);
     }
 
     @Override
@@ -38,6 +39,14 @@ public class DriveVisionRotater extends PIDController {
     public void disable() {
         if (this.isEnabled())
             super.disable();
+    }
+
+    @Override
+    public void enable() {
+        if (!this.isEnabled())
+            this.reset();
+
+        super.enable();
     }
 
     private static class LimelightSource implements PIDSource {

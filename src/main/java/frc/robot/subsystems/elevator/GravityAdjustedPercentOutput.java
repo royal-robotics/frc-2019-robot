@@ -23,8 +23,6 @@ public class GravityAdjustedPercentOutput implements PIDOutput {
 
     public void set(double percentOutputInput) {
         double percentOutput = gravityAdjusted(percentOutputInput);
-        //double percentOutput = percentOutputInput + _holdPower;
-
         _motor.set(percentOutput);
     }
 
