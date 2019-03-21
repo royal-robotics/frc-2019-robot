@@ -28,7 +28,7 @@ public class ElevatorController implements IRobotController
         }
         else if (Controls.ElevatorSystem.moveCargoPickup())
         {
-            _elevator.quickMove(16.25);
+            _elevator.quickMove(15.5);
         }
         else if (Controls.ElevatorSystem.moveTop())
         {

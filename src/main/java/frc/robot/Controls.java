@@ -58,7 +58,7 @@ public final class Controls {
             public static TankThrottleValues getThrottleValues() { return cheesyDriveHelper.cheesyDrive(throttle, wheel, quickTurn); }
         }
 
-        private static Button autoTargetTest = new Button(driver, Logitech310Button.X, IButton.ButtonType.Hold);
+        private static Button autoTargetTest = new Button(driver, Logitech310Button.RightBumper, IButton.ButtonType.Hold);
         public static boolean autoTargetTest() { return autoTargetTest.isPressed(); }
 
         private static Button autoTestBackward = new Button(driver, Logitech310Button.A, IButton.ButtonType.Toggle);

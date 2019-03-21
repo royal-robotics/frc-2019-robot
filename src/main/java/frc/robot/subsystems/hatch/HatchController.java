@@ -19,17 +19,18 @@ public class HatchController implements IRobotController
     @Override
     public void teleopPeriodic()
     {
+        if (Controls.HatchManipulator.hatchFingers()) {
+            _hatchManipulator.openFingers();
+        }
+        else {
+            _hatchManipulator.closeFingers();
+        }
+
         if (Controls.HatchManipulator.hatchPusher()) {
             _hatchManipulator.pusherOut();
-            
-            if (Controls.HatchManipulator.hatchFingers())
-                _hatchManipulator.openFingers();
-            else
-                _hatchManipulator.closeFingers();
         }
         else {
             _hatchManipulator.pusherIn();
-            _hatchManipulator.closeFingers();
         }
 
         if(_elevator.getElevatorHeight() < 8.0)
