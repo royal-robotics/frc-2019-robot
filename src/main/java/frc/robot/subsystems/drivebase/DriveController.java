@@ -26,21 +26,21 @@ public class DriveController implements IRobotController {
 
     @Override
     public void teleopPeriodic() {
-        if (!isFollowerRunning() && !_driveVisionRotater.isEnabled())
+        if (!isFollowerRunning())
         {
-            TankThrottleValues throttleValues = readThrottleValues();
-            _driveBase.driveTank(throttleValues);
-        }
-
-        if (Controls.DriveSystem.autoTargetTest())
-        {
-            _limelight.setPipeline(1);
-            _driveVisionRotater.enable();
-        }
-        else
-        {
-            _limelight.setPipeline(0);
-            _driveVisionRotater.disable();
+            if (Controls.DriveSystem.autoTargetTest())
+            {
+                _limelight.setPipeline(1);
+                _driveVisionRotater.enable();
+            }
+            else
+            {
+                TankThrottleValues throttleValues = readThrottleValues();
+                
+                _limelight.setPipeline(0);
+                _driveVisionRotater.disable();
+                _driveBase.driveTank(throttleValues);
+            }
         }
 
         if (Controls.DriveSystem.LiftRobotFront())

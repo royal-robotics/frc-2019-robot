@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import frc.libs.components.Limelight;
 import frc.libs.utils.RobotModels.TankThrottleValues;
+import frc.robot.Controls;
 
 public class DriveVisionRotater extends PIDController {
     private final Limelight _limelight;
@@ -71,7 +72,6 @@ public class DriveVisionRotater extends PIDController {
     }
 
     private static class DriveBaseOutput implements PIDOutput {
-        
         private final DriveBase _drivebase;
 
         public DriveBaseOutput(DriveBase drivebase) {
@@ -80,7 +80,23 @@ public class DriveVisionRotater extends PIDController {
 
         @Override
         public void pidWrite(double output) {
-            _drivebase.driveTank(new TankThrottleValues(-output, output));
+            TankThrottleValues throttleValues = readThrottleValues();
+            _drivebase.driveTank(new TankThrottleValues(-output + throttleValues.left, output + throttleValues.right));
+        }
+
+        private static TankThrottleValues readThrottleValues()
+        {
+            switch(Controls.DriveSystem.ControlMode.getSimpleName())
+            {
+                case "TankDrive":
+                    return Controls.DriveSystem.TankDrive.getThrottleValues();
+                case "DifferentialDrive":
+                    return Controls.DriveSystem.DifferentialDrive.getThrottleValues();
+                case "CheesyDrive":
+                    return Controls.DriveSystem.CheesyDrive.getThrottleValues();
+                default:
+                    throw new UnsupportedOperationException();
+            }
         }
     }
 }
