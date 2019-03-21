@@ -12,7 +12,7 @@ public class HatchManipulator
 {
     private final TalonSRX _hatchArm;
     private final SpeedController _hatchRoller;
-    private final Solenoid _carriageFingers;
+    private final DoubleSolenoid _carriageFingers;
     private final DoubleSolenoid _carriagePusher;
 
     private double currentAngle;
@@ -29,7 +29,7 @@ public class HatchManipulator
 
         // Setup hatch shooter
         _carriageFingers = Components.HatchManipulator.carriageFingers;
-        _carriageFingers.set(true);
+        _carriageFingers.set(Value.kForward);
         _carriagePusher = Components.HatchManipulator.carriagePusher;
         _carriagePusher.set(Value.kReverse);
 
@@ -104,12 +104,12 @@ public class HatchManipulator
 
     public void openFingers()
     {
-        _carriageFingers.set(true);
+        _carriageFingers.set(Value.kForward);
     }
 
     public void closeFingers()
     {
-        _carriageFingers.set(false);
+        _carriageFingers.set(Value.kReverse);
     }
 
     public void pusherOut()

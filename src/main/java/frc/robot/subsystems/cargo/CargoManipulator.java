@@ -11,7 +11,6 @@ public class CargoManipulator
     private final SpeedController _cargoIntake;
     private final DoubleSolenoid _cargoIntakeArm;
     private final SpeedController _cargoShooter;
-    private final DoubleSolenoid _cargoShifter;
 
     public CargoManipulator()
     {
@@ -27,30 +26,23 @@ public class CargoManipulator
 
         // Setup cargo shooter motor
         _cargoShooter = Components.CargoManipulator.cargoCarriageShooter;
-
-        // Setup cargo shooter shifter
-        _cargoShifter = Components.CargoManipulator.carriageShooterShifter;
-        _cargoShifter.set(Value.kForward);
     }
 
     public void intake() {
         _cargoIntakeArm.set(Value.kForward);
         _cargoIntake.set(1.0);
-        _cargoShifter.set(Value.kReverse);
         _cargoShooter.set(1.0);
     }
 
     public void eject() {
         _cargoIntakeArm.set(Value.kForward);
         _cargoIntake.set(-1.0);
-        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(-1.0);
     }
 
     public void shoot(boolean useMaxPower) {
         _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
-        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(useMaxPower ? 1.0 : 0.80);
     }
 
@@ -62,7 +54,6 @@ public class CargoManipulator
 
         _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
-        _cargoShifter.set(Value.kForward);
         _cargoShooter.set(0.0);
     }
 }
