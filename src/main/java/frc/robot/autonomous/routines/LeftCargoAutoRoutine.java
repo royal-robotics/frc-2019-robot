@@ -29,7 +29,7 @@ public class LeftCargoAutoRoutine extends AutoRoutine {
     protected List<AutoStep> createRoutine() {
         return Arrays.asList(
             new TrajectoryDriveStep(_parent, _driveController, "leftCargo", false),
-            new ElevatorMoveStep(_parent, _elevatorController, 20),
+            new ElevatorMoveStep(_parent, _elevatorController, 17),
             new HatchShootStep(_parent, _hatchController),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new ElevatorMoveStep(_parent, _elevatorController, 0)
