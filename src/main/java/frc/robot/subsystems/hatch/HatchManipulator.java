@@ -29,7 +29,7 @@ public class HatchManipulator
 
         // Setup hatch shooter
         _carriageFingers = Components.HatchManipulator.carriageFingers;
-        _carriageFingers.set(Value.kForward);
+        _carriageFingers.set(Value.kReverse);
         _carriagePusher = Components.HatchManipulator.carriagePusher;
         _carriagePusher.set(Value.kReverse);
 

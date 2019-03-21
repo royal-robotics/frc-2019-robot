@@ -30,12 +30,12 @@ public class LeftRocketAutoRoutine extends AutoRoutine {
         return Arrays.asList(
             new TrajectoryDriveStep(_parent, _driveController, "leftRocket1", true),
             new ElevatorMoveStep(_parent, _elevatorController, 56),
-            new DriveStraightStep(_parent, _driveController, 30.0, 40.0, 60),
+            new DriveStraightStep(_parent, _driveController, 32.0, 40.0, 80),
             new HatchShootStep(_parent, _hatchController),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new ElevatorMoveStep(_parent, _elevatorController, 0),
             new TrajectoryDriveStep(_parent, _driveController, "leftRocket2", true)
-//            new TrajectoryDriveStep(_parent, _driveController, "leftRocket3", false)
+            //new TrajectoryDriveStep(_parent, _driveController, "leftRocket3", false)
         );
     }
 }

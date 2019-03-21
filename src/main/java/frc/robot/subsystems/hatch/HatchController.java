@@ -23,13 +23,13 @@ public class HatchController implements IRobotController
             _hatchManipulator.pusherOut();
             
             if (Controls.HatchManipulator.hatchFingers())
-                _hatchManipulator.closeFingers();
-            else
                 _hatchManipulator.openFingers();
+            else
+                _hatchManipulator.closeFingers();
         }
         else {
             _hatchManipulator.pusherIn();
-            _hatchManipulator.openFingers();
+            _hatchManipulator.closeFingers();
         }
 
         if(_elevator.getElevatorHeight() < 8.0)

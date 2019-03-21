@@ -20,31 +20,29 @@ public class HatchShootStep extends AutoStep {
     @Override
     protected void initialize() {
         _scheduler.setHandler(() -> pusherOutStep());
-        _scheduler.startSingle(0.50);
+        _scheduler.startSingle(0.75);
     }
 
     private void pusherOutStep() {
         _hatchController.setPusher(true);
 
-        _scheduler.setHandler(() -> fingersOutStep());
-        _scheduler.startSingle(0.50);
+        _scheduler.setHandler(() -> fingersOpenStep());
+        _scheduler.startSingle(0.75);
+    }
+
+    private void fingersOpenStep() {
+        _hatchController.setFingers(true);
+
+        _scheduler.setHandler(() -> pusherInStep());
+        _scheduler.startSingle(0.75);
     }
 
     private void pusherInStep() {
         _hatchController.setPusher(false);
-        _hatchController.setFingers(false);
 
         _scheduler.setHandler(() -> complete());
-        _scheduler.startSingle(0.50);
+        _scheduler.startSingle(0.75);
     }
-
-    private void fingersOutStep() {
-        _hatchController.setFingers(true);
-
-        _scheduler.setHandler(() -> pusherInStep());
-        _scheduler.startSingle(0.50);
-    }
-
 
     @Override
     public void stop() {
