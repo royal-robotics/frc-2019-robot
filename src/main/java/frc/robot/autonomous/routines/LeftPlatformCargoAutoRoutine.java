@@ -30,7 +30,7 @@ public class LeftPlatformCargoAutoRoutine extends AutoRoutine {
         return Arrays.asList(
             new DriveStraightStep(_parent, _driveController, 96, 40, 60),
             new TrajectoryDriveStep(_parent, _driveController, "leftPlatformCargo", false),
-            new ElevatorMoveStep(_parent, _elevatorController, 19),
+            new ElevatorMoveStep(_parent, _elevatorController, 17),
             new CargoShootStep(_parent, _cargoController),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new ElevatorMoveStep(_parent, _elevatorController, 0)

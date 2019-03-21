@@ -29,9 +29,7 @@ public class CenterLeftFrontHatchAutoRoutine extends AutoRoutine {
     protected List<AutoStep> createRoutine() {
         return Arrays.asList(
             new TrajectoryDriveStep(_parent, _driveController, "centerLeftFrontHatch", false),
-            new ElevatorMoveStep(_parent, _elevatorController, 5),
-            new HatchShootStep(_parent, _hatchController),
-            new ElevatorMoveStep(_parent, _elevatorController, 0)
+            new HatchShootStep(_parent, _hatchController)
         );
     }
 }
