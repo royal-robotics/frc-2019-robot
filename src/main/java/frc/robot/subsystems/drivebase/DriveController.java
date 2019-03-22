@@ -9,13 +9,13 @@ import frc.robot.subsystems.*;
 
 public class DriveController implements IRobotController {
     private final DriveBase _driveBase = new DriveBase();
-    private final Limelight _limelight = new Limelight();
+    public final Limelight limelight = new Limelight();
     private final DriveVisionRotater _driveVisionRotater;
 
     private TankFollower _tankFollower;
 
     public DriveController() {
-        _driveVisionRotater = new DriveVisionRotater(_limelight, _driveBase);
+        _driveVisionRotater = new DriveVisionRotater(limelight, _driveBase);
         _driveVisionRotater.disable();
     }
 
@@ -30,14 +30,14 @@ public class DriveController implements IRobotController {
         {
             if (Controls.DriveSystem.autoTargetTest())
             {
-                _limelight.setPipeline(1);
+                limelight.setPipeline(1);
                 _driveVisionRotater.enable();
             }
             else
             {
                 TankThrottleValues throttleValues = readThrottleValues();
                 
-                _limelight.setPipeline(0);
+                limelight.setPipeline(0);
                 _driveVisionRotater.disable();
                 _driveBase.driveTank(throttleValues);
             }
@@ -87,6 +87,15 @@ public class DriveController implements IRobotController {
             _tankFollower.stop();
 
         _tankFollower = new TankFollower(_driveBase, tankTrajectory, onCompleted);
+        return _tankFollower;
+    }
+
+    public TankFollower followTankTrajectory(TankTrajectory tankTrajectory, Limelight limelight, Runnable onCompleted) {
+        // Stop the current follower if one is already running.
+        if (isFollowerRunning())
+            _tankFollower.stop();
+
+        _tankFollower = new TankFollower(_driveBase, tankTrajectory, limelight, onCompleted);
         return _tankFollower;
     }
 

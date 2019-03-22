@@ -10,6 +10,7 @@ import static frc.libs.utils.RobotModels.*;
 public class TankFollower implements ITrajectoryFollower {
     private final DriveBase _driveBase;
     private final TankTrajectory _tankTrajectory;
+    private final Limelight _limelight;
     private final Runnable _onComplete;
 
     private final TankFollowerLogger _logger;
@@ -24,10 +25,15 @@ public class TankFollower implements ITrajectoryFollower {
     private final Notifier _controlLoop;
     private boolean _isFinished = false;
 
-    public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete)
+    public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Runnable onComplete) {
+        this(driveBase, tankTrajectory, null, onComplete);
+    }
+
+    public TankFollower(DriveBase driveBase, TankTrajectory tankTrajectory, Limelight limelight, Runnable onComplete)
     {
         _driveBase = driveBase;
         _tankTrajectory = tankTrajectory;
+        _limelight = limelight;
         _onComplete = onComplete;
 
         
@@ -59,23 +65,35 @@ public class TankFollower implements ITrajectoryFollower {
         Segment leftSegment = _tankTrajectory.leftProfile.getSegment(timeIndex);
         Segment rightSegment = _tankTrajectory.rightProfile.getSegment(timeIndex);
         double headingAdjustment = getHeadingAdjustment(leftSegment, rightSegment);
+        double limelightAdjustment = getLimelightAdjustment();
 
         double leftAdjustment = getDistanceAdjustment(leftSegment, timeIndex, _leftEncoder, _leftError, headingAdjustment);
         double leftOutputFeed = getOutputFeed(leftSegment);
-        double leftPower = leftOutputFeed + leftAdjustment;
+        double leftPower = leftOutputFeed + leftAdjustment + limelightAdjustment;
 
         if (Math.abs(leftPower) > 1.0)
             System.err.printf("Left output power set too high (%.2f)\n", leftPower);
 
         double rightAdjustment = getDistanceAdjustment(rightSegment, timeIndex, _rightEncoder, _rightError, -headingAdjustment);
         double rightOutputFeed = getOutputFeed(leftSegment);
-        double rightPower = rightOutputFeed + rightAdjustment;
+        double rightPower = rightOutputFeed + rightAdjustment - limelightAdjustment;
         
         if (Math.abs(rightPower) > 1.0)
             System.err.printf("Right output power set too high (%.2f)\n", rightPower);
 
         _driveBase.driveTank(new TankThrottleValues(leftPower, rightPower));
         _logger.writeMotorUpdate(timeIndex, leftSegment, leftAdjustment, rightSegment, rightAdjustment, headingAdjustment);
+    }
+
+    private double getLimelightAdjustment() {
+        if (_limelight == null)
+            return 0.0;
+
+        if (!_limelight.hasTarget())
+            return 0.0;
+
+        final double kP = 0.04;
+        return _limelight.xTarget() * 0.04;
     }
 
     public double getOutputFeed(Segment segment) {
