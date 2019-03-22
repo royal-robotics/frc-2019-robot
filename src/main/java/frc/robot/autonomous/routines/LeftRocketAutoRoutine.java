@@ -4,6 +4,7 @@ import java.util.*;
 import org.apache.logging.log4j.*;
 import frc.libs.autonomous.*;
 import frc.libs.autonomous.buildingblocks.*;
+import frc.libs.components.Limelight;
 import frc.robot.Robot;
 import frc.robot.autonomous.steps.*;
 import frc.robot.subsystems.drivebase.DriveController;
@@ -15,6 +16,7 @@ public class LeftRocketAutoRoutine extends AutoRoutine {
     private final DriveController _driveController;
     private final ElevatorController _elevatorController;
     private final HatchController _hatchController;
+    private final Limelight _limelight;
 
     public LeftRocketAutoRoutine(Robot robot) {
         super();
@@ -23,6 +25,7 @@ public class LeftRocketAutoRoutine extends AutoRoutine {
         _driveController = robot._driveController;
         _elevatorController = robot._elevatorController;
         _hatchController = robot._hatchController;
+        _limelight = robot._driveController.limelight;
     }
 
     @Override
@@ -30,8 +33,8 @@ public class LeftRocketAutoRoutine extends AutoRoutine {
         return Arrays.asList(
             new DriveStraightStep(_parent, _driveController, -100.0, 40.0, 60),
             new TrajectoryDriveStep(_parent, _driveController, "leftRocket1", true),
+            new DriveStraightTrackStep(_parent, _driveController, _limelight, 40.0, 25.0, 40),
             new ElevatorMoveStep(_parent, _elevatorController, 56),
-            new DriveStraightStep(_parent, _driveController, 40.0, 40.0, 80),
             new HatchShootStep(_parent, _hatchController),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new ElevatorMoveStep(_parent, _elevatorController, 0),
