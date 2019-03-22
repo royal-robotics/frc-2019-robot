@@ -16,7 +16,7 @@ public class ConfigValues {
             return 0.96502;
         }
         else {
-            return 0.9811;
+            return 0.9700;
         }
     }
 
@@ -25,7 +25,7 @@ public class ConfigValues {
             return 0.97630;
         }
         else {
-            return 0.9831;
+            return 0.9720;
         }
     }
 }
