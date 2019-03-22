@@ -28,6 +28,7 @@ public class LeftRocketAutoRoutine extends AutoRoutine {
     @Override
     protected List<AutoStep> createRoutine() {
         return Arrays.asList(
+            new DriveStraightStep(_parent, _driveController, -100.0, 40.0, 60),
             new TrajectoryDriveStep(_parent, _driveController, "leftRocket1", true),
             new ElevatorMoveStep(_parent, _elevatorController, 56),
             new DriveStraightStep(_parent, _driveController, 32.0, 40.0, 80),
