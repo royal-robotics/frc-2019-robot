@@ -31,7 +31,7 @@ public class LeftRocketAutoRoutine extends AutoRoutine {
             new DriveStraightStep(_parent, _driveController, -100.0, 40.0, 60),
             new TrajectoryDriveStep(_parent, _driveController, "leftRocket1", true),
             new ElevatorMoveStep(_parent, _elevatorController, 56),
-            new DriveStraightStep(_parent, _driveController, 32.0, 40.0, 80),
+            new DriveStraightStep(_parent, _driveController, 40.0, 40.0, 80),
             new HatchShootStep(_parent, _hatchController),
             new ElevatorMoveStep(_parent, _elevatorController, 5),
             new ElevatorMoveStep(_parent, _elevatorController, 0),

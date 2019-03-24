@@ -30,6 +30,8 @@ public class DriveBase {
         Components.DriveBase.leftDrive2.follow(leftDrive1);
         Components.DriveBase.leftDrive3.follow(leftDrive1);
         leftDrive = leftDrive1;
+
+        leftDrive1.configPeakCurrentLimit(10);
  
         final WPI_TalonSRX rightDrive1 = Components.DriveBase.rightDrive1;
         rightDrive1.setInverted(true);

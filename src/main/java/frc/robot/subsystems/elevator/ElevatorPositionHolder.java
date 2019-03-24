@@ -12,9 +12,9 @@ public class ElevatorPositionHolder extends PIDController {
     private static final double LoopInterval = LoopIntervalMs / 1000.0;
 
     // Output/Input Units: power per inch
-    private static final double Kp = 0.25;
+    private static final double Kp = 0.28;
     private static final double Ki = 0.1 / (1000.0 / LoopIntervalMs);
-    private static final double Kd = 0.25;
+    private static final double Kd = 0.05;
 
     private final PIDSource _source;
     private final GravityAdjustedPercentOutput _output;
@@ -38,8 +38,8 @@ public class ElevatorPositionHolder extends PIDController {
 
     @Override
     public void setSetpoint(double setpoint) {
-        if (this.getSetpoint() != setpoint)
-            this.reset();
+        // if (this.getSetpoint() != setpoint)
+        //     this.reset();
 
         super.setSetpoint(setpoint);
         onCompleteSetpoint = null;
@@ -59,6 +59,7 @@ public class ElevatorPositionHolder extends PIDController {
 
         // If we're at the floor we don't need to power up the motors.
         if (this.isEnabled() && isBottomSetpoint() && isAtBottom()) {
+            // System.out.println("Elevator disabled!");
             _output.disable();
             return;
         }

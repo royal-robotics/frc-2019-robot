@@ -4,7 +4,7 @@ import org.apache.logging.log4j.*;
 import frc.libs.utils.ForceTriggerPolicy;
 
 public class LoggingContext {
-    private static Logger logger = LogManager.getLogger("AutoRoutine");
+    //private static Logger logger = LogManager.getLogger("AutoRoutine");
 
     public final Marker marker;
     private final AutoStep autoStep;
@@ -30,7 +30,7 @@ public class LoggingContext {
 
     public void log(String message) {
         // Push autoStep state onto the log
-        logger.log(Level.INFO, marker, message);
+        // logger.log(Level.INFO, marker, message);
     }
 
     private static Marker getUniqueMarker(String markerName) {
