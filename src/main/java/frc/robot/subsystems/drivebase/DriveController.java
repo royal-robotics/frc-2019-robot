@@ -20,7 +20,10 @@ public class DriveController implements IRobotController {
     }
 
     @Override
-    public void init() {
+    public void init(boolean isTeleop) {
+        if (isTeleop)
+            return;
+            
         _driveBase.reset();
     }
 

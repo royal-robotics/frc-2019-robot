@@ -4,7 +4,7 @@ public interface IRobotController {
     /**
      * 
      */
-    public void init();
+    public void init(boolean isTeleop);
     public void teleopPeriodic();
     public void diagnosticPeriodic();
 }

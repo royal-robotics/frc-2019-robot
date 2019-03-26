@@ -8,7 +8,7 @@ public class CargoController implements IRobotController
     private final CargoManipulator _cargoManipulator = new CargoManipulator();
 
     @Override
-    public void init()
+    public void init(boolean isTeleop)
     {
 
     }

@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     for (IRobotController robotController : _robotControllers)
-      robotController.init();
+      robotController.init(false);
   }
 
   /**
@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     for (IRobotController robotController : _robotControllers)
-      robotController.init();
+      robotController.init(false);
 
     _driveController.setNeutralMode(NeutralMode.Brake);
     _compressor.stop();
@@ -127,7 +127,7 @@ public class Robot extends TimedRobot {
     _compressor.start();
 
     for (IRobotController robotController : _robotControllers)
-      robotController.init();
+      robotController.init(true);
   }
 
   /**

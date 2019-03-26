@@ -8,7 +8,11 @@ public class ElevatorController implements IRobotController
     public static final Elevator _elevator = new Elevator();
 
     @Override
-    public void init() {
+    public void init(boolean isTeleop) {
+        // We don't reset for teleop at comp for now...
+        if (isTeleop)
+            return;
+
         _elevator.reset();
     }
 

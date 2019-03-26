@@ -11,7 +11,7 @@ public class HatchController implements IRobotController
     private final Elevator _elevator = ElevatorController._elevator;
 
     @Override
-    public void init()
+    public void init(boolean isTeleop)
     {
         _hatchManipulator.resetArm();
     }
