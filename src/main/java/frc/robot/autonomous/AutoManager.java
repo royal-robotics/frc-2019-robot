@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 public class AutoManager {
     private final Robot robot;
     private final AutoChooser autoChooser;
-    private AutoRoutine currentRoutine;
+
+    private AutoRoutine currentRoutine = null;
 
     public AutoManager(Robot robot)
     {
@@ -16,12 +17,38 @@ public class AutoManager {
         this.autoChooser = new AutoChooser(robot);
     }
 
+    public void loadSelectedRoutine() {
+        if (currentRoutine == null) {
+            currentRoutine = autoChooser.constructAutoRoutine();
+            return;
+        }
+
+        Class<?> selectedRoutine = autoChooser.getSelectedRoutine();
+        if (selectedRoutine == null) {
+            if (currentRoutine != null)
+                currentRoutine.stop();
+
+            currentRoutine = null;
+            return;
+        }
+
+        if (currentRoutine.getClass() != selectedRoutine) {
+            if (currentRoutine != null)
+                currentRoutine.stop();
+
+            currentRoutine = autoChooser.constructAutoRoutine();
+            return;
+        }
+    }
+
     public boolean startAutonomous()
     {
         // If there is already a routine running we stop it.
         stopAutonomous();
 
-        currentRoutine = autoChooser.getSelectedRoutine();
+        // Make sure the correct auto routine is loaded.
+        loadSelectedRoutine();
+
         if (currentRoutine != null) {
             currentRoutine.start();
             return true;

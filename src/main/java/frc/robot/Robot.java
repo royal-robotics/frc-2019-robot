@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
     for (IRobotController robotController : _robotControllers) {
       robotController.diagnosticPeriodic();
     }
+    _autoManager.loadSelectedRoutine();
     _autoManager.printCurrentAutoRoutine();
   }
 
