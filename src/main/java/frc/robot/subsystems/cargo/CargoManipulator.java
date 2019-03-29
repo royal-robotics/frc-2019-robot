@@ -9,7 +9,6 @@ import frc.robot.Components;
 public class CargoManipulator
 {
     private final SpeedController _cargoIntake;
-    private final DoubleSolenoid _cargoIntakeArm;
     private final SpeedController _cargoShooter;
 
     public CargoManipulator()
@@ -19,29 +18,22 @@ public class CargoManipulator
         final WPI_TalonSRX ballIntakeSlave = Components.CargoManipulator.cargoIntake2;
         ballIntakeSlave.follow(ballIntakeMaster);
         _cargoIntake = ballIntakeMaster;
-        
-        // Setup cargo intake arm
-        _cargoIntakeArm = Components.CargoManipulator.cargoArm;
-        _cargoIntakeArm.set(Value.kReverse);
 
         // Setup cargo shooter motor
         _cargoShooter = Components.CargoManipulator.cargoCarriageShooter;
     }
 
     public void intake() {
-        _cargoIntakeArm.set(Value.kForward);
         _cargoIntake.set(1.0);
         _cargoShooter.set(1.0);
     }
 
     public void eject() {
-        _cargoIntakeArm.set(Value.kForward);
         _cargoIntake.set(-1.0);
         _cargoShooter.set(-1.0);
     }
 
     public void shoot(boolean useMaxPower) {
-        _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
         _cargoShooter.set(useMaxPower ? 1.0 : 0.80);
     }
@@ -51,8 +43,6 @@ public class CargoManipulator
     }
 
     public void stop() {
-
-        _cargoIntakeArm.set(Value.kReverse);
         _cargoIntake.set(0.0);
         _cargoShooter.set(0.0);
     }

@@ -57,7 +57,6 @@ public final class Components {
         // Cargo Intake
         public static WPI_TalonSRX cargoIntake1 = new WPI_TalonSRX(12);
         public static WPI_TalonSRX cargoIntake2 = new WPI_TalonSRX(13);
-        public static DoubleSolenoid cargoArm = new DoubleSolenoid(0, 0, 7);
 
         // Cargo Shooter
         public static WPI_TalonSRX cargoCarriageShooter = new WPI_TalonSRX(11);
