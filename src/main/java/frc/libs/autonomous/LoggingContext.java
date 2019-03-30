@@ -20,9 +20,9 @@ public class LoggingContext {
     }
 
     public static void init() {
-        ForceTriggerPolicy.forceRollover();
-        MarkerManager.clear();
-        ThreadContext.clearAll();
+        // ForceTriggerPolicy.forceRollover();
+        // MarkerManager.clear();
+        // ThreadContext.clearAll();
     }
 
     // To allow eager loading of this class
