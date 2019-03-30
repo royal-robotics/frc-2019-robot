@@ -41,7 +41,7 @@ public class AutoManager {
         }
     }
 
-    public boolean startAutonomous()
+    public void startAutonomous(Runnable onComplete)
     {
         // If there is already a routine running we stop it.
         stopAutonomous();
@@ -50,11 +50,11 @@ public class AutoManager {
         loadSelectedRoutine();
 
         if (currentRoutine != null) {
-            currentRoutine.start();
-            return true;
+            currentRoutine.start(onComplete);
+        } else {
+            // If there isn't a selected routine then autonomous completes immediately.
+            onComplete.run();
         }
-
-        return false;
     }
 
     public void stopAutonomous()

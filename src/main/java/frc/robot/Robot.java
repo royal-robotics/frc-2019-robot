@@ -94,11 +94,14 @@ public class Robot extends TimedRobot {
     _driveController.setNeutralMode(NeutralMode.Brake);
     _compressor.stop();
 
-    // If no auto, set manual
-    manualAuto = !_autoManager.startAutonomous();
-    if (manualAuto) {
-      teleopInit();
-    }
+    // If there isn't an auto routine selected then
+    // the routine will complete immediately and set
+    // this to true.
+    manualAuto = false;
+
+    _autoManager.startAutonomous(() -> {
+      manualAuto = true;
+    });
   }
 
   /**

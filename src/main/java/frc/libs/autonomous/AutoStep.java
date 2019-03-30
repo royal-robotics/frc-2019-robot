@@ -36,7 +36,7 @@ public abstract class AutoStep
         return _hasCompleted;
     }
 
-    public final void complete()
+    public void complete()
     {
         logger.log("Completing");
         _hasCompleted = true;

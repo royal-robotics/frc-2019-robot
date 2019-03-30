@@ -8,10 +8,27 @@ import frc.libs.autonomous.*;
  */
 public abstract class AutoRoutine extends AutoStepGroup<AutoRoutine>
 {
+    private Runnable _onComplete = null;
+
     public AutoRoutine()
     {
         // Routines are top level groups, they shouldn't have a parent marker.
         super(null);
+    }
+
+    public void start(Runnable onComplete) {
+        _onComplete = onComplete;
+        start();
+    }
+
+    @Override
+    public void complete() {
+        super.complete();
+
+        if (_onComplete != null)
+        {
+            _onComplete.run();
+        }
     }
 
     protected abstract List<AutoStep> createRoutine();
