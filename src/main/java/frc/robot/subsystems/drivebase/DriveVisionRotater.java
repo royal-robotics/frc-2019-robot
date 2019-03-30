@@ -16,9 +16,9 @@ public class DriveVisionRotater extends PIDController {
     private static final double LoopInterval = LoopIntervalMs / 1000.0;
 
     // Output/Input Units: power per inch
-    private static final double Kp = 0.04;
+    private static final double Kp = 0.03;
     private static final double Ki = 0.05 / (1000.0 / LoopIntervalMs);
-    private static final double Kd = 0.05;
+    private static final double Kd = 0.04;
 
     public DriveVisionRotater(Limelight limelight, DriveBase drivebase) {
         super(Kp, Ki, Kd, new LimelightSource(limelight), new DriveBaseOutput(drivebase), LoopInterval);
