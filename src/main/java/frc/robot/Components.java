@@ -43,10 +43,16 @@ public final class Components {
         public static Encoder elevatorEncoder = new Encoder(14, 15, true);
     }
 
+    public static class Climber{
+        public static WPI_TalonSRX climber1 = new WPI_TalonSRX(12);
+        public static WPI_TalonSRX climber2 = new WPI_TalonSRX(13);
+        public static WPI_VictorSPX climberVacume = new WPI_VictorSPX(2);
+    }
+
     public static class HatchManipulator {
         // Hatch Intake
-        public static WPI_TalonSRX hatchArm = new WPI_TalonSRX(1);
-        public static WPI_VictorSPX hatchRoller = new WPI_VictorSPX(2);
+        //public static WPI_TalonSRX hatchArm = new WPI_TalonSRX(1);
+        //public static WPI_VictorSPX hatchRoller = new WPI_VictorSPX(2);
 
         // Hatch Shooter
         public static DoubleSolenoid carriageFingers = new DoubleSolenoid(1, 0, 7);
@@ -54,10 +60,6 @@ public final class Components {
     }
 
     public static class CargoManipulator {
-        // Cargo Intake
-        public static WPI_TalonSRX cargoIntake1 = new WPI_TalonSRX(12);
-        public static WPI_TalonSRX cargoIntake2 = new WPI_TalonSRX(13);
-
         // Cargo Shooter
         public static WPI_TalonSRX cargoCarriageShooter = new WPI_TalonSRX(11);
     }

@@ -19,6 +19,7 @@ import frc.robot.subsystems.cargo.CargoController;
 import frc.robot.subsystems.drivebase.*;
 import frc.robot.subsystems.elevator.ElevatorController;
 import frc.robot.subsystems.hatch.HatchController;
+import frc.robot.subsystems.climber.ClimberController;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
   public final ElevatorController _elevatorController = new ElevatorController();
   public final HatchController _hatchController = new HatchController();
   public final CargoController _cargoController = new CargoController();
+  private final ClimberController _climberController = new ClimberController();
   private final List<IRobotController> _robotControllers = new LinkedList<>();
   private boolean manualAuto;
   static {
@@ -45,6 +47,7 @@ public class Robot extends TimedRobot {
     _robotControllers.add(_elevatorController);
     _robotControllers.add(_hatchController);
     _robotControllers.add(_cargoController);
+    _robotControllers.add(_climberController);
     _autoManager = new AutoManager(this);
   }
 

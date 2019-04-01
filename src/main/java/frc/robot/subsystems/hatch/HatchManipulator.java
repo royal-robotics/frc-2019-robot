@@ -10,8 +10,8 @@ import frc.libs.utils.Util;
 
 public class HatchManipulator
 {
-    private final TalonSRX _hatchArm;
-    private final SpeedController _hatchRoller;
+//    private final TalonSRX _hatchArm;
+//    private final SpeedController _hatchRoller;
     private final DoubleSolenoid _carriageFingers;
     private final DoubleSolenoid _carriagePusher;
 
@@ -24,8 +24,8 @@ public class HatchManipulator
     public HatchManipulator()
     {
         // Setup hatch intake
-        _hatchArm = Components.HatchManipulator.hatchArm;
-        _hatchRoller = Components.HatchManipulator.hatchRoller;
+  //      _hatchArm = Components.HatchManipulator.hatchArm;
+        //_hatchRoller = Components.HatchManipulator.hatchRoller;
 
         // Setup hatch shooter
         _carriageFingers = Components.HatchManipulator.carriageFingers;
@@ -33,46 +33,46 @@ public class HatchManipulator
         _carriagePusher = Components.HatchManipulator.carriagePusher;
         _carriagePusher.set(Value.kReverse);
 
-        _hatchRoller.setInverted(true);
+        //_hatchRoller.setInverted(true);
 
         // Set up hatch arm PID
         resetArm();
-        _hatchArm.setInverted(true);
-        _hatchArm.setSensorPhase(false);
+        // _hatchArm.setInverted(true);
+        // _hatchArm.setSensorPhase(false);
 
-        _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-        _hatchArm.configClosedLoopPeakOutput(0, 1.0); 
-        _hatchArm.config_kP(0, 3.5);
-        _hatchArm.config_kI(0, 0);
-        _hatchArm.config_kD(0, 0);
+        // _hatchArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        // _hatchArm.configClosedLoopPeakOutput(0, 1.0); 
+        // _hatchArm.config_kP(0, 3.5);
+        // _hatchArm.config_kI(0, 0);
+        // _hatchArm.config_kD(0, 0);
 
         TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
         pidConfig.selectedFeedbackCoefficient = 1.0;
         pidConfig.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Absolute;
-        Components.HatchManipulator.hatchArm.configurePID(pidConfig);
+        // Components.HatchManipulator.hatchArm.configurePID(pidConfig);
     }
 
     public void resetArm()
     {
         int encoderHome = Util.angleToEncoder(HomeAngle);
-        _hatchArm.setSelectedSensorPosition(encoderHome);
-        _hatchArm.set(ControlMode.Position, encoderHome);
+        // _hatchArm.setSelectedSensorPosition(encoderHome);
+        // _hatchArm.set(ControlMode.Position, encoderHome);
         currentAngle = HomeAngle;
     }
 
     public void pullHatchIn()
     {
-        _hatchRoller.set(0.5);
+        //_hatchRoller.set(0.5);
     }
 
     public void pushHatchOut()
     {
-        _hatchRoller.set(-0.5);
+        //_hatchRoller.set(-0.5);
     }
 
     public void stopHatchRoller()
     {
-        _hatchRoller.set(0.0);
+        //_hatchRoller.set(0.0);
     }
 
     public void moveHatchArmHome()
@@ -125,9 +125,9 @@ public class HatchManipulator
     public void diagnostics()
     {
         SmartDashboard.putNumber("HatchArmPosition", getArmAngle());
-        SmartDashboard.putNumber("HatchArmPower", _hatchArm.getMotorOutputPercent());
-        SmartDashboard.putNumber("HatchArmTarget", Util.encoderToAngle((int)_hatchArm.getClosedLoopTarget()));
-        SmartDashboard.putNumber("HatchArmError", Util.encoderToAngle((int)_hatchArm.getClosedLoopError()));
+//        SmartDashboard.putNumber("HatchArmPower", _hatchArm.getMotorOutputPercent());
+//        SmartDashboard.putNumber("HatchArmTarget", Util.encoderToAngle((int)_hatchArm.getClosedLoopTarget()));
+//        SmartDashboard.putNumber("HatchArmError", Util.encoderToAngle((int)_hatchArm.getClosedLoopError()));
     }
 
     public void manualHatchArm(double hatchValue)
@@ -139,11 +139,12 @@ public class HatchManipulator
 
     private double getArmAngle()
     {
-        return Util.encoderToAngle(_hatchArm.getSelectedSensorPosition());
+        return 0.0;
+        //return Util.encoderToAngle(_hatchArm.getSelectedSensorPosition());
     }
 
     private void setArmAngle(double angle)
     {
-        _hatchArm.set(ControlMode.Position, Util.angleToEncoder(angle));
+        //_hatchArm.set(ControlMode.Position, Util.angleToEncoder(angle));
     }
 }

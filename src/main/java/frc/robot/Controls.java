@@ -62,18 +62,27 @@ public final class Controls {
         public static boolean autoTargetTest() { return autoTargetTest.isPressed(); }
 
         private static Button autoTestBackward = new Button(driver, Logitech310Button.A, IButton.ButtonType.Toggle);
-        public static boolean autoTestBackward() { return autoTestBackward.isPressed(); }
+        public static boolean autoTestBackward() { 
+            //return autoTestBackward.isPressed(); 
+            return false;
+        }
 
         private static Button autoTestForward = new Button(driver, Logitech310Button.Y, IButton.ButtonType.Toggle);
         public static boolean autoTestForward() { return autoTestForward.isPressed(); }
 
 
-        private static Axis liftRobot1 = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
-        private static Axis liftRobot2 = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
+        //private static Axis liftRobot1 = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
+        //private static Axis liftRobot2 = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
 
         // Requires at least one trigger to lift robot and both triggers released to drop
-        public static boolean LiftRobotFront() { return (liftRobot1.isPressed()); }
-        public static boolean LiftRobotBack() {return(liftRobot2.isPressed()); }
+        public static boolean LiftRobotFront() { 
+            //return (liftRobot1.isPressed()); 
+            return false;
+        }
+        public static boolean LiftRobotBack() {
+            //return(liftRobot2.isPressed());
+            return false;
+        }
     }
 
     public static class ElevatorSystem
@@ -91,6 +100,30 @@ public final class Controls {
 
         public static boolean ManualControl() { return power.isPressed(); }
         public static double GetPower() { return -power.getValue() * 0.5; }
+    }
+
+    public static class Climber
+    {
+        private static Axis raiseClimber = new Axis(driver, Logitech310Axis.RightTrigger, 0.1);
+        private static Axis lowerClimber = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
+
+        private static Button vacumeButton = new Button(driver, Logitech310Button.A, ButtonType.Hold);
+
+        public static double getPower()
+        {
+            if (raiseClimber.getValue() > 0.0) {
+                return raiseClimber.getValue();
+            }
+            else if (lowerClimber.getValue() > 0.0) {
+                return -lowerClimber.getValue();
+            }
+
+            return 0.0;
+        }
+
+        public static boolean runVacume() {
+            return vacumeButton.isPressed();
+        }
     }
 
     public static class CargoManipulator
