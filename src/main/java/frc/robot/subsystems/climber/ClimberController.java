@@ -19,13 +19,18 @@ public class ClimberController implements IRobotController
 
         climber.move(Controls.Climber.getPower());
 
-        if (Controls.Climber.runVacume())
+        if (Controls.Climber.runVacuum())
         {
             climber.vacumeStart();
         }
         else
         {
             climber.vacumeStop();
+        }
+
+        if (Controls.Climber.lockButton())
+        {
+            climber.setLock(!climber.isLocked());
         }
     }
 

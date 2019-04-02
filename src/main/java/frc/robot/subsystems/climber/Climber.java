@@ -1,14 +1,16 @@
 package frc.robot.subsystems.climber;
 
 import com.ctre.phoenix.motorcontrol.can.*;
-import com.google.common.primitives.*;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Components;
 
 public class Climber
 {
     private final WPI_TalonSRX climberMaster;
-    private final WPI_VictorSPX climberVacume;
+    private final WPI_VictorSPX climberVacuum;
+    private final DoubleSolenoid lockSolenoid;
 
     public Climber()
     {
@@ -19,7 +21,10 @@ public class Climber
         climberSlave.setInverted(true);
         climberSlave.follow(this.climberMaster);
     
-        this.climberVacume = Components.Climber.climberVacume;
+        this.climberVacuum = Components.Climber.climberVacuum;
+
+        this.lockSolenoid = Components.Climber.lockSolenoid;
+        lockSolenoid.set(Value.kReverse);
     }
 
     public void diagnosticPeriodic() {
@@ -35,11 +40,20 @@ public class Climber
 
     public void vacumeStart() 
     {
-        this.climberVacume.set(1.0);
+        this.climberVacuum.set(1.0);
     }
 
     public void vacumeStop()
     {
-        this.climberVacume.set(0.0);
+        this.climberVacuum.set(0.0);
+    }
+
+    public void setLock(boolean isLocked)
+    {
+        this.lockSolenoid.set(isLocked ? Value.kForward : Value.kReverse);
+    }
+
+    public boolean isLocked() {
+        return lockSolenoid.get() == Value.kForward;
     }
 }

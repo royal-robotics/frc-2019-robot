@@ -19,7 +19,7 @@ public class DriveBase {
     public final Gyro gyro;
 
     private final Solenoid _frontLift;
-    private final DoubleSolenoid _backLift;
+    // private final DoubleSolenoid _backLift;
 
     public static final double WheelDiameter = 6.0;
     public static final double WheelbaseWidth = 25.0;
@@ -52,8 +52,8 @@ public class DriveBase {
         gyro.calibrate();
 
         _frontLift = Components.DriveBase.frontLift;
-        _backLift = Components.DriveBase.backLift;
-        _backLift.set(Value.kForward);
+        //_backLift = Components.DriveBase.backLift;
+        //_backLift.set(Value.kForward);
     }
 
     public void reset() {
@@ -88,12 +88,12 @@ public class DriveBase {
 
     public void enableBackLift()
     {
-        _backLift.set(Value.kReverse);
+        // _backLift.set(Value.kReverse);
     }
 
     public void disableBackLift() 
     {
-        _backLift.set(Value.kForward);
+        // _backLift.set(Value.kForward);
     }
 
     public void diagnosticPeriodic() {

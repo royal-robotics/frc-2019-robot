@@ -33,7 +33,7 @@ public final class Components {
         public static Encoder rightEncoder = new Encoder(12, 13);
 
         public static Solenoid frontLift = new Solenoid(0, 5);
-        public static DoubleSolenoid backLift = new DoubleSolenoid(0, 1, 6);
+        // public static DoubleSolenoid backLift = new DoubleSolenoid(0, 1, 6);
     }
 
     public static class Elevator
@@ -43,10 +43,11 @@ public final class Components {
         public static Encoder elevatorEncoder = new Encoder(14, 15, true);
     }
 
-    public static class Climber{
+    public static class Climber {
         public static WPI_TalonSRX climber1 = new WPI_TalonSRX(12);
         public static WPI_TalonSRX climber2 = new WPI_TalonSRX(13);
-        public static WPI_VictorSPX climberVacume = new WPI_VictorSPX(2);
+        public static WPI_VictorSPX climberVacuum = new WPI_VictorSPX(2);
+        public static DoubleSolenoid lockSolenoid = new DoubleSolenoid(0, 1, 6);
     }
 
     public static class HatchManipulator {

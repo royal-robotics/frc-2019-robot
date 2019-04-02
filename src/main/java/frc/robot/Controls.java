@@ -6,6 +6,8 @@ import frc.libs.controls.IButton.ButtonType;
 
 import static frc.libs.utils.RobotModels.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat.Value;
+
 import static frc.libs.controls.Controllers.*;
 
 /**
@@ -62,7 +64,7 @@ public final class Controls {
         public static boolean autoTargetTest() { return autoTargetTest.isPressed(); }
 
         private static Button autoTestBackward = new Button(driver, Logitech310Button.A, IButton.ButtonType.Toggle);
-        public static boolean autoTestBackward() { 
+        public static boolean autoTestBackward() {
             //return autoTestBackward.isPressed(); 
             return false;
         }
@@ -108,6 +110,7 @@ public final class Controls {
         private static Axis lowerClimber = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
 
         private static Button vacumeButton = new Button(driver, Logitech310Button.A, ButtonType.Hold);
+        private static Button lockButton = new Button(driver, Logitech310Button.B, ButtonType.Toggle);
 
         public static double getPower()
         {
@@ -121,8 +124,12 @@ public final class Controls {
             return 0.0;
         }
 
-        public static boolean runVacume() {
+        public static boolean runVacuum() {
             return vacumeButton.isPressed();
+        }
+
+        public static boolean lockButton() {
+            return lockButton.isPressed();
         }
     }
 
