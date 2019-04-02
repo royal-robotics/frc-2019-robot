@@ -110,7 +110,6 @@ public final class Controls {
         private static Axis lowerClimber = new Axis(driver, Logitech310Axis.LeftTrigger, 0.1);
 
         private static Button vacumeButton = new Button(driver, Logitech310Button.A, ButtonType.Hold);
-        private static Button lockButton = new Button(driver, Logitech310Button.B, ButtonType.Toggle);
 
         public static double getPower()
         {
@@ -128,8 +127,8 @@ public final class Controls {
             return vacumeButton.isPressed();
         }
 
-        public static boolean lockButton() {
-            return lockButton.isPressed();
+        public static boolean isPowered() {
+            return lowerClimber.isPressed() || raiseClimber.isPressed();
         }
     }
 

@@ -17,8 +17,17 @@ public class ClimberController implements IRobotController
     @Override
     public void teleopPeriodic() {
 
-        climber.move(Controls.Climber.getPower());
-
+        if (Controls.Climber.isPowered())
+        {
+            climber.setLock(false);
+            climber.move(Controls.Climber.getPower());
+        }
+        else
+        {
+            climber.setLock(true);
+            climber.move(0.0);
+        }
+        
         if (Controls.Climber.runVacuum())
         {
             climber.vacumeStart();
@@ -26,11 +35,6 @@ public class ClimberController implements IRobotController
         else
         {
             climber.vacumeStop();
-        }
-
-        if (Controls.Climber.lockButton())
-        {
-            climber.setLock(!climber.isLocked());
         }
     }
 
