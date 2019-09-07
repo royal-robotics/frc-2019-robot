@@ -36,7 +36,7 @@ public class ElevatorController implements IRobotController
         }
         else if (Controls.ElevatorSystem.moveTop())
         {
-            _elevator.quickMove(56.0);
+            _elevator.quickMove(54.0);
         }
         else
         {
