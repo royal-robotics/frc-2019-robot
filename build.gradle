@@ -1,9 +1,12 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.3.2"
+    id "edu.wpi.first.GradleRIO" version "2020.1.2"
 }
 
-apply from: "compile-motion-profile.gradle"
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+// apply from: "compile-motion-profile.gradle"
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
@@ -53,10 +56,6 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-core:2.11.2'
     compile wpi.deps.wpilib()
     compile wpi.deps.vendor.java()
-    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
-    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
-    testCompile 'junit:junit:4.12'
-    compile 'junit:junit:4.12'
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
@@ -67,10 +66,10 @@ dependencies {
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
     testImplementation 'junit:junit:4.12'
-
+    
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
-    simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+    // simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
 }
 
 // sourceSets {
