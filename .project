@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>log4j2 experiment</name>
-	<comment>log4j2 experiment created by Connor.</comment>
+	<name>frc-2020-robot</name>
+	<comment>Project frc-2020-robot created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

@@ -49,7 +49,9 @@ public class HatchManipulator
         TalonSRXPIDSetConfiguration pidConfig = new TalonSRXPIDSetConfiguration();
         pidConfig.selectedFeedbackCoefficient = 1.0;
         pidConfig.selectedFeedbackSensor = FeedbackDevice.CTRE_MagEncoder_Absolute;
-        Components.HatchManipulator.hatchArm.configurePID(pidConfig);
+        //Components.HatchManipulator.hatchArm.configurePID(pidConfig);
+        //Components.HatchManipulator.hatchArm.configurePID(pidConfig);
+        //Components.HatchManipulator.hatchArm.configAllSettings(allConfigs)
     }
 
     public void resetArm()
